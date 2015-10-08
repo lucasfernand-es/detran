@@ -5,26 +5,234 @@
  */
 package VO;
 
-import java.util.ArrayList;
+import java.util.Date;
 
-/**
- *
- * @author Lucas
- */
 public class Pessoa {
-    
-    /*
-        informar os dados da pessoa (nome, rg(número, orgão emissor e estado), 
-        cpf, data de nascimento, endereço, carteira, filiação)
-    */
-    
-    String nome;
-    String rg;
-    String orgaoEmissorRG;
-    String cpf;
-    // Endereço
-    ArrayList<Carteira> carteiras;
-    String nomePai; // Filiação
-    String nomeMae; // Filiação
-    
+
+	private String nome;
+	private String cpf;
+	private String rg;
+	private String orgaoEmissor;
+	private String rgEstado;
+	private Date dataNascimento;
+	private String logradouro;
+	private String numeroLogradouro;
+	private String complementoLogradouro;
+	private String bairro;
+	private String cidade;
+	private String estado;
+	private String cep;
+	private String nomeMae;
+	private String nomePai;
+
+    /**
+     * @return the nome
+     */
+    public String getNome() {
+        return nome;
+    }
+
+    /**
+     * @param nome the nome to set
+     */
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    /**
+     * @return the cpf
+     */
+    public String getCpf() {
+        return cpf;
+    }
+
+    /**
+     * @param cpf the cpf to set
+     */
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    /**
+     * @return the rg
+     */
+    public String getRg() {
+        return rg;
+    }
+
+    /**
+     * @param rg the rg to set
+     */
+    public void setRg(String rg) {
+        this.rg = rg;
+    }
+
+    /**
+     * @return the orgaoEmissor
+     */
+    public String getOrgaoEmissor() {
+        return orgaoEmissor;
+    }
+
+    /**
+     * @param orgaoEmissor the orgaoEmissor to set
+     */
+    public void setOrgaoEmissor(String orgaoEmissor) {
+        this.orgaoEmissor = orgaoEmissor;
+    }
+
+    /**
+     * @return the rgEstado
+     */
+    public String getRgEstado() {
+        return rgEstado;
+    }
+
+    /**
+     * @param rgEstado the rgEstado to set
+     */
+    public void setRgEstado(String rgEstado) {
+        this.rgEstado = rgEstado;
+    }
+
+    /**
+     * @return the dataNascimento
+     */
+    public Date getDataNascimento() {
+        return dataNascimento;
+    }
+
+    /**
+     * @param dataNascimento the dataNascimento to set
+     */
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    /**
+     * @return the logradouro
+     */
+    public String getLogradouro() {
+        return logradouro;
+    }
+
+    /**
+     * @param logradouro the logradouro to set
+     */
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
+    }
+
+    /**
+     * @return the numeroLogradouro
+     */
+    public String getNumeroLogradouro() {
+        return numeroLogradouro;
+    }
+
+    /**
+     * @param numeroLogradouro the numeroLogradouro to set
+     */
+    public void setNumeroLogradouro(String numeroLogradouro) {
+        this.numeroLogradouro = numeroLogradouro;
+    }
+
+    /**
+     * @return the complementoLogradouro
+     */
+    public String getComplementoLogradouro() {
+        return complementoLogradouro;
+    }
+
+    /**
+     * @param complementoLogradouro the complementoLogradouro to set
+     */
+    public void setComplementoLogradouro(String complementoLogradouro) {
+        this.complementoLogradouro = complementoLogradouro;
+    }
+
+    /**
+     * @return the bairro
+     */
+    public String getBairro() {
+        return bairro;
+    }
+
+    /**
+     * @param bairro the bairro to set
+     */
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    /**
+     * @return the cidade
+     */
+    public String getCidade() {
+        return cidade;
+    }
+
+    /**
+     * @param cidade the cidade to set
+     */
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    /**
+     * @return the estado
+     */
+    public String getEstado() {
+        return estado;
+    }
+
+    /**
+     * @param estado the estado to set
+     */
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    /**
+     * @return the cep
+     */
+    public String getCep() {
+        return cep;
+    }
+
+    /**
+     * @param cep the cep to set
+     */
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    /**
+     * @return the nomeMae
+     */
+    public String getNomeMae() {
+        return nomeMae;
+    }
+
+    /**
+     * @param nomeMae the nomeMae to set
+     */
+    public void setNomeMae(String nomeMae) {
+        this.nomeMae = nomeMae;
+    }
+
+    /**
+     * @return the nomePai
+     */
+    public String getNomePai() {
+        return nomePai;
+    }
+
+    /**
+     * @param nomePai the nomePai to set
+     */
+    public void setNomePai(String nomePai) {
+        this.nomePai = nomePai;
+    }
+
 }

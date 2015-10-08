@@ -5,31 +5,17 @@
  */
 package VO;
 
-import java.util.Date;
-
-/**
- *
- * @author Lucas
- */
 public class Automovel {
-    
-    
-    /*
-        informar os dados do automóvel 
-        (RENAVAM, marca, modelo, cor, place, 
-    chassi, proprietário (nome), ano)
-    */
-    private String renavam;
-    private String marca;
-    private String modelo;
-    private String cor;
-    private String placa;
-    private String chassi;
-    private Date ano;
-    private Pessoa proprietario;
 
-    
-    
+	private String renavam;
+	private String marca;
+	private String modelo;
+	private String cor;
+	private String placa;
+	private String chassi;
+	private int ano;
+	private Pessoa pessoa;
+
     /**
      * @return the renavam
      */
@@ -117,31 +103,29 @@ public class Automovel {
     /**
      * @return the ano
      */
-    public Date getAno() {
+    public int getAno() {
         return ano;
     }
 
     /**
      * @param ano the ano to set
      */
-    public void setAno(Date ano) {
+    public void setAno(int ano) {
         this.ano = ano;
     }
 
     /**
-     * @return the proprietario
+     * @return the pessoa
      */
-    public Pessoa getProprietario() {
-        return proprietario;
+    public Pessoa getPessoa() {
+        return pessoa;
     }
 
     /**
-     * @param proprietario the proprietario to set
+     * @param pessoa the pessoa to set
      */
-    public void setProprietario(Pessoa proprietario) {
-        this.proprietario = proprietario;
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
     }
-    
-    
-    
+
 }
