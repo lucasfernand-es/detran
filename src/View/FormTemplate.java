@@ -88,9 +88,9 @@ public class FormTemplate extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTBBuscaRapida);
 
-        jLBusca.setText("Busca R·pida");
+        jLBusca.setText("Busca Rápida");
 
-        jLInstrucao.setText("InstruÁıes para a pesquisa");
+        jLInstrucao.setText("Instruções para a pesquisa");
 
         javax.swing.GroupLayout jPBuscarLayout = new javax.swing.GroupLayout(jPBuscar);
         jPBuscar.setLayout(jPBuscarLayout);
@@ -126,50 +126,51 @@ public class FormTemplate extends javax.swing.JFrame {
 
         jBTAlterar.setText("Alterar");
         jBTAlterar.setEnabled(false);
-        jBTAlterar.addActionListener(new java.awt.event.ActionListener() {
+        /*jBTAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBTAlterarActionPerformed(evt);
             }
-        });
-
+        });*/
+         
         jBTSalvar.setText("Salvar");
         jBTSalvar.setEnabled(false);
-        jBTSalvar.addActionListener(new java.awt.event.ActionListener() {
+        /*jBTSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBTSalvarActionPerformed(evt);
             }
-        });
+        });*/
 
         jBTExcluir.setText("Excluir");
         jBTExcluir.setEnabled(false);
-        jBTExcluir.addActionListener(new java.awt.event.ActionListener() {
+        /*jBTExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBTExcluirActionPerformed(evt);
             }
-        });
+        });*/
 
         jBTCadastrar.setText("Cadastrar");
-        jBTCadastrar.addActionListener(new java.awt.event.ActionListener() {
+       /* jBTCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBTCadastrarActionPerformed(evt);
             }
-        });
+        });*/
 
         jBTConfirmar.setText("Confirmar");
         jBTConfirmar.setEnabled(false);
-        jBTConfirmar.addActionListener(new java.awt.event.ActionListener() {
+        /*jBTConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBTConfirmarActionPerformed(evt);
             }
-        });
+        });*/
 
         jBTCancelar.setText("Cancelar");
         jBTCancelar.setEnabled(false);
-        jBTCancelar.addActionListener(new java.awt.event.ActionListener() {
+        /*
+         jBTCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBTCancelarActionPerformed(evt);
             }
-        });
+        });*/
 
         javax.swing.GroupLayout jPBotoesLayout = new javax.swing.GroupLayout(jPBotoes);
         jPBotoes.setLayout(jPBotoesLayout);
