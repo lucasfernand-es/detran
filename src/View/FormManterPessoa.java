@@ -4,9 +4,10 @@
  * and open the template in the editor.
  */
 
-package Exemplo;
+package View;
 
 
+import Exemplo.FormTemplate;
 import java.util.Date;
 import valueObject.DadosBancarios;
 import valueObject.Edicao;
@@ -15,12 +16,12 @@ import valueObject.Edicao;
  *
  * @author Windows7
  */
-public final class FormManterEdicao extends FormTemplate {
+public final class FormManterPessoa extends FormTemplate {
 
     /**
      * Creates new form FormManterEvento
      */
-    private FormManterEdicao() {
+    private FormManterPessoa() {
         this.setTitle("Gerenciar Edição");
         initComponents();
         iniciarComponentes();
@@ -32,12 +33,12 @@ public final class FormManterEdicao extends FormTemplate {
         limparComponentes();
     }
     
-    private static FormManterEdicao manterEvento= null;
+    private static FormManterPessoa manterEvento= null;
     
-    public static FormManterEdicao getFormManterEvento()
+    public static FormManterPessoa getFormManterEvento()
     {
         if(manterEvento == null)
-            manterEvento = new FormManterEdicao();
+            manterEvento = new FormManterPessoa();
         
         return manterEvento;
             
@@ -521,14 +522,22 @@ public final class FormManterEdicao extends FormTemplate {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormManterEdicao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormManterPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormManterEdicao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormManterPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormManterEdicao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormManterPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormManterEdicao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormManterPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -540,7 +549,7 @@ public final class FormManterEdicao extends FormTemplate {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new FormManterEdicao().setVisible(true);
+            new FormManterPessoa().setVisible(true);
         });
     }
 
