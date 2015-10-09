@@ -99,20 +99,6 @@ public class Autuacao {
     }
 
     /**
-     * @return the status
-     */
-    public boolean isStatus() {
-        return status;
-    }
-
-    /**
-     * @param status the status to set
-     */
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    /**
      * @return the idAutuacao
      */
     public int getIdAutuacao() {
