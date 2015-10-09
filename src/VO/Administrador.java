@@ -11,4 +11,6 @@ package VO;
  */
 public class Administrador {
     
+    private int teste;
+    
 }
