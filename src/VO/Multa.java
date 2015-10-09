@@ -16,6 +16,21 @@ public class Multa {
 	private Pessoa pessoa;
 	private Carteira carteira;
 	private Autuacao autuacao;
+        
+        // ID deste objeto no banco de dados
+        private int idMulta;
+
+        /*
+         * Ajuda MVC
+         * Os atributos abaixo contribuir para o controle das operações 
+         * envolvendo os objetos desta classe.
+         */
+
+        // Quando uma operação envolvendo este objeto der erro em tempo de execução, 
+        // este atributo será acionado
+        private boolean error = false;
+        // Especificação do erro
+        private String message;
 
 	public boolean estaPago() {
 		return false;
@@ -117,6 +132,48 @@ public class Multa {
      */
     public void setAutuacao(Autuacao autuacao) {
         this.autuacao = autuacao;
+    }
+
+    /**
+     * @return the idMulta
+     */
+    public int getIdMulta() {
+        return idMulta;
+    }
+
+    /**
+     * @param idMulta the idMulta to set
+     */
+    public void setIdMulta(int idMulta) {
+        this.idMulta = idMulta;
+    }
+
+    /**
+     * @return the error
+     */
+    public boolean isError() {
+        return error;
+    }
+
+    /**
+     * @param error the error to set
+     */
+    public void setError(boolean error) {
+        this.error = error;
+    }
+
+    /**
+     * @return the message
+     */
+    public String getMessage() {
+        return message;
+    }
+
+    /**
+     * @param message the message to set
+     */
+    public void setMessage(String message) {
+        this.message = message;
     }
 
 }

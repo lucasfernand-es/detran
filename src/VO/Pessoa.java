@@ -24,6 +24,22 @@ public class Pessoa {
 	private String cep;
 	private String nomeMae;
 	private String nomePai;
+        private boolean status;
+
+        // ID deste objeto no banco de dados
+        private int idPessoa;
+
+        /*
+         * Ajuda MVC
+         * Os atributos abaixo contribuir para o controle das operações 
+         * envolvendo os objetos desta classe.
+         */
+
+        // Quando uma operação envolvendo este objeto der erro em tempo de execução, 
+        // este atributo será acionado
+        private boolean error = false;
+        // Especificação do erro
+        private String message;
 
     /**
      * @return the nome
@@ -233,6 +249,62 @@ public class Pessoa {
      */
     public void setNomePai(String nomePai) {
         this.nomePai = nomePai;
+    }
+
+    /**
+     * @return the status
+     */
+    public boolean isStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    /**
+     * @return the idPessoa
+     */
+    public int getIdPessoa() {
+        return idPessoa;
+    }
+
+    /**
+     * @param idPessoa the idPessoa to set
+     */
+    public void setIdPessoa(int idPessoa) {
+        this.idPessoa = idPessoa;
+    }
+
+    /**
+     * @return the error
+     */
+    public boolean isError() {
+        return error;
+    }
+
+    /**
+     * @param error the error to set
+     */
+    public void setError(boolean error) {
+        this.error = error;
+    }
+
+    /**
+     * @return the message
+     */
+    public String getMessage() {
+        return message;
+    }
+
+    /**
+     * @param message the message to set
+     */
+    public void setMessage(String message) {
+        this.message = message;
     }
 
 }

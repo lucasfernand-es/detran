@@ -7,15 +7,32 @@ package VO;
 
 public class Automovel {
 
-	private String renavam;
-	private String marca;
-	private String modelo;
-	private String cor;
-	private String placa;
-	private String chassi;
-	private int ano;
-	private Pessoa pessoa;
+        private String renavam;
+        private String marca;
+        private String modelo;
+        private String cor;
+        private String placa;
+        private String chassi;
+        private int ano;
+        private boolean status;
+        private Pessoa pessoa;
 
+        // ID deste objeto no banco de dados
+        private int idAutomovel;
+
+        /*
+         * Ajuda MVC
+         * Os atributos abaixo contribuir para o controle das operações 
+         * envolvendo os objetos desta classe.
+         */
+
+        // Quando uma operação envolvendo este objeto der erro em tempo de execução, 
+        // este atributo será acionado
+        private boolean error = false;
+        // Especificação do erro
+        private String message;
+
+    
     /**
      * @return the renavam
      */
@@ -126,6 +143,62 @@ public class Automovel {
      */
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
+    }
+
+    /**
+     * @return the idAutomovel
+     */
+    public int getIdAutomovel() {
+        return idAutomovel;
+    }
+
+    /**
+     * @param idAutomovel the idAutomovel to set
+     */
+    public void setIdAutomovel(int idAutomovel) {
+        this.idAutomovel = idAutomovel;
+    }
+
+    /**
+     * @return the error
+     */
+    public boolean isError() {
+        return error;
+    }
+
+    /**
+     * @param error the error to set
+     */
+    public void setError(boolean error) {
+        this.error = error;
+    }
+
+    /**
+     * @return the message
+     */
+    public String getMessage() {
+        return message;
+    }
+
+    /**
+     * @param message the message to set
+     */
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    /**
+     * @return the status
+     */
+    public boolean isStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
 }
