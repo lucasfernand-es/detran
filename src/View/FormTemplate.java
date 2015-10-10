@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Windows7
+ * @author LucasFernandes
  */
 public class FormTemplate extends javax.swing.JFrame {
 
@@ -88,9 +88,9 @@ public class FormTemplate extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTBBuscaRapida);
 
-        jLBusca.setText("Busca Rápida");
+        jLBusca.setText("Busca R·pida");
 
-        jLInstrucao.setText("Instruções para a pesquisa");
+        jLInstrucao.setText("InstruÁıes para a busca");
 
         javax.swing.GroupLayout jPBuscarLayout = new javax.swing.GroupLayout(jPBuscar);
         jPBuscar.setLayout(jPBuscarLayout);
@@ -104,7 +104,7 @@ public class FormTemplate extends javax.swing.JFrame {
                         .addComponent(jLBusca)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTFNome))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPBuscarLayout.setVerticalGroup(
@@ -115,7 +115,7 @@ public class FormTemplate extends javax.swing.JFrame {
                     .addComponent(jTFNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLBusca))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLInstrucao)
+                .addComponent(jLInstrucao, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -131,7 +131,7 @@ public class FormTemplate extends javax.swing.JFrame {
                 jBTAlterarActionPerformed(evt);
             }
         });*/
-         
+
         jBTSalvar.setText("Salvar");
         jBTSalvar.setEnabled(false);
         /*jBTSalvar.addActionListener(new java.awt.event.ActionListener() {
@@ -149,7 +149,7 @@ public class FormTemplate extends javax.swing.JFrame {
         });*/
 
         jBTCadastrar.setText("Cadastrar");
-       /* jBTCadastrar.addActionListener(new java.awt.event.ActionListener() {
+        /*jBTCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBTCadastrarActionPerformed(evt);
             }
@@ -165,8 +165,7 @@ public class FormTemplate extends javax.swing.JFrame {
 
         jBTCancelar.setText("Cancelar");
         jBTCancelar.setEnabled(false);
-        /*
-         jBTCancelar.addActionListener(new java.awt.event.ActionListener() {
+        /*jBTCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBTCancelarActionPerformed(evt);
             }

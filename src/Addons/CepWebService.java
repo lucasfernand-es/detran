@@ -7,7 +7,7 @@
 package Addons;
 
 
-import VO.Pessoa;
+import valueObject.Pessoa;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
@@ -92,13 +92,14 @@ public final class CepWebService {
                 pessoa.setCidade(endereco.getCidade());
                 pessoa.setEstado(endereco.getUf());
                 
-                
+                /*
                 System.out.println(endereco.getTipo_logradouro() + " " + endereco.getLogradouro());
                 System.out.println(endereco.getCidade());
                 System.out.println(endereco.getBairro());
                 System.out.println(endereco.getUf());
                 System.out.println(endereco.getResultado());
                 System.out.println(endereco.getResultado_txt());
+                */
                 
                 pessoa.setError(false);
                 pessoa.setMessage("");

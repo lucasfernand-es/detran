@@ -7,9 +7,8 @@ package View;
 
 import Addons.Aviso;
 import Addons.CepWebService;
-import VO.Pessoa;
+import valueObject.Pessoa;
 import java.awt.Color;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -107,14 +106,59 @@ public final class FormManterPessoa extends FormTemplate {
     }
 
     public void liberarComponentes() {
+        jTFNome.setEnabled(true);
+        jFTFCPF.setEnabled(true);
+        jDCDataNascimento.setEnabled(true);
+        jFTFRG.setEnabled(true);
+        jCBOrgaoEmissor.setEnabled(true);
+        jCBEstadoEmissor.setEnabled(true);
+        jTFNomeMae.setEnabled(true);
+        jTFNomePai.setEnabled(true);
+        jTFLogradouro.setEnabled(true);
+        jFTFNumero.setEnabled(true);
+        jTFComplemento.setEnabled(true);
+        jTFBairro.setEnabled(true);
+        jTFCidade.setEnabled(true);
+        jTFEstado.setEnabled(true);
+        jFTFCEP.setEnabled(true);
     }
 
     public void bloquearComponentes() {
+        jTFNome.setEnabled(false);
+        jFTFCPF.setEnabled(false);
+        jDCDataNascimento.setEnabled(false);
+        jFTFRG.setEnabled(false);
+        jCBOrgaoEmissor.setEnabled(false);
+        jCBEstadoEmissor.setEnabled(false);
+        jTFNomeMae.setEnabled(false);
+        jTFNomePai.setEnabled(false);
+        jTFLogradouro.setEnabled(false);
+        jFTFNumero.setEnabled(false);
+        jTFComplemento.setEnabled(false);
+        jTFBairro.setEnabled(false);
+        jTFCidade.setEnabled(false);
+        jTFEstado.setEnabled(false);
+        jFTFCEP.setEnabled(false);
     }
 
     // Define valores nulos para todos os componentes
 
     public void limparComponentes() {
+        jTFNome.setText("");
+        jFTFCPF.setText("123.456.789-00");
+        jDCDataNascimento.setDate(null);
+        jFTFRG.setText("12.345.678-X");
+        jCBOrgaoEmissor.setSelectedIndex(0);
+        jCBEstadoEmissor.setSelectedIndex(0);
+        jTFNomeMae.setText("");
+        jTFNomePai.setText("");
+        jTFLogradouro.setText("");
+        jFTFNumero.setText("");
+        jTFComplemento.setText("");
+        jTFBairro.setText("");
+        jTFCidade.setText("");
+        jTFEstado.setText("");
+        jFTFCEP.setText("12.345-678");
     }
 
     @Override
@@ -126,8 +170,8 @@ public final class FormManterPessoa extends FormTemplate {
 
     @Override
     protected void jBTConfirmarActionPerformed(java.awt.event.ActionEvent evt) {
-
         super.jBTConfirmarActionPerformed(evt);
+        
         
         bloquearComponentes();
         limparComponentes();
@@ -184,37 +228,37 @@ public final class FormManterPessoa extends FormTemplate {
         jPManterPessoa = new javax.swing.JPanel();
         jPEndereco = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
-        jFTFCEP = new javax.swing.JFormattedTextField();
-        jTFEndereco = new javax.swing.JTextField();
+        jTFLogradouro = new javax.swing.JTextField();
         jTFBairro = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
-        jFTFNumero = new javax.swing.JFormattedTextField();
-        jBBuscarEndereço = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jTFComplemento = new javax.swing.JTextField();
         jTFEstado = new javax.swing.JTextField();
         jTFCidade = new javax.swing.JTextField();
+        jBBuscarEndereço = new javax.swing.JButton();
+        jLabel20 = new javax.swing.JLabel();
+        jFTFCEP = new javax.swing.JFormattedTextField();
+        jFTFNumero = new javax.swing.JFormattedTextField();
         jPDados = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
-        jDCDataVencimento1 = new com.toedter.calendar.JDateChooser();
+        jDCDataNascimento = new com.toedter.calendar.JDateChooser();
         jLabel12 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField1 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox();
+        jTFNome = new javax.swing.JTextField();
+        jCBEstadoEmissor = new javax.swing.JComboBox();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
+        jTFNomeMae = new javax.swing.JTextField();
+        jTFNomePai = new javax.swing.JTextField();
+        jFTFCPF = new javax.swing.JFormattedTextField();
+        jFTFRG = new javax.swing.JFormattedTextField();
+        jCBOrgaoEmissor = new javax.swing.JComboBox();
 
         setSize(new java.awt.Dimension(650, 185));
 
@@ -223,11 +267,42 @@ public final class FormManterPessoa extends FormTemplate {
         jPEndereco.setBorder(javax.swing.BorderFactory.createTitledBorder("Endereço"));
         jPEndereco.setSize(new java.awt.Dimension(650, 180));
 
-        jLabel19.setText("Endereço");
-
-        jLabel20.setText("CEP");
+        jLabel19.setText("Logradouro");
 
         jLabel21.setText("Estado");
+
+        jTFLogradouro.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTFLogradouro.setEnabled(false);
+
+        jTFBairro.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTFBairro.setEnabled(false);
+
+        jLabel22.setText("Bairro");
+
+        jLabel23.setText("Cidade");
+
+        jLabel24.setText("N°");
+
+        jLabel1.setText("Complemento");
+
+        jTFComplemento.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTFComplemento.setEnabled(false);
+
+        jTFEstado.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTFEstado.setEnabled(false);
+
+        jTFCidade.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTFCidade.setEnabled(false);
+
+        jBBuscarEndereço.setText("Buscar Endereço");
+        jBBuscarEndereço.setEnabled(false);
+        jBBuscarEndereço.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBBuscarEndereçoActionPerformed(evt);
+            }
+        });
+
+        jLabel20.setText("CEP");
 
         try {
             jFTFCEP.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##.###-###")));
@@ -235,6 +310,7 @@ public final class FormManterPessoa extends FormTemplate {
             ex.printStackTrace();
         }
         jFTFCEP.setText("12.345-678");
+        jFTFCEP.setEnabled(false);
         jFTFCEP.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jFTFCEPFocusGained(evt);
@@ -243,105 +319,77 @@ public final class FormManterPessoa extends FormTemplate {
                 jFTFCEPFocusLost(evt);
             }
         });
-        jFTFCEP.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFTFCEPActionPerformed(evt);
-            }
-        });
-
-        jTFEndereco.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-
-        jTFBairro.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-
-        jLabel22.setText("Bairro");
-
-        jLabel23.setText("Cidade");
-
-        jLabel24.setText("N°");
 
         jFTFNumero.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-
-        jBBuscarEndereço.setText("Buscar Endereço");
-        jBBuscarEndereço.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBBuscarEndereçoActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("Complemento");
-
-        jTFComplemento.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-
-        jTFEstado.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-
-        jTFCidade.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jFTFNumero.setToolTipText("1234");
+        jFTFNumero.setEnabled(false);
 
         javax.swing.GroupLayout jPEnderecoLayout = new javax.swing.GroupLayout(jPEndereco);
         jPEndereco.setLayout(jPEnderecoLayout);
         jPEnderecoLayout.setHorizontalGroup(
             jPEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPEnderecoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel20)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jFTFCEP, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBBuscarEndereço, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(109, 109, 109))
             .addGroup(jPEnderecoLayout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(jPEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel19)
+                        .addComponent(jLabel24, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jLabel22))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPEnderecoLayout.createSequentialGroup()
-                        .addComponent(jLabel19)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTFEndereco)
+                        .addComponent(jTFBairro)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel24)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jFTFNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPEnderecoLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTFComplemento)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel22)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTFBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPEnderecoLayout.createSequentialGroup()
                         .addComponent(jLabel23)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTFCidade)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTFCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel21)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTFEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTFEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTFLogradouro)
+                    .addGroup(jPEnderecoLayout.createSequentialGroup()
+                        .addComponent(jFTFNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTFComplemento)))
                 .addContainerGap())
+            .addGroup(jPEnderecoLayout.createSequentialGroup()
+                .addGap(141, 141, 141)
+                .addComponent(jLabel20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jFTFCEP, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBBuscarEndereço, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(89, Short.MAX_VALUE))
         );
         jPEnderecoLayout.setVerticalGroup(
             jPEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPEnderecoLayout.createSequentialGroup()
                 .addGroup(jPEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel20)
-                    .addComponent(jFTFCEP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBBuscarEndereço))
-                .addGap(1, 1, 1)
-                .addGroup(jPEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19)
-                    .addComponent(jTFEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel24)
-                    .addComponent(jFTFNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTFLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(jLabel24)
                     .addComponent(jTFComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel22)
-                    .addComponent(jTFBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1)
+                    .addComponent(jFTFNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel23)
                     .addComponent(jTFCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel21)
-                    .addComponent(jTFEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jTFEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel22)
+                    .addComponent(jTFBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jFTFCEP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel20)
+                    .addComponent(jBBuscarEndereço))
+                .addContainerGap())
         );
 
         jPDados.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados Pessoais"));
@@ -349,41 +397,26 @@ public final class FormManterPessoa extends FormTemplate {
 
         jLabel11.setText("Estado Emissor");
 
-        jDCDataVencimento1.setDateFormatString("d MMM , yyyy");
+        jDCDataNascimento.setDateFormatString("d MMM , yyyy");
+        jDCDataNascimento.setEnabled(false);
 
         jLabel12.setText("CPF");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
-
         jLabel13.setText("Data de Nascimento");
-
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
 
         jLabel14.setText("Orgão Emissor");
 
         jLabel15.setText("Nome Completo");
 
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        jTFNome.setEnabled(false);
+        jTFNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                jTFNomeActionPerformed(evt);
             }
         });
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS", "MT", "PA", "PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS", "SC", "SE", "SP", "TO" }));
+        jCBEstadoEmissor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS", "MT", "PA", "PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS", "SC", "SE", "SP", "TO" }));
+        jCBEstadoEmissor.setEnabled(false);
 
         jLabel16.setText("RG");
 
@@ -391,17 +424,59 @@ public final class FormManterPessoa extends FormTemplate {
 
         jLabel18.setText("Nome do Pai");
 
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+        jTFNomeMae.setEnabled(false);
+        jTFNomeMae.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
+                jTFNomeMaeActionPerformed(evt);
             }
         });
 
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+        jTFNomePai.setEnabled(false);
+        jTFNomePai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
+                jTFNomePaiActionPerformed(evt);
             }
         });
+
+        try {
+            jFTFCPF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jFTFCPF.setText("123.456.789-00");
+        jFTFCPF.setEnabled(false);
+        jFTFCPF.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jFTFCPFFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jFTFCPFFocusLost(evt);
+            }
+        });
+
+        try {
+            jFTFRG.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##.###.###-A")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jFTFRG.setText("12.345.678-X");
+        jFTFRG.setEnabled(false);
+        jFTFRG.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jFTFRGFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jFTFRGFocusLost(evt);
+            }
+        });
+        jFTFRG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFTFRGActionPerformed(evt);
+            }
+        });
+
+        jCBOrgaoEmissor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SSP", "COREN", "CRA", "CRAS", "CRB", "CRC", "CRE", "CREA", "CRECI", "CREFIT", "CRF", "CRM", "CRN", "CRO", "CRP", "CRPRE", "CRQ", "CRRC", "CRMV", "DPF", "EST", "I CLA", "MAE", "MEX", "MMA", "OAB", "OMB", "IFP", "Outro" }));
+        jCBOrgaoEmissor.setEnabled(false);
 
         javax.swing.GroupLayout jPDadosLayout = new javax.swing.GroupLayout(jPDados);
         jPDados.setLayout(jPDadosLayout);
@@ -411,74 +486,70 @@ public final class FormManterPessoa extends FormTemplate {
                 .addContainerGap()
                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPDadosLayout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTFNome))
+                    .addGroup(jPDadosLayout.createSequentialGroup()
                         .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12)
                             .addComponent(jLabel16))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPDadosLayout.createSequentialGroup()
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jFTFRG)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel14)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jCBOrgaoEmissor, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jCBEstadoEmissor, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPDadosLayout.createSequentialGroup()
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jFTFCPF)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel13)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jDCDataVencimento1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, 0))
+                                .addComponent(jDCDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPDadosLayout.createSequentialGroup()
-                        .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPDadosLayout.createSequentialGroup()
-                                .addComponent(jLabel15)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPDadosLayout.createSequentialGroup()
-                                .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel17)
-                                    .addComponent(jLabel18))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField6)
-                                    .addComponent(jTextField5))))
-                        .addGap(0, 0, 0)))
-                .addContainerGap(39, Short.MAX_VALUE))
+                        .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel17)
+                            .addComponent(jLabel18))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTFNomeMae)
+                            .addComponent(jTFNomePai))))
+                .addContainerGap())
         );
         jPDadosLayout.setVerticalGroup(
             jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPDadosLayout.createSequentialGroup()
                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTFNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel12)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel13))
-                    .addComponent(jDCDataVencimento1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel13)
+                        .addComponent(jFTFCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jDCDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel16))
+                    .addComponent(jCBEstadoEmissor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel16)
+                    .addComponent(jFTFRG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCBOrgaoEmissor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTFNomeMae, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTFNomePai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -497,9 +568,9 @@ public final class FormManterPessoa extends FormTemplate {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPManterPessoaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPDados, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(9, 9, 9))
+                .addGap(15, 15, 15))
         );
 
         getContentPane().add(jPManterPessoa, java.awt.BorderLayout.CENTER);
@@ -507,47 +578,17 @@ public final class FormManterPessoa extends FormTemplate {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void jTFNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFNomeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_jTFNomeActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void jTFNomeMaeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFNomeMaeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_jTFNomeMaeActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void jTFNomePaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFNomePaiActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
-
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
-
-    private void jFTFCEPFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFTFCEPFocusGained
-        this.jFTFCEP.setText(null);
-        this.jFTFCEP.setForeground(Color.BLACK);
-    }//GEN-LAST:event_jFTFCEPFocusGained
-
-    private void jFTFCEPFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFTFCEPFocusLost
-        if(this.jFTFCEP.getText().equals("  .   -   "))
-        {
-            JOptionPane.showMessageDialog(null, "Preencha corretamente o campo", "Advertência", JOptionPane.WARNING_MESSAGE);
-            this.jFTFCEP.setText("12.345-678");
-            this.jFTFCEP.setForeground(Color.gray);
-        }
-    }//GEN-LAST:event_jFTFCEPFocusLost
-
-    private void jFTFCEPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFTFCEPActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jFTFCEPActionPerformed
+    }//GEN-LAST:event_jTFNomePaiActionPerformed
 
     private void jBBuscarEndereçoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarEndereçoActionPerformed
         // Buscar os dados de CEP
@@ -559,20 +600,65 @@ public final class FormManterPessoa extends FormTemplate {
         if(pessoa.isError())
         {
             Aviso.showError(pessoa.getMessage());
-            jTFEndereco.setText("");
+            jTFLogradouro.setText("");
             jTFBairro.setText("");
             jTFCidade.setText("");
             jTFEstado.setText("");
         }
         else {
-            jTFEndereco.setText(pessoa.getLogradouro());
+            jTFLogradouro.setText(pessoa.getLogradouro());
             jTFBairro.setText(pessoa.getBairro());
             jTFCidade.setText(pessoa.getCidade());
             jTFEstado.setText(pessoa.getEstado());
         }
-
-        
     }//GEN-LAST:event_jBBuscarEndereçoActionPerformed
+
+    private void jFTFCEPFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFTFCEPFocusGained
+        this.jFTFCEP.setText(null);
+        this.jFTFCEP.setForeground(Color.BLACK);
+    }//GEN-LAST:event_jFTFCEPFocusGained
+
+    private void jFTFCEPFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFTFCEPFocusLost
+        if(this.jFTFCEP.getText().equals("  .   -   "))
+        {
+            Aviso.showWarning("Preencha corretamente o campo");
+            this.jFTFCEP.setText("12.345-678");
+            this.jFTFCEP.setForeground(Color.gray);
+        }
+
+    }//GEN-LAST:event_jFTFCEPFocusLost
+
+    private void jFTFCPFFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFTFCPFFocusGained
+        this.jFTFCPF.setText(null);
+        this.jFTFCPF.setForeground(Color.BLACK);
+    }//GEN-LAST:event_jFTFCPFFocusGained
+
+    private void jFTFCPFFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFTFCPFFocusLost
+        if(this.jFTFCPF.getText().equals("   .   .   -  "))
+        {
+            Aviso.showWarning("Preencha corretamente o campo");
+            this.jFTFCPF.setText("123.456.789-00");
+            this.jFTFCPF.setForeground(Color.gray);
+        }
+    }//GEN-LAST:event_jFTFCPFFocusLost
+
+    private void jFTFRGFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFTFRGFocusGained
+        this.jFTFRG.setText(null);
+        this.jFTFRG.setForeground(Color.BLACK);
+    }//GEN-LAST:event_jFTFRGFocusGained
+
+    private void jFTFRGFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFTFRGFocusLost
+        if(this.jFTFRG.getText().equals("  .   .   - "))
+        {
+            Aviso.showWarning("Preencha corretamente o campo");
+            this.jFTFRG.setText("12.345.678-X");
+            this.jFTFRG.setForeground(Color.gray);
+        }
+    }//GEN-LAST:event_jFTFRGFocusLost
+
+    private void jFTFRGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFTFRGActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jFTFRGActionPerformed
 
     /**
      * @param args the command line arguments
@@ -610,10 +696,13 @@ public final class FormManterPessoa extends FormTemplate {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bGAgenda;
     private javax.swing.JButton jBBuscarEndereço;
-    private javax.swing.JComboBox jComboBox1;
-    private com.toedter.calendar.JDateChooser jDCDataVencimento1;
+    private javax.swing.JComboBox jCBEstadoEmissor;
+    private javax.swing.JComboBox jCBOrgaoEmissor;
+    private com.toedter.calendar.JDateChooser jDCDataNascimento;
     private javax.swing.JFormattedTextField jFTFCEP;
+    private javax.swing.JFormattedTextField jFTFCPF;
     private javax.swing.JFormattedTextField jFTFNumero;
+    private javax.swing.JFormattedTextField jFTFRG;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -635,13 +724,10 @@ public final class FormManterPessoa extends FormTemplate {
     private javax.swing.JTextField jTFBairro;
     private javax.swing.JTextField jTFCidade;
     private javax.swing.JTextField jTFComplemento;
-    private javax.swing.JTextField jTFEndereco;
     private javax.swing.JTextField jTFEstado;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTFLogradouro;
+    private javax.swing.JTextField jTFNome;
+    private javax.swing.JTextField jTFNomeMae;
+    private javax.swing.JTextField jTFNomePai;
     // End of variables declaration//GEN-END:variables
 }

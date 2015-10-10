@@ -3,22 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package VO;
+package valueObject;
 
 import java.util.Date;
 
-public class Carteira {
+public class Multa {
 
-	private Date dataVencimento;
 	private Date dataEmissao;
-	private String nRegistro;
-	private String permissao;
-	private String tipo;
+	private float taxaAcrescimo;
+	private Date dataPagamento;
+	private Automovel automovel;
 	private Pessoa pessoa;
-        private boolean status;
-
+	private Carteira carteira;
+	private Autuacao autuacao;
+        
         // ID deste objeto no banco de dados
-        private int idCarteira;
+        private int idMulta;
 
         /*
          * Ajuda MVC
@@ -32,19 +32,9 @@ public class Carteira {
         // Especificação do erro
         private String message;
 
-    /**
-     * @return the dataVencimento
-     */
-    public Date getDataVencimento() {
-        return dataVencimento;
-    }
-
-    /**
-     * @param dataVencimento the dataVencimento to set
-     */
-    public void setDataVencimento(Date dataVencimento) {
-        this.dataVencimento = dataVencimento;
-    }
+	public boolean estaPago() {
+		return false;
+	}
 
     /**
      * @return the dataEmissao
@@ -61,45 +51,45 @@ public class Carteira {
     }
 
     /**
-     * @return the nRegistro
+     * @return the taxaAcrescimo
      */
-    public String getnRegistro() {
-        return nRegistro;
+    public float getTaxaAcrescimo() {
+        return taxaAcrescimo;
     }
 
     /**
-     * @param nRegistro the nRegistro to set
+     * @param taxaAcrescimo the taxaAcrescimo to set
      */
-    public void setnRegistro(String nRegistro) {
-        this.nRegistro = nRegistro;
+    public void setTaxaAcrescimo(float taxaAcrescimo) {
+        this.taxaAcrescimo = taxaAcrescimo;
     }
 
     /**
-     * @return the permissao
+     * @return the dataPagamento
      */
-    public String getPermissao() {
-        return permissao;
+    public Date getDataPagamento() {
+        return dataPagamento;
     }
 
     /**
-     * @param permissao the permissao to set
+     * @param dataPagamento the dataPagamento to set
      */
-    public void setPermissao(String permissao) {
-        this.permissao = permissao;
+    public void setDataPagamento(Date dataPagamento) {
+        this.dataPagamento = dataPagamento;
     }
 
     /**
-     * @return the tipo
+     * @return the automovel
      */
-    public String getTipo() {
-        return tipo;
+    public Automovel getAutomovel() {
+        return automovel;
     }
 
     /**
-     * @param tipo the tipo to set
+     * @param automovel the automovel to set
      */
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setAutomovel(Automovel automovel) {
+        this.automovel = automovel;
     }
 
     /**
@@ -117,31 +107,45 @@ public class Carteira {
     }
 
     /**
-     * @return the status
+     * @return the carteira
      */
-    public boolean isStatus() {
-        return status;
+    public Carteira getCarteira() {
+        return carteira;
     }
 
     /**
-     * @param status the status to set
+     * @param carteira the carteira to set
      */
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setCarteira(Carteira carteira) {
+        this.carteira = carteira;
     }
 
     /**
-     * @return the idCarteira
+     * @return the autuacao
      */
-    public int getIdCarteira() {
-        return idCarteira;
+    public Autuacao getAutuacao() {
+        return autuacao;
     }
 
     /**
-     * @param idCarteira the idCarteira to set
+     * @param autuacao the autuacao to set
      */
-    public void setIdCarteira(int idCarteira) {
-        this.idCarteira = idCarteira;
+    public void setAutuacao(Autuacao autuacao) {
+        this.autuacao = autuacao;
+    }
+
+    /**
+     * @return the idMulta
+     */
+    public int getIdMulta() {
+        return idMulta;
+    }
+
+    /**
+     * @param idMulta the idMulta to set
+     */
+    public void setIdMulta(int idMulta) {
+        this.idMulta = idMulta;
     }
 
     /**
