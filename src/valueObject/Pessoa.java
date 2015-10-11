@@ -41,6 +41,43 @@ public class Pessoa {
         // Especificação do erro
         private String message;
 
+    public Pessoa (String nome,	String cpf, String rg,	String orgaoEmissor, 
+            String rgEstado, Date dataNascimento, String logradouro, 
+            String numeroLogradouro, String complementoLogradouro, String bairro, 
+            String cidade, String estado, String cep, String nomeMae, String nomePai,  
+            boolean status, int idPessoa) {
+            
+            this.nome =  nome;
+            this.cpf =  cpf;
+            this.rg =  rg;
+            this.orgaoEmissor =  orgaoEmissor;
+            this.rgEstado =  rgEstado;
+            this.dataNascimento =  dataNascimento;
+            this.logradouro =  logradouro;
+            this.numeroLogradouro =  numeroLogradouro;
+            this.complementoLogradouro =  complementoLogradouro;
+            this.bairro =  bairro;
+            this.cidade =  cidade;
+            this.estado =  estado;
+            this.cep =  cep;
+            this.nomeMae =  nomeMae;
+            this.nomePai =  nomePai;
+            this.status =  status;
+            this.idPessoa =  idPessoa;
+    }
+    public Pessoa () {
+        
+    }
+    
+    public String showPessoa() {
+        String pessoa = this.nome + " " + this.cpf + " " + this.rg + " " + this.orgaoEmissor + " " +
+                this.rgEstado + " " + this.dataNascimento + " " + this.logradouro + " " + this.numeroLogradouro + " " +
+                this.complementoLogradouro + " " + this.bairro + " " + this.cidade + " " + this.estado + " " +
+                this.cep + " " + this.nomeMae + " " + this.nomePai + " " + this.status + " " +
+                this.idPessoa;
+        return pessoa;
+    }
+    
     /**
      * @return the nome
      */

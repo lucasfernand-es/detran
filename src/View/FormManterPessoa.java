@@ -7,8 +7,12 @@ package View;
 
 import Addons.Aviso;
 import Addons.CepWebService;
+import Controller.PessoaController;
 import valueObject.Pessoa;
 import java.awt.Color;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
@@ -121,6 +125,9 @@ public final class FormManterPessoa extends FormTemplate {
         jTFCidade.setEnabled(true);
         jTFEstado.setEnabled(true);
         jFTFCEP.setEnabled(true);
+        jRBSim.setEnabled(true);
+        jRBNao.setEnabled(true);
+        jBBuscarEndereço.setEnabled(true);
     }
 
     public void bloquearComponentes() {
@@ -139,17 +146,20 @@ public final class FormManterPessoa extends FormTemplate {
         jTFCidade.setEnabled(false);
         jTFEstado.setEnabled(false);
         jFTFCEP.setEnabled(false);
+        jRBSim.setEnabled(false);
+        jRBNao.setEnabled(false);
+        jBBuscarEndereço.setEnabled(false);
     }
 
     // Define valores nulos para todos os componentes
 
     public void limparComponentes() {
         jTFNome.setText("");
-        jFTFCPF.setText("123.456.789-00");
+        jFTFCPF.setText("965.156.018-59");
         jDCDataNascimento.setDate(null);
         jFTFRG.setText("12.345.678-X");
         jCBOrgaoEmissor.setSelectedIndex(0);
-        jCBEstadoEmissor.setSelectedIndex(0);
+        jCBEstadoEmissor.setSelectedIndex(17);
         jTFNomeMae.setText("");
         jTFNomePai.setText("");
         jTFLogradouro.setText("");
@@ -158,7 +168,9 @@ public final class FormManterPessoa extends FormTemplate {
         jTFBairro.setText("");
         jTFCidade.setText("");
         jTFEstado.setText("");
-        jFTFCEP.setText("12.345-678");
+        jFTFCEP.setText("84.010-010");
+        jRBSim.setSelected(true);
+        jRBNao.setSelected(false);
     }
 
     @Override
@@ -170,11 +182,56 @@ public final class FormManterPessoa extends FormTemplate {
 
     @Override
     protected void jBTConfirmarActionPerformed(java.awt.event.ActionEvent evt) {
-        super.jBTConfirmarActionPerformed(evt);
-        
-        
-        bloquearComponentes();
-        limparComponentes();
+
+        try {
+            // Criando objeto para receber os dados preenchidos na tela
+            String nome = jTFNome.getText();
+            String cpf = jFTFCPF.getText();
+            String rg = jFTFRG.getText();
+            String orgaoEmissor = (String) jCBOrgaoEmissor.getSelectedItem();
+            String rgEstado = (String) jCBEstadoEmissor.getSelectedItem();
+            Date dataNascimento = jDCDataNascimento.getDate();
+            String logradouro = jTFLogradouro.getText();
+            String numeroLogradouro = jFTFNumero.getText();
+            String complementoLogradouro = jTFComplemento.getText();
+            String bairro = jTFBairro.getText();
+            String cidade = jTFCidade.getText();
+            String estado = jTFEstado.getText();
+            String cep = jFTFCEP.getText();
+            String nomeMae = jTFNomeMae.getText();
+            String nomePai = jTFNomePai.getText();
+            // Se o status for Ativo. Sim == true e Não == false 
+            // Se o Sim não estiver selecionado, o Não está
+            boolean status = (jRBSim.isSelected());
+            // Como objeto não está no salvo no BD ainda, ID == -1
+            int idPessoa = -1;
+            
+            Pessoa pessoa = new Pessoa(nome, cpf, rg, orgaoEmissor, rgEstado, 
+                    dataNascimento, logradouro,  numeroLogradouro, complementoLogradouro, 
+                    bairro, cidade, estado, cep, nomeMae, nomePai, status, idPessoa);
+            // Nenhum erro até o momento
+            pessoa.setError(false);
+            pessoa.setMessage("");
+            
+            //System.out.println(pessoa.showPessoa());
+            PessoaController.cadastrarPessoa(pessoa);
+            
+            if(pessoa.isError())
+            {
+                Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
+                        pessoa.getMessage());
+            }
+            else {
+                Aviso.showInformation(pessoa.getMessage());
+                super.jBTConfirmarActionPerformed(evt);
+                bloquearComponentes();
+                limparComponentes();
+            }
+            
+        }
+        catch(NumberFormatException ex) {
+            Aviso.showError("Campo(s) númerico(s) contém valor(es) inválido(s).");
+        }
     }
 
     @Override
@@ -224,7 +281,7 @@ public final class FormManterPessoa extends FormTemplate {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        bGAgenda = new javax.swing.ButtonGroup();
+        bGStatus = new javax.swing.ButtonGroup();
         jPManterPessoa = new javax.swing.JPanel();
         jPEndereco = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
@@ -259,6 +316,9 @@ public final class FormManterPessoa extends FormTemplate {
         jFTFCPF = new javax.swing.JFormattedTextField();
         jFTFRG = new javax.swing.JFormattedTextField();
         jCBOrgaoEmissor = new javax.swing.JComboBox();
+        jRBSim = new javax.swing.JRadioButton();
+        jRBNao = new javax.swing.JRadioButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setSize(new java.awt.Dimension(650, 185));
 
@@ -309,7 +369,7 @@ public final class FormManterPessoa extends FormTemplate {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        jFTFCEP.setText("12.345-678");
+        jFTFCEP.setText("84.010-010");
         jFTFCEP.setEnabled(false);
         jFTFCEP.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -362,7 +422,7 @@ public final class FormManterPessoa extends FormTemplate {
                 .addComponent(jFTFCEP, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBBuscarEndereço, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPEnderecoLayout.setVerticalGroup(
             jPEnderecoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -416,6 +476,7 @@ public final class FormManterPessoa extends FormTemplate {
         });
 
         jCBEstadoEmissor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MG", "MS", "MT", "PA", "PB", "PE", "PI", "PR", "RJ", "RN", "RO", "RR", "RS", "SC", "SE", "SP", "TO" }));
+        jCBEstadoEmissor.setSelectedIndex(17);
         jCBEstadoEmissor.setEnabled(false);
 
         jLabel16.setText("RG");
@@ -443,7 +504,7 @@ public final class FormManterPessoa extends FormTemplate {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        jFTFCPF.setText("123.456.789-00");
+        jFTFCPF.setText("965.156.018-59");
         jFTFCPF.setEnabled(false);
         jFTFCPF.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -478,6 +539,25 @@ public final class FormManterPessoa extends FormTemplate {
         jCBOrgaoEmissor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SSP", "COREN", "CRA", "CRAS", "CRB", "CRC", "CRE", "CREA", "CRECI", "CREFIT", "CRF", "CRM", "CRN", "CRO", "CRP", "CRPRE", "CRQ", "CRRC", "CRMV", "DPF", "EST", "I CLA", "MAE", "MEX", "MMA", "OAB", "OMB", "IFP", "Outro" }));
         jCBOrgaoEmissor.setEnabled(false);
 
+        bGStatus.add(jRBSim);
+        jRBSim.setMnemonic('1');
+        jRBSim.setSelected(true);
+        jRBSim.setText("Sim");
+        jRBSim.setToolTipText("");
+        jRBSim.setEnabled(false);
+        jRBSim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRBSimActionPerformed(evt);
+            }
+        });
+
+        bGStatus.add(jRBNao);
+        jRBNao.setMnemonic('0');
+        jRBNao.setText("Não");
+        jRBNao.setEnabled(false);
+
+        jLabel2.setText("Ativo");
+
         javax.swing.GroupLayout jPDadosLayout = new javax.swing.GroupLayout(jPDados);
         jPDados.setLayout(jPDadosLayout);
         jPDadosLayout.setHorizontalGroup(
@@ -490,32 +570,39 @@ public final class FormManterPessoa extends FormTemplate {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTFNome))
                     .addGroup(jPDadosLayout.createSequentialGroup()
-                        .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel16))
+                        .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel16)
+                            .addComponent(jLabel12))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jFTFRG, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jFTFCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPDadosLayout.createSequentialGroup()
-                                .addComponent(jFTFRG)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel14)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCBOrgaoEmissor, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jCBOrgaoEmissor, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCBEstadoEmissor, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jCBEstadoEmissor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPDadosLayout.createSequentialGroup()
-                                .addComponent(jFTFCPF)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jLabel13)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jDCDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jDCDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jRBSim)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jRBNao))))
                     .addGroup(jPDadosLayout.createSequentialGroup()
                         .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel17)
-                            .addComponent(jLabel18))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTFNomeMae)
                             .addComponent(jTFNomePai))))
@@ -531,17 +618,20 @@ public final class FormManterPessoa extends FormTemplate {
                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel12)
+                        .addComponent(jFTFCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jRBSim)
+                        .addComponent(jRBNao)
                         .addComponent(jLabel13)
-                        .addComponent(jFTFCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel2))
                     .addComponent(jDCDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14)
                     .addComponent(jLabel11)
                     .addComponent(jCBEstadoEmissor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel16)
+                    .addComponent(jCBOrgaoEmissor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jFTFRG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCBOrgaoEmissor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel14))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
@@ -550,7 +640,7 @@ public final class FormManterPessoa extends FormTemplate {
                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
                     .addComponent(jTFNomePai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPManterPessoaLayout = new javax.swing.GroupLayout(jPManterPessoa);
@@ -567,10 +657,10 @@ public final class FormManterPessoa extends FormTemplate {
             jPManterPessoaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPManterPessoaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPDados, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15))
+                .addComponent(jPDados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
         );
 
         getContentPane().add(jPManterPessoa, java.awt.BorderLayout.CENTER);
@@ -660,6 +750,10 @@ public final class FormManterPessoa extends FormTemplate {
         // TODO add your handling code here:
     }//GEN-LAST:event_jFTFRGActionPerformed
 
+    private void jRBSimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBSimActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRBSimActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -694,7 +788,7 @@ public final class FormManterPessoa extends FormTemplate {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup bGAgenda;
+    private javax.swing.ButtonGroup bGStatus;
     private javax.swing.JButton jBBuscarEndereço;
     private javax.swing.JComboBox jCBEstadoEmissor;
     private javax.swing.JComboBox jCBOrgaoEmissor;
@@ -713,6 +807,7 @@ public final class FormManterPessoa extends FormTemplate {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -721,6 +816,8 @@ public final class FormManterPessoa extends FormTemplate {
     private javax.swing.JPanel jPDados;
     private javax.swing.JPanel jPEndereco;
     private javax.swing.JPanel jPManterPessoa;
+    private javax.swing.JRadioButton jRBNao;
+    private javax.swing.JRadioButton jRBSim;
     private javax.swing.JTextField jTFBairro;
     private javax.swing.JTextField jTFCidade;
     private javax.swing.JTextField jTFComplemento;
