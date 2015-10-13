@@ -16,22 +16,11 @@ import java.sql.SQLException;
  */
 public class MySQLConnector {
     
-    private static Connection connection;
-    
-    private static MySQLConnector connector = null;
-
-    public static MySQLConnector getMySQLConnector() {
-        if (connector == null) {
-            connector = new MySQLConnector();
-        }
-
-        return connector;
-
-    }
+    private Connection connection;
     
     public MySQLConnector(){
 
-        MySQLConnector.connection = null;
+        this.connection = null;
     }
 
     /**
@@ -39,12 +28,16 @@ public class MySQLConnector {
      * @return
      * @throws Exception
      */
-    public static Connection connect() throws Exception {
+    public Connection connect() throws Exception {
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:8889/Detran","root","root");
-            return connection;
+            if(connection != null)
+                return connection;
+            else {
+                Class.forName("com.mysql.jdbc.Driver");
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:8889/Detran","root","root");
+                return connection;
+            }
         } catch (ClassNotFoundException ex) {
             throw new Exception("Error finding the driver!\n(" + ex.getMessage() + ")");
         } catch (SQLException e) {
@@ -52,7 +45,7 @@ public class MySQLConnector {
         }
     }
 
-    public static void disconnect() throws Exception {
+    public void disconnect() throws Exception {
         try {
             connection.close();
         } catch (SQLException ex) {

@@ -7,6 +7,7 @@ package Controller;
 
 import Addons.ValidaCPF;
 import Model.PessoaModel;
+import java.util.ArrayList;
 import valueObject.Pessoa;
 
 /**
@@ -87,6 +88,23 @@ public class PessoaController {
         pessoa.setError(true);
         PessoaModel.cadastrarPessoa(pessoa);
         
+    }
+    
+    // Objeto1 (da Classe) tem os critérios da busca, caso algum existe
+    // Objeto2 (String) especifica o tipo da pesquisa
+    public static ArrayList<Pessoa>  buscarPessoa(Pessoa pessoa, String tipo) {
+        
+        ArrayList<Pessoa> newList = PessoaModel.buscarPessoa(pessoa, tipo);
+        
+        // Se não houve nenhum erro na pesquisa, e ainda assim, a lista está vazia
+        if(!pessoa.isError() && newList == null)
+        {
+            pessoa.setError(true);
+            pessoa.setMessage("Nenhum possível titular foi encontrado.");
+            return null;
+        }
+        else
+            return newList;
     }
 
     

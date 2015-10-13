@@ -5,6 +5,7 @@
  */
 package valueObject;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Pessoa {
@@ -25,6 +26,8 @@ public class Pessoa {
 	private String nomeMae;
 	private String nomePai;
         private boolean status;
+        
+        private ArrayList<Carteira> carteiras;
 
         // ID deste objeto no banco de dados
         private int idPessoa;
@@ -344,4 +347,22 @@ public class Pessoa {
         this.message = message;
     }
 
+    /**
+     * @return the carteiras
+     */
+    public ArrayList<Carteira> getCarteiras() {
+        return carteiras;
+    }
+
+    /**
+     * @param carteiras the carteiras to set
+     */
+    public void setCarteiras(ArrayList<Carteira> carteiras) {
+        this.carteiras = carteiras;
+    }
+
+        @Override
+    public String toString() {
+        return this.nome + " " + this.cpf;
+    }
 }

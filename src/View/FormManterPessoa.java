@@ -10,9 +10,8 @@ import Addons.CepWebService;
 import Controller.PessoaController;
 import valueObject.Pessoa;
 import java.awt.Color;
-import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Date;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -34,14 +33,14 @@ public final class FormManterPessoa extends FormTemplate {
         limparComponentes();
     }
 
-    private static FormManterPessoa manterEvento = null;
+    private static FormManterPessoa manterForm = null;
 
-    public static FormManterPessoa getFormManterPessoa() {
-        if (manterEvento == null) {
-            manterEvento = new FormManterPessoa();
+    public static FormManterPessoa getForm() {
+        if (manterForm == null) {
+            manterForm = new FormManterPessoa();
         }
 
-        return manterEvento;
+        return manterForm;
 
     }
 
@@ -178,6 +177,10 @@ public final class FormManterPessoa extends FormTemplate {
         super.jBTCadastrarActionPerformed(evt);
 
         liberarComponentes();
+        
+        // Por definição, não é possível criar usuário desativado
+        jRBSim.setEnabled(false);
+        jRBNao.setEnabled(false);
     }
 
     @Override
@@ -226,6 +229,23 @@ public final class FormManterPessoa extends FormTemplate {
                 super.jBTConfirmarActionPerformed(evt);
                 bloquearComponentes();
                 limparComponentes();
+                // Perguntar se deseja cadastrar uma carteira
+
+                int confirmOption = JOptionPane.showConfirmDialog(null, 
+                        "Você deseja cadastrar uma carteira "+pessoa.getNome()+"?", 
+                        "Alerta de cadastro", JOptionPane.YES_NO_OPTION);
+
+                if (confirmOption == 1)
+                {
+                    //System.out.println("não");
+                }
+                else {
+                    //System.out.println("sim");
+                    // Chamar Tela de Manter Carteira
+                    FormManterCarteira formManterCarteira = FormManterCarteira.getForm();
+                    formManterCarteira.setTitular(pessoa);
+                    formManterCarteira.setVisible(true);
+                }
             }
             
         }
