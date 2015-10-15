@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package valueObject;
 
 public class Automovel {
@@ -22,14 +17,14 @@ public class Automovel {
 
         /*
          * Ajuda MVC
-         * Os atributos abaixo contribuir para o controle das operações 
+         * Os atributos abaixo contribuir para o controle das operaÃ§Ãµes 
          * envolvendo os objetos desta classe.
          */
 
-        // Quando uma operação envolvendo este objeto der erro em tempo de execução, 
-        // este atributo será acionado
+        // Quando uma operaÃ§Ã£o envolvendo este objeto der erro em tempo de execuÃ§Ã£o, 
+        // este atributo serÃ¡ acionado
         private boolean error = false;
-        // Especificação do erro
+        // EspecificaÃ§Ã£o do erro
         private String message;
 
     
