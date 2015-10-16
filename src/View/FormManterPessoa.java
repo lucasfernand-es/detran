@@ -300,7 +300,7 @@ public final class FormManterPessoa extends FormTemplate {
     @Override
     protected void jTBBuscaRapidaMouseClicked(java.awt.event.MouseEvent evt) {
         super.jTBBuscaRapidaMouseClicked(evt);
-        System.out.println("carregar coisinhas");
+        System.out.println("carregar coisinhas"); // oi
         bloquearComponentes();
     }
 
