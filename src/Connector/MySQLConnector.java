@@ -29,7 +29,7 @@ public class MySQLConnector {
      * @throws Exception
      */
     public Connection connect() throws Exception {
-
+        System.out.println("hora de conectarmos no banco");
         try {
             if(connection != null)
                 return connection;
