@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -49,20 +50,20 @@ public final class FormManterPessoa extends FormTemplate {
         
         super.jTBBuscaRapida.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
-                    {null, null, null, null}
+                    {null, null, null, null, null, null}
                 },
                 new String[]{
                     "Nome", "CPF", "Data de Nascimento",
-                    "Status"
+                    "Status", "Total de Carteiras",  "Total de Automóveis"
                 }
         ) {
             // Quatidade de Colunas
             Class[] types = new Class[]{
                 java.lang.String.class, java.lang.String.class, java.lang.String.class,
-                java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean[]{
-                false, false, false, false,
+                false, false, false, false, false, false
             };
 
             @Override
@@ -299,7 +300,7 @@ public final class FormManterPessoa extends FormTemplate {
     @Override
     protected void jTBBuscaRapidaMouseClicked(java.awt.event.MouseEvent evt) {
         super.jTBBuscaRapidaMouseClicked(evt);
-
+        System.out.println("carregar coisinhas");
         bloquearComponentes();
     }
 
@@ -316,7 +317,7 @@ public final class FormManterPessoa extends FormTemplate {
         // TODO add your handling code here:
         super.jTFBuscaKeyReleased(evt);
         
-        System.out.println(jTFBusca.getText());
+       // System.out.println(jTFBusca.getText());
         
         ArrayList<Pessoa> pessoaList;
         
@@ -330,14 +331,31 @@ public final class FormManterPessoa extends FormTemplate {
             Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
                     pessoa.getMessage());
         }
+        else if (pessoaList == null)
+            return;
         
-        //testPessoa(pessoaList);
+        testPessoa(pessoaList);
+        preencherPesquisa(pessoaList);
     } 
     
     private void testPessoa(ArrayList<Pessoa> pessoaList) {
         pessoaList.stream().forEach((test) -> {
             System.out.println(test.showPessoa());
         });
+    }
+    
+    private void preencherPesquisa( ArrayList<Pessoa> pessoaList) { 
+                    
+        DefaultTableModel tableModel = (DefaultTableModel) super.jTBBuscaRapida.getModel();
+    
+        tableModel.setRowCount(0);
+        
+        for(Pessoa pessoa : pessoaList ) {
+            tableModel.addRow(new Object[] { 
+                                            pessoa.getNome(), pessoa.getCpf(), pessoa.getDataNascimento(),
+                                            pessoa.isStatus(), pessoa.getCarteiras().size(), pessoa.getAutomoveis().size()
+                                            } );
+        }
     }
     
     @Override
@@ -404,9 +422,9 @@ public final class FormManterPessoa extends FormTemplate {
         setSize(new java.awt.Dimension(650, 185));
 
         jPManterPessoa.setPreferredSize(new java.awt.Dimension(650, 370));
+        jPManterPessoa.setSize(new java.awt.Dimension(0, 0));
 
         jPEndereco.setBorder(javax.swing.BorderFactory.createTitledBorder("Endereço"));
-        jPEndereco.setSize(new java.awt.Dimension(650, 180));
 
         jLabel19.setText("Logradouro");
 
@@ -534,7 +552,6 @@ public final class FormManterPessoa extends FormTemplate {
         );
 
         jPDados.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados Pessoais"));
-        jPDados.setSize(new java.awt.Dimension(650, 190));
 
         jLabel11.setText("Estado Emissor");
 

@@ -127,7 +127,7 @@ public class PessoaController {
         
         
         String newCPF = format(pattern, cpf);
-        System.out.println(newCPF + " com mask \t" + cpf + " sem mask");
+        //System.out.println(newCPF + " com mask \t" + cpf + " sem mask");
         if(newCPF.equals("ERROR"))
             return false;
         
@@ -136,17 +136,20 @@ public class PessoaController {
         // Se o número digitado pelo usuário tiver menos de 11 dígitos, tem que retirar alguns
         // CPF digitado originalmente está no objeto Pessoa
         String originCPF = pessoa.getCpf();
-        if(originCPF.length() < 11)
+        int lenghtOCPF = originCPF.length();
+        if(lenghtOCPF < 11)
         {
             int beginIndex = 0;
-            int endIndex = originCPF.length() + (originCPF.length()/3) - 1;
-            newCPF = cpf.substring(beginIndex, endIndex);
-            System.out.println("olha o new cpf denovoooo " + newCPF);
+            //System.out.println(originCPF.length()/3);
+            int endIndex = lenghtOCPF + (lenghtOCPF/3);
+            //System.out.println("com "+ newCPF.length()+ " j");
+            newCPF = newCPF.substring(beginIndex, endIndex);
+            //System.out.println("olha o new cpf denovoooo-" + newCPF + "-tamanho velho " + originCPF.length() + "  ou " + lenghtOCPF);
         }
         
         pessoa.setCpf(newCPF);
             
-        return false;
+        return true;
     }
     
     // Objeto1 (da Classe) tem os critérios da busca, caso algum existe

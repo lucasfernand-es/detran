@@ -28,6 +28,7 @@ public class Pessoa {
         private boolean status;
         
         private ArrayList<Carteira> carteiras = new ArrayList<>();
+        private ArrayList<Automovel> automoveis = new ArrayList<>();
 
         // ID deste objeto no banco de dados
         private int idPessoa;
@@ -364,5 +365,19 @@ public class Pessoa {
         @Override
     public String toString() {
         return this.nome + " " + this.cpf;
+    }
+
+    /**
+     * @return the automoveis
+     */
+    public ArrayList<Automovel> getAutomoveis() {
+        return automoveis;
+    }
+
+    /**
+     * @param automoveis the automoveis to set
+     */
+    public void setAutomoveis(ArrayList<Automovel> automoveis) {
+        this.automoveis = automoveis;
     }
 }
