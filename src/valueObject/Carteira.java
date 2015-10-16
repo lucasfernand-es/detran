@@ -12,9 +12,9 @@ public class Carteira {
 	private Date dataVencimento;
 	private Date dataEmissao;
 	private String nRegistro;
-	private String permissao;
+	private boolean permissao;
 	private String tipo;
-	private Pessoa pessoa;
+	private Pessoa titular = null;
         private boolean status;
 
         // ID deste objeto no banco de dados
@@ -31,6 +31,22 @@ public class Carteira {
         private boolean error = false;
         // Especificação do erro
         private String message;
+    
+    public Carteira(Date dataVencimento, Date dataEmissao, String nRegistro, 
+            boolean permissao, String tipo, Pessoa titular, boolean status, int idCarteira) {
+        this.dataVencimento = dataVencimento;
+	this.dataEmissao = dataEmissao;
+	this.nRegistro = nRegistro;
+	this.permissao = permissao;
+	this.tipo = tipo;
+	this.titular = titular;
+        this.status = status;
+        this.idCarteira = idCarteira;
+    }
+        
+    public Carteira() {
+        
+    }
 
     /**
      * @return the dataVencimento
@@ -75,20 +91,6 @@ public class Carteira {
     }
 
     /**
-     * @return the permissao
-     */
-    public String getPermissao() {
-        return permissao;
-    }
-
-    /**
-     * @param permissao the permissao to set
-     */
-    public void setPermissao(String permissao) {
-        this.permissao = permissao;
-    }
-
-    /**
      * @return the tipo
      */
     public String getTipo() {
@@ -100,20 +102,6 @@ public class Carteira {
      */
     public void setTipo(String tipo) {
         this.tipo = tipo;
-    }
-
-    /**
-     * @return the pessoa
-     */
-    public Pessoa getPessoa() {
-        return pessoa;
-    }
-
-    /**
-     * @param pessoa the pessoa to set
-     */
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
     }
 
     /**
@@ -170,6 +158,40 @@ public class Carteira {
      */
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    /**
+     * @return the permissao
+     */
+    public boolean isPermissao() {
+        return permissao;
+    }
+
+    /**
+     * @param permissao the permissao to set
+     */
+    public void setPermissao(boolean permissao) {
+        this.permissao = permissao;
+    }
+
+    /**
+     * @return the titular
+     */
+    public Pessoa getTitular() {
+        return titular;
+    }
+
+    /**
+     * @param titular the titular to set
+     */
+    public void setTitular(Pessoa titular) {
+        this.titular = titular;
+    }
+
+    public String showCarteira() {
+        String carteira = dataVencimento + " " + dataEmissao + " " + nRegistro + " " + 
+                        permissao + " " + tipo + " " + titular + " " + status + " " + idCarteira;
+        return carteira;
     }
 
 }

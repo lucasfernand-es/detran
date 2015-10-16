@@ -27,7 +27,7 @@ public class Pessoa {
 	private String nomePai;
         private boolean status;
         
-        private ArrayList<Carteira> carteiras;
+        private ArrayList<Carteira> carteiras = new ArrayList<>();
 
         // ID deste objeto no banco de dados
         private int idPessoa;

@@ -5,9 +5,11 @@
  */
 package Controller;
 
+import Model.PessoaModel;
 import java.sql.ResultSet;
 import java.util.Date;
 import valueObject.Automovel;
+import valueObject.Carteira;
 import valueObject.Pessoa;
 
 /**
@@ -49,6 +51,40 @@ public class Util {
             pessoa.setMessage(e.getMessage());
             return null;
         }
+    }
+
+    public static Carteira criarCarteira(ResultSet rs) {
+        Carteira carteira;
+        try {
+            // Criando objeto para receber os dados preenchidos na tela
+            Date dataVencimento = rs.getDate("dataVencimento");
+            Date dataEmissao = rs.getDate("dataEmissao");
+            String nRegistro = rs.getString("nomeMae");
+            boolean permissao = rs.getBoolean("permissao");
+            String tipo = rs.getString("tipo");
+            int idPessoa = rs.getInt("idPessoa");
+            Pessoa pessoaTitular = Util.getPessoa(idPessoa);
+            boolean status = rs.getBoolean("status");
+            int idCarteira = rs.getInt("idCarteira");
+        
+            carteira =  new Carteira(dataVencimento, dataEmissao, nRegistro, 
+                permissao, tipo, pessoaTitular, status, idCarteira);
+            return carteira;
+        }
+        catch(Exception e) {
+            carteira = new Carteira();
+            carteira.setError(true);
+            carteira.setMessage(e.getMessage());
+            return null;
+        }
+    }
+
+    private static Pessoa getPessoa(int idPessoa) {
+        Pessoa pessoa = new Pessoa();
+        pessoa.setIdPessoa(idPessoa);
+        
+        pessoa = PessoaController.buscarPessoaID(pessoa);
+        return pessoa;
     }
     
     public static Automovel criarAutomovel(ResultSet rs) {

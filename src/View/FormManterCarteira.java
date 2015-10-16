@@ -6,10 +6,13 @@
 package View;
 
 import Addons.Aviso;
+import Controller.CarteiraController;
 import Controller.PessoaController;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
+import java.util.Date;
+import valueObject.Carteira;
 import valueObject.Pessoa;
 
 /**
@@ -56,11 +59,9 @@ public final class FormManterCarteira extends FormTemplate {
             
             @Override
             public void componentShown(ComponentEvent e) {
-                    if(titular != null) {
-                        System.out.println(titular.showPessoa());
-                        iniciarComboBoxTitular();
-                        limparComponentes();
-                    }
+                    
+                    iniciarComboBoxTitular();
+                    limparComponentes();
                 }
             });
         
@@ -96,7 +97,7 @@ public final class FormManterCarteira extends FormTemplate {
                 return canEdit[columnIndex];
             }
         });
-        super.jScrollPane1.setViewportView(jTBBuscaRapida);
+        super.jSPTable.setViewportView(jTBBuscaRapida);
 
         jTBBuscaRapida.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -230,10 +231,40 @@ public final class FormManterCarteira extends FormTemplate {
 
     @Override
     protected void jBTConfirmarActionPerformed(java.awt.event.ActionEvent evt) {                                             
-        super.jBTConfirmarActionPerformed(evt);
         
-        bloquearComponentes();
-        limparComponentes();
+        Date dataVencimento = jDCDataVencimento.getDate();
+	Date dataEmissao = jDCDataEmissao.getDate();
+	String nRegistro = jTFNRegistro.getText();
+        // Se a permissão existe. Sim == true e Não == false 
+        // Se o Sim não estiver selecionado, o Não está
+	boolean permissao = (jRBSimPermissao.isSelected());
+	String tipo = (String) jCBTipo.getSelectedItem();
+	Pessoa pessoaTitular = (Pessoa) jCBTitular.getSelectedItem();
+        // Se o status for Ativo. Sim == true e Não == false 
+        // Se o Sim não estiver selecionado, o Não está
+        boolean status = (jRBSimStatus.isSelected());
+        // ID deste objeto no banco de dados
+        int idCarteira = -1;
+        
+        Carteira carteira =  new Carteira(dataVencimento, dataEmissao, nRegistro, 
+            permissao, tipo, pessoaTitular, status, idCarteira);
+        // Nenhum erro até o momento
+        carteira.setError(false);
+        carteira.setMessage("");
+
+        //System.out.println(carteira.showCarteira());
+        CarteiraController.cadastrarCarteira(carteira);
+        
+        if(carteira.isError()){
+                Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
+                        carteira.getMessage());
+            }
+        else {
+                Aviso.showInformation(carteira.getMessage());
+                super.jBTConfirmarActionPerformed(evt);
+                bloquearComponentes();
+                limparComponentes();
+        }
     } 
     @Override
     protected void jBTAlterarActionPerformed(java.awt.event.ActionEvent evt) {
@@ -331,6 +362,7 @@ public final class FormManterCarteira extends FormTemplate {
 
         jLabel4.setText("Ativo");
 
+        bGStatus.add(jRBSimStatus);
         jRBSimStatus.setMnemonic('1');
         jRBSimStatus.setSelected(true);
         jRBSimStatus.setText("Sim");
@@ -342,12 +374,14 @@ public final class FormManterCarteira extends FormTemplate {
             }
         });
 
+        bGStatus.add(jRBNaoStatus);
         jRBNaoStatus.setMnemonic('0');
         jRBNaoStatus.setText("Não");
         jRBNaoStatus.setEnabled(false);
 
         jLabel5.setText("Permissão");
 
+        bgPermissao.add(jRBSimPermissao);
         jRBSimPermissao.setMnemonic('1');
         jRBSimPermissao.setSelected(true);
         jRBSimPermissao.setText("Sim");
@@ -359,6 +393,7 @@ public final class FormManterCarteira extends FormTemplate {
             }
         });
 
+        bgPermissao.add(jRBNaoPermissao);
         jRBNaoPermissao.setMnemonic('0');
         jRBNaoPermissao.setText("Não");
         jRBNaoPermissao.setEnabled(false);

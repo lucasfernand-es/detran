@@ -10,6 +10,7 @@ import Addons.CepWebService;
 import Controller.PessoaController;
 import valueObject.Pessoa;
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
 
@@ -45,22 +46,23 @@ public final class FormManterPessoa extends FormTemplate {
     }
 
     public void iniciarComponentes() {
+        
         super.jTBBuscaRapida.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
-                    {null, null, null, null, null, null}
+                    {null, null, null, null}
                 },
                 new String[]{
-                    "Titulo", "Tema", "Data de Inicio",
-                    "Data de Fim", "Data Prazo das Inscrições", "Agenda Finalizada"
+                    "Nome", "CPF", "Data de Nascimento",
+                    "Status"
                 }
         ) {
             // Quatidade de Colunas
             Class[] types = new Class[]{
                 java.lang.String.class, java.lang.String.class, java.lang.String.class,
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class
             };
             boolean[] canEdit = new boolean[]{
-                false, false, false, false, false, false
+                false, false, false, false,
             };
 
             @Override
@@ -73,12 +75,29 @@ public final class FormManterPessoa extends FormTemplate {
                 return canEdit[columnIndex];
             }
         });
-        super.jScrollPane1.setViewportView(jTBBuscaRapida);
+        super.jSPTable.setViewportView(jTBBuscaRapida);
+        
+        super.jLInstrucao.setText("Informe o número do CPF (Somente Números)");
 
         jTBBuscaRapida.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTBBuscaRapidaMouseClicked(evt);
+            }
+        });
+        
+        jTFBusca.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTFBuscaKeyTyped(evt);
+            }
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTFBuscaKeyPressed(evt);
+            }
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTFBuscaKeyReleased(evt);
             }
         });
 
@@ -216,7 +235,7 @@ public final class FormManterPessoa extends FormTemplate {
             pessoa.setError(false);
             pessoa.setMessage("");
             
-            //System.out.println(pessoa.showPessoa());
+            System.out.println(pessoa.showPessoa());
             PessoaController.cadastrarPessoa(pessoa);
             
             if(pessoa.isError())
@@ -290,6 +309,48 @@ public final class FormManterPessoa extends FormTemplate {
 
         bloquearComponentes();
         limparComponentes();
+    }
+    
+    @Override
+    protected void jTFBuscaKeyReleased(java.awt.event.KeyEvent evt) {                                    
+        // TODO add your handling code here:
+        super.jTFBuscaKeyReleased(evt);
+        
+        System.out.println(jTFBusca.getText());
+        
+        ArrayList<Pessoa> pessoaList;
+        
+        Pessoa pessoa = new Pessoa();
+        pessoa.setCpf( jTFBusca.getText() );
+        
+        pessoaList = PessoaController.buscarPessoa(pessoa, "CPF");
+        
+        if(pessoa.isError())
+        {
+            Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
+                    pessoa.getMessage());
+        }
+        
+        //testPessoa(pessoaList);
+    } 
+    
+    private void testPessoa(ArrayList<Pessoa> pessoaList) {
+        pessoaList.stream().forEach((test) -> {
+            System.out.println(test.showPessoa());
+        });
+    }
+    
+    @Override
+    protected void jTFBuscaKeyPressed(java.awt.event.KeyEvent evt) {                                    
+        // TODO add your handling code here:
+        super.jTFBuscaKeyPressed(evt);
+        
+    }
+    
+    @Override
+    protected void jTFBuscaKeyTyped(java.awt.event .KeyEvent evt) {                                    
+        // TODO add your handling code here:
+        super.jTFBuscaKeyTyped(evt);
     }
 
     /**
