@@ -7,6 +7,7 @@ package Controller;
 
 import java.sql.ResultSet;
 import java.util.Date;
+import valueObject.Automovel;
 import valueObject.Pessoa;
 
 /**
@@ -46,6 +47,34 @@ public class Util {
             pessoa = new Pessoa();
             pessoa.setError(true);
             pessoa.setMessage(e.getMessage());
+            return null;
+        }
+    }
+    
+    public static Automovel criarAutomovel(ResultSet rs) {
+        Automovel automovel;
+        try {
+            // Criando objeto para receber os dados preenchidos na tela
+            String renavam = rs.getString("renavam");
+            String marca = rs.getString("cpf");
+            String modelo = rs.getString("rg");
+            String cor = rs.getString("orgaoEmissor");
+            String placa = rs.getString("rgEstado");
+            String chassi = rs.getString("logradouro");
+            int ano = rs.getInt("ano");
+            boolean status = rs.getBoolean("status");
+            // todo
+            //Pessoa proprietario = 
+            int idAutomovel = rs.getInt("idAutomovel");
+            
+            automovel = new Automovel(renavam, marca, modelo, cor, placa,
+                    chassi, ano, status, null, idAutomovel);
+            return automovel;
+        }
+        catch(Exception e) {
+            automovel = new Automovel();
+            automovel.setError(true);
+            automovel.setMessage(e.getMessage());
             return null;
         }
     }
