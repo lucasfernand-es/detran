@@ -8,7 +8,6 @@ package Model;
 import Connector.MySQLConnector;
 import Controller.Util;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -80,6 +79,7 @@ public class PessoaModel {
                 pessoa.setIdPessoa(key);
             }
             else {
+                pessoa.setError(true);
                 pessoa.setMessage("Falha ao Cadastrar!");
             }
             
@@ -111,6 +111,15 @@ public class PessoaModel {
                 case "STATUS":
                     stm  = con.prepareStatement("SELECT * FROM pessoa WHERE status = ?");
                     stm.setBoolean(1, pessoa.isStatus());
+                    break;
+                case "UNIQUE_ID":
+                    stm  = con.prepareStatement("SELECT * FROM pessoa WHERE idPessoa = ?");
+                    stm.setInt(1, pessoa.getIdPessoa());
+                    break;
+                case "CPF":
+                    stm  = con.prepareStatement("SELECT * FROM pessoa WHERE cpf LIKE ?");
+                    // Operador LIKE precisa do %
+                    stm.setString(1, '%' + pessoa.getCpf() + '%');
                     break;
                 default: 
                     stm  = con.prepareStatement("SELECT * FROM pessoa");

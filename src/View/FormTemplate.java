@@ -33,8 +33,8 @@ public class FormTemplate extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPBuscar = new javax.swing.JPanel();
-        jTFNome = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jTFBusca = new javax.swing.JTextField();
+        jSPTable = new javax.swing.JScrollPane();
         jTBBuscaRapida = new javax.swing.JTable();
         jLBusca = new javax.swing.JLabel();
         jLInstrucao = new javax.swing.JLabel();
@@ -63,12 +63,23 @@ public class FormTemplate extends javax.swing.JFrame {
 
         jPBuscar.setPreferredSize(new java.awt.Dimension(600, 300));
 
-        jTFNome.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jTFNome.addActionListener(new java.awt.event.ActionListener() {
+        jTFBusca.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTFBusca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTFNomeActionPerformed(evt);
+                jTFBuscaActionPerformed(evt);
             }
         });
+        /*jTFBusca.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTFBuscaKeyTyped(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTFBuscaKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTFBuscaKeyReleased(evt);
+            }
+        });*/
 
         jTBBuscaRapida.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -86,7 +97,7 @@ public class FormTemplate extends javax.swing.JFrame {
                 jTBBuscaRapidaMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTBBuscaRapida);
+        jSPTable.setViewportView(jTBBuscaRapida);
 
         jLBusca.setText("Busca Rápida");
 
@@ -103,8 +114,8 @@ public class FormTemplate extends javax.swing.JFrame {
                     .addGroup(jPBuscarLayout.createSequentialGroup()
                         .addComponent(jLBusca)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTFNome))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE))
+                        .addComponent(jTFBusca))
+                    .addComponent(jSPTable, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPBuscarLayout.setVerticalGroup(
@@ -112,64 +123,64 @@ public class FormTemplate extends javax.swing.JFrame {
             .addGroup(jPBuscarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTFNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTFBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLBusca))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLInstrucao, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jSPTable, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         getContentPane().add(jPBuscar, java.awt.BorderLayout.PAGE_START);
 
         jPBotoes.setPreferredSize(new java.awt.Dimension(600, 50));
-
+        
         jBTAlterar.setText("Alterar");
         jBTAlterar.setEnabled(false);
         /*jBTAlterar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBTAlterarActionPerformed(evt);
-            }
-        });*/
-
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+         jBTAlterarActionPerformed(evt);
+         }
+         });*/
+        
         jBTSalvar.setText("Salvar");
         jBTSalvar.setEnabled(false);
         /*jBTSalvar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBTSalvarActionPerformed(evt);
-            }
-        });*/
-
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+         jBTSalvarActionPerformed(evt);
+         }
+         });*/
+        
         jBTExcluir.setText("Excluir");
         jBTExcluir.setEnabled(false);
         /*jBTExcluir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBTExcluirActionPerformed(evt);
-            }
-        });*/
-
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+         jBTExcluirActionPerformed(evt);
+         }
+         });*/
+        
         jBTCadastrar.setText("Cadastrar");
         /*jBTCadastrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBTCadastrarActionPerformed(evt);
-            }
-        });*/
-
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+         jBTCadastrarActionPerformed(evt);
+         }
+         });*/
+        
         jBTConfirmar.setText("Confirmar");
         jBTConfirmar.setEnabled(false);
         /*jBTConfirmar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBTConfirmarActionPerformed(evt);
-            }
-        });*/
-
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+         jBTConfirmarActionPerformed(evt);
+         }
+         });*/
+        
         jBTCancelar.setText("Cancelar");
         jBTCancelar.setEnabled(false);
         /*jBTCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBTCancelarActionPerformed(evt);
-            }
-        });*/
+         public void actionPerformed(java.awt.event.ActionEvent evt) {
+         jBTCancelarActionPerformed(evt);
+         }
+         });*/
 
         javax.swing.GroupLayout jPBotoesLayout = new javax.swing.GroupLayout(jPBotoes);
         jPBotoes.setLayout(jPBotoesLayout);
@@ -213,9 +224,9 @@ public class FormTemplate extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTFNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFNomeActionPerformed
+    private void jTFBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFBuscaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTFNomeActionPerformed
+    }//GEN-LAST:event_jTFBuscaActionPerformed
 
     protected void jBTCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBTCadastrarActionPerformed
         this.jBTConfirmar.setEnabled(true);
@@ -288,6 +299,18 @@ public class FormTemplate extends javax.swing.JFrame {
         this.jBTCancelar.setEnabled(false);
     }//GEN-LAST:event_jBTCancelarActionPerformed
 
+    protected void jTFBuscaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFBuscaKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTFBuscaKeyReleased
+    
+    protected void jTFBuscaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFBuscaKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTFBuscaKeyPressed
+    
+    protected void jTFBuscaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFBuscaKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTFBuscaKeyTyped
+
     /**
      * @param args the command line arguments
      */
@@ -346,13 +369,13 @@ public class FormTemplate extends javax.swing.JFrame {
     protected javax.swing.JButton jBTExcluir;
     protected javax.swing.JButton jBTSalvar;
     protected javax.swing.JLabel jLBusca;
-    private javax.swing.JLabel jLInstrucao;
+    protected javax.swing.JLabel jLInstrucao;
     protected javax.swing.JPanel jPBotoes;
     protected javax.swing.JPanel jPBuscar;
     private javax.swing.JPanel jPanel1;
-    protected javax.swing.JScrollPane jScrollPane1;
+    protected javax.swing.JScrollPane jSPTable;
     private javax.swing.JSeparator jSeparator1;
     protected javax.swing.JTable jTBBuscaRapida;
-    protected javax.swing.JTextField jTFNome;
+    protected javax.swing.JTextField jTFBusca;
     // End of variables declaration//GEN-END:variables
 }

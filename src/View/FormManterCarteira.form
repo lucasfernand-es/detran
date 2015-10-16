@@ -227,6 +227,9 @@
             </Component>
             <Component class="javax.swing.JRadioButton" name="jRBSimStatus">
               <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="bGStatus"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="49"/>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Sim"/>
@@ -239,6 +242,9 @@
             </Component>
             <Component class="javax.swing.JRadioButton" name="jRBNaoStatus">
               <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="bGStatus"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="48"/>
                 <Property name="text" type="java.lang.String" value="N&#xe3;o"/>
                 <Property name="enabled" type="boolean" value="false"/>
@@ -251,6 +257,9 @@
             </Component>
             <Component class="javax.swing.JRadioButton" name="jRBSimPermissao">
               <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="bgPermissao"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="49"/>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Sim"/>
@@ -263,6 +272,9 @@
             </Component>
             <Component class="javax.swing.JRadioButton" name="jRBNaoPermissao">
               <Properties>
+                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                  <ComponentRef name="bgPermissao"/>
+                </Property>
                 <Property name="mnemonic" type="int" value="48"/>
                 <Property name="text" type="java.lang.String" value="N&#xe3;o"/>
                 <Property name="enabled" type="boolean" value="false"/>
