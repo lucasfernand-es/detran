@@ -337,9 +337,10 @@ public final class FormManterCarteira extends FormTemplate {
         setSize(new java.awt.Dimension(650, 185));
 
         jPManter.setPreferredSize(new java.awt.Dimension(650, 200));
+        jPManter.setSize(new java.awt.Dimension(0, 0));
 
         jPDados.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados da Carteira"));
-        jPDados.setSize(new java.awt.Dimension(650, 190));
+        jPDados.setRequestFocusEnabled(false);
 
         jDCDataEmissao.setDateFormatString("d MMM , yyyy");
         jDCDataEmissao.setEnabled(false);
