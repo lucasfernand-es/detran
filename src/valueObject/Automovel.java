@@ -10,7 +10,7 @@ public class Automovel {
         private String chassi;
         private int ano;
         private boolean status;
-        private Pessoa pessoa;
+        private Pessoa proprietario;
 
         // ID deste objeto no banco de dados
         private int idAutomovel;
@@ -27,6 +27,23 @@ public class Automovel {
         // Especificação do erro
         private String message;
 
+    
+    public Automovel(String renavam, String marca, String modelo, String cor,
+            String placa, String chassi, int ano, boolean status, 
+            Pessoa proprietario, int idAutomovel) {
+        this.renavam = renavam;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.cor = cor;
+        this.placa = placa;
+        this.chassi = chassi;
+        this.ano = ano;
+        this.status = status;
+        this.proprietario = proprietario;
+        this.idAutomovel = idAutomovel;
+    }
+    public Automovel() {
+    }
     
     /**
      * @return the renavam
@@ -129,15 +146,15 @@ public class Automovel {
     /**
      * @return the pessoa
      */
-    public Pessoa getPessoa() {
-        return pessoa;
+    public Pessoa getProprietario() {
+        return proprietario;
     }
 
     /**
      * @param pessoa the pessoa to set
      */
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
+    public void setProprietario(Pessoa proprietario) {
+        this.proprietario = proprietario;
     }
 
     /**
