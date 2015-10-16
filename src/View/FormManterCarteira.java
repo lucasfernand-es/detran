@@ -425,7 +425,7 @@ public final class FormManterCarteira extends FormTemplate {
                         .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jDCDataEmissao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jDCDataVencimento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jCBTipo, 0, 179, Short.MAX_VALUE))
+                            .addComponent(jCBTipo, 0, 173, Short.MAX_VALUE))
                         .addContainerGap())
                     .addGroup(jPDadosLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
@@ -499,6 +499,7 @@ public final class FormManterCarteira extends FormTemplate {
         jPManterLayout.setHorizontalGroup(
             jPManterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPManterLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPDados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -507,7 +508,7 @@ public final class FormManterCarteira extends FormTemplate {
             .addGroup(jPManterLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPDados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPManter, java.awt.BorderLayout.CENTER);
