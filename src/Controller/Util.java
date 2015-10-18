@@ -7,9 +7,12 @@ package Controller;
 
 import Model.PessoaModel;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Date;
 import valueObject.Automovel;
+import valueObject.Autuacao;
 import valueObject.Carteira;
+import valueObject.Multa;
 import valueObject.Pessoa;
 
 /**
@@ -86,6 +89,13 @@ public class Util {
         pessoa = PessoaController.buscarPessoaID(pessoa);
         return pessoa;
     }
+    private static Automovel getAutomovel(int idAutomovel) {
+        Automovel automovel = new Automovel();
+        automovel.setIdAutomovel(idAutomovel);
+        
+        automovel = AutomovelController.buscarAutomovel(automovel, "ID").get(0);
+        return automovel;
+    }
     
     public static Automovel criarAutomovel(ResultSet rs) {
         Automovel automovel;
@@ -113,6 +123,59 @@ public class Util {
             automovel.setMessage(e.getMessage());
             return null;
         }
+    }
+    public static Multa criarMulta(ResultSet rs) {
+        Multa multa;
+        try {
+            Date dataEmissao;
+            try {
+                dataEmissao = rs.getDate("dataEmissao");
+            } catch(Exception e) {
+                dataEmissao = null;
+            }
+            float taxaAcrescimo = rs.getFloat("taxaAcrescimo");
+            Date dataPagamento;
+            try {
+                dataPagamento = rs.getDate("dataPagamento");
+            } catch(Exception e) {
+                dataPagamento = null;
+            }
+            int idAutomovel = rs.getInt("idAutomovel");
+            Automovel automovel = Util.getAutomovel(idAutomovel);
+            int idPessoa = rs.getInt("idPessoa");
+            Pessoa pessoa = null; //Util.getPessoa(idPessoa);
+            int idCarteira = rs.getInt("idCarteira");
+            Carteira carteira = null; //Util.getCarteira(idCarteira);
+            int idAutuacao = rs.getInt("idAutuacao");
+            Autuacao autuacao = null; //Util.getAutuacao(idAutuacao);
+            int idMulta = rs.getInt("idMulta");
+            
+            multa = new Multa(
+                    dataEmissao, taxaAcrescimo, dataPagamento, automovel, pessoa, carteira, autuacao, idMulta
+            );
+            return multa;
+        } catch(Exception e) {
+            multa = new Multa();
+            multa.setError(true);
+            multa.setMessage(e.getMessage());
+            return null;
+        }
+    }
+    public static int multasPendentesCount(int idAutomovel) {
+        Multa multa = new Multa();
+        Automovel automovel = new Automovel();
+        automovel.setIdAutomovel(idAutomovel);
+        multa.setAutomovel(automovel);
+        
+        ArrayList<Multa> list = MultaController.buscarMulta(multa, "IDAUTOMOVEL");
+        
+        int count = 0;
+        for(int i=0; i<list.size(); i++) {
+            if(list.get(i).getDataPagamento() == null) {
+                count++;
+            }
+        }
+        return count;
     }
     
 }

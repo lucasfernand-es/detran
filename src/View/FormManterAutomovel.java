@@ -70,7 +70,7 @@ public final class FormManterAutomovel extends FormTemplate {
 
     
     public void iniciarComponentes() {
-        super.setSize(714, 706);
+        super.setSize(714, 776);
         
         super.jTBBuscaRapida.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
@@ -176,8 +176,6 @@ public final class FormManterAutomovel extends FormTemplate {
         jTFPlaca.setEnabled(true);
         jTFChassi.setEnabled(true);
         jTFAno.setEnabled(true);
-        jRBSimStatus.setEnabled(true);
-        jRBNaoStatus.setEnabled(true);
         jCBProprietario.setEnabled(true);
         super.getjTFBusca().setEnabled(false);
         super.getjTBBuscaRapida().setEnabled(false);
@@ -192,8 +190,6 @@ public final class FormManterAutomovel extends FormTemplate {
         jTFPlaca.setEnabled(false);
         jTFChassi.setEnabled(false);
         jTFAno.setEnabled(false);
-        jRBSimStatus.setEnabled(false);
-        jRBNaoStatus.setEnabled(false);
         jCBProprietario.setEnabled(false);
         super.getjTFBusca().setEnabled(true);
         super.getjTBBuscaRapida().setEnabled(true);
@@ -225,9 +221,6 @@ public final class FormManterAutomovel extends FormTemplate {
         jTFPlaca.setText("");
         jTFChassi.setText("");
         jTFAno.setText("");
-        
-        // Por definição
-        jRBSimStatus.setSelected(true);
         
         // Verificação para selecionar um item no comboBox
         if(jCBProprietario.getItemCount() == 0){
@@ -284,10 +277,6 @@ public final class FormManterAutomovel extends FormTemplate {
         super.jBTCadastrarActionPerformed(evt);
 
         liberarComponentes();
-        
-        // Por definição, não é possível criar usuário desativado
-        jRBSimStatus.setEnabled(false);
-        jRBNaoStatus.setEnabled(false);
     }
 
     @Override
@@ -299,13 +288,12 @@ public final class FormManterAutomovel extends FormTemplate {
         String placa = jTFPlaca.getText();
         String chassi = jTFChassi.getText();
         String ano = jTFAno.getText();
-        boolean status = (jRBSimStatus.isSelected());
         Pessoa auxProprietario = (Pessoa) jCBProprietario.getSelectedItem();
         
         Automovel automovel =  new Automovel (
                 renavam, marca, modelo, cor,
                 placa, chassi, auxProprietario, ano, 
-                status, -1
+                true, -1
         );
         // Nenhum erro até o momento
         automovel.setError(false);
@@ -350,13 +338,12 @@ public final class FormManterAutomovel extends FormTemplate {
         String placa = jTFPlaca.getText();
         String chassi = jTFChassi.getText();
         String ano = jTFAno.getText();
-        boolean status = (jRBSimStatus.isSelected());
         Pessoa auxProprietario = (Pessoa) jCBProprietario.getSelectedItem();
         
         Automovel automovel =  new Automovel (
                 renavam, marca, modelo, cor,
                 placa, chassi, auxProprietario, ano, 
-                status, this.idAutomovel
+                true, this.idAutomovel
         );
         // Nenhum erro até o momento
         automovel.setError(false);
@@ -442,9 +429,6 @@ public final class FormManterAutomovel extends FormTemplate {
         jTFChassi = new javax.swing.JTextField();
         jTFAno = new javax.swing.JTextField();
         jCBProprietario = new javax.swing.JComboBox();
-        jLabel4 = new javax.swing.JLabel();
-        jRBSimStatus = new javax.swing.JRadioButton();
-        jRBNaoStatus = new javax.swing.JRadioButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -476,25 +460,6 @@ public final class FormManterAutomovel extends FormTemplate {
 
         jCBProprietario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Titular 1", "Titular 2", "Titular 3" }));
         jCBProprietario.setEnabled(false);
-
-        jLabel4.setText("Ativo");
-
-        bGStatus.add(jRBSimStatus);
-        jRBSimStatus.setMnemonic('1');
-        jRBSimStatus.setSelected(true);
-        jRBSimStatus.setText("Sim");
-        jRBSimStatus.setToolTipText("");
-        jRBSimStatus.setEnabled(false);
-        jRBSimStatus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRBSimStatusActionPerformed(evt);
-            }
-        });
-
-        bGStatus.add(jRBNaoStatus);
-        jRBNaoStatus.setMnemonic('0');
-        jRBNaoStatus.setText("Não");
-        jRBNaoStatus.setEnabled(false);
 
         jLabel8.setText("Marca");
 
@@ -547,7 +512,6 @@ public final class FormManterAutomovel extends FormTemplate {
                     .addComponent(jLabel10)
                     .addGroup(jPDadosLayout.createSequentialGroup()
                         .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
                             .addComponent(jLabel14)
                             .addComponent(jLabel12)
                             .addComponent(jLabel11))
@@ -564,10 +528,6 @@ public final class FormManterAutomovel extends FormTemplate {
                             .addComponent(jTFMarca)
                             .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jTFChassi, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
-                                .addGroup(jPDadosLayout.createSequentialGroup()
-                                    .addComponent(jRBSimStatus)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jRBNaoStatus))
                                 .addComponent(jTFCor))
                             .addComponent(jTFPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(170, Short.MAX_VALUE))
@@ -605,11 +565,6 @@ public final class FormManterAutomovel extends FormTemplate {
                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCBProprietario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRBSimStatus)
-                    .addComponent(jRBNaoStatus)
-                    .addComponent(jLabel4))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -633,10 +588,6 @@ public final class FormManterAutomovel extends FormTemplate {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jRBSimStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBSimStatusActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRBSimStatusActionPerformed
 
     private void jTFPlacaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFPlacaFocusGained
         this.jTFPlaca.setText(null);
@@ -691,13 +642,10 @@ public final class FormManterAutomovel extends FormTemplate {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPDados;
     private javax.swing.JPanel jPManter;
-    private javax.swing.JRadioButton jRBNaoStatus;
-    private javax.swing.JRadioButton jRBSimStatus;
     private javax.swing.JTextField jTFAno;
     private javax.swing.JTextField jTFChassi;
     private javax.swing.JTextField jTFCor;

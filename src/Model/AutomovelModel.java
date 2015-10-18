@@ -6,6 +6,7 @@
 package Model;
 
 import Connector.MySQLConnector;
+import Controller.MultaController;
 import Controller.Util;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +15,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import valueObject.Automovel;
+import valueObject.Multa;
 import valueObject.Pessoa;
 
 /**
@@ -139,6 +141,13 @@ public class AutomovelModel {
             MySQLConnector mCon = new MySQLConnector();
             Connection con = mCon.connect();
             
+            int multas_pendentes = Util.multasPendentesCount(automovel.getIdAutomovel());
+            if(multas_pendentes > 0) {
+                automovel.setError(true);
+                automovel.setMessage("Há multas pendentes neste veículo\n");
+                return;
+            }
+            
             // SQL que vai ser executada
             // UPDATE automovel SET status = false WHERE idAutomovel = ?
             String query = 
@@ -185,6 +194,7 @@ public class AutomovelModel {
             DEFAULT - Busca todos os possíveis
             STATUS - Busca todas os automoveis com o status == ? 
             RENAVAM - Busca todos os automoveis com o renavam LIKE ?
+            ID - Busca todos os automoveis com o idAutomovel == ?
             */
             switch(tipo) {
                 case "RENAVAM":
@@ -194,6 +204,10 @@ public class AutomovelModel {
                 case "STATUS":
                     stm = con.prepareStatement("SELECT * FROM automovel WHERE status = ?");
                     stm.setBoolean(1, automovel.isStatus());
+                    break;
+                case "ID":
+                    stm = con.prepareStatement("SELECT * FROM automovel WHERE idAutomovel = ?");
+                    stm.setInt(1, automovel.getIdAutomovel());
                     break;
                 default: 
                     stm = con.prepareStatement("SELECT * FROM automovel");
