@@ -92,19 +92,19 @@ public class Util {
         try {
             // Criando objeto para receber os dados preenchidos na tela
             String renavam = rs.getString("renavam");
-            String marca = rs.getString("cpf");
-            String modelo = rs.getString("rg");
-            String cor = rs.getString("orgaoEmissor");
-            String placa = rs.getString("rgEstado");
-            String chassi = rs.getString("logradouro");
-            int ano = rs.getInt("ano");
+            String marca = rs.getString("marca");
+            String modelo = rs.getString("modelo");
+            String cor = rs.getString("cor");
+            String placa = rs.getString("placa");
+            String chassi = rs.getString("chassi");
+            int idProprietario = rs.getInt("idPessoa");
+            Pessoa proprietario = Util.getPessoa(idProprietario);
+            String ano = rs.getString("ano");
             boolean status = rs.getBoolean("status");
-            // todo
-            //Pessoa proprietario = 
             int idAutomovel = rs.getInt("idAutomovel");
             
             automovel = new Automovel(renavam, marca, modelo, cor, placa,
-                    chassi, ano, status, null, idAutomovel);
+                    chassi, proprietario, ano, status, idAutomovel);
             return automovel;
         }
         catch(Exception e) {
@@ -113,6 +113,34 @@ public class Util {
             automovel.setMessage(e.getMessage());
             return null;
         }
+    }
+    
+    static boolean allDigits(String aux) {
+        for(int i=0; i<aux.length(); i++) {
+            if(aux.charAt(i) < '0' || aux.charAt(i) > '9') {
+                return false;
+            }
+        }
+        return true;
+    }
+    static boolean allAlpha(String aux) {
+        aux = aux.toLowerCase();
+        for(int i=0; i<aux.length(); i++) {
+            if(aux.charAt(i) < 'a' || aux.charAt(i) > 'z') {
+                return false;
+            }
+        }
+        return true;
+    }
+    static boolean allAlphaNumeric(String aux) {
+        aux = aux.toLowerCase();
+        for(int i=0; i<aux.length(); i++) {
+            if((aux.charAt(i) < 'a' || aux.charAt(i) > 'z') && 
+            (aux.charAt(i) < '0' || aux.charAt(i) > '9')) {
+                return false;
+            }
+        }
+        return true;
     }
     
 }

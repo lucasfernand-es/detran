@@ -33,7 +33,7 @@ public class AutomovelModel {
                     "insert into automovel("
                             + "renavam, marca, modelo, "
                             + "cor, placa, chassi, "
-                            + "ano, idPessoa, status) "
+                            + "idPessoa, ano, status) "
                     + "values(?, ?, ?, ?, ?, ?, ?, ?, ?)");
             
             PreparedStatement stm;
@@ -46,10 +46,8 @@ public class AutomovelModel {
             stm.setString(4, automovel.getCor());
             stm.setString(5, automovel.getPlaca());
             stm.setString(6, automovel.getChassi());
-            stm.setInt(7, automovel.getAno());
-            
-            stm.setInt(8, automovel.getProprietario().getIdPessoa());
-            
+            stm.setInt(7, automovel.getProprietario().getIdPessoa());
+            stm.setString(8, automovel.getAno());
             stm.setBoolean(9, automovel.isStatus());
             
             // Confere se alguma linha do BD foi modificada
@@ -63,7 +61,7 @@ public class AutomovelModel {
                 keys.next();  
                 
                 int key = keys.getInt(1);
-                //System.out.println(key);
+                System.out.println("key: " + key);
                 // Adicionando pro Objeto o devido ID
                 automovel.setIdAutomovel(key);
             }
@@ -80,7 +78,6 @@ public class AutomovelModel {
     }
     
     public static ArrayList<Automovel>  buscarAutomovel(Automovel automovel, String tipo) {
-
         try {
             // Connect with database
             MySQLConnector mCon = new MySQLConnector();
@@ -92,21 +89,26 @@ public class AutomovelModel {
             ResultSet rs;
             PreparedStatement stm;
             /*
-            DEFAULT - Busca todos as possíveis
-            STATUS - Busca todas as pessoas com o status == ? 
+            DEFAULT - Busca todos os possíveis
+            STATUS - Busca todas os automoveis com o status == ? 
+            RENAVAM - Busca todos os automoveis com o renavam LIKE ?
             */
             switch(tipo) {
+                case "RENAVAM":
+                    stm = con.prepareStatement("SELECT * FROM automovel WHERE renavam LIKE ?");
+                    stm.setString(1, automovel.getRenavam() + '%');
+                    break;
                 case "STATUS":
-                    stm  = con.prepareStatement("SELECT * FROM automovel WHERE status = ?");
+                    stm = con.prepareStatement("SELECT * FROM automovel WHERE status = ?");
                     stm.setBoolean(1, automovel.isStatus());
                     break;
                 default: 
-                    stm  = con.prepareStatement("SELECT * FROM automovel");
+                    stm = con.prepareStatement("SELECT * FROM automovel");
                     break;
             }
             
             rs = stm.executeQuery();
-                    
+            
             while (rs.next()) {
                 Automovel automovelVO = Util.criarAutomovel(rs);
                 automovelList.add(automovelVO);

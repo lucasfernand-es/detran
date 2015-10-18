@@ -422,7 +422,6 @@ public final class FormManterPessoa extends FormTemplate {
         setSize(new java.awt.Dimension(650, 185));
 
         jPManterPessoa.setPreferredSize(new java.awt.Dimension(650, 370));
-        jPManterPessoa.setSize(new java.awt.Dimension(0, 0));
 
         jPEndereco.setBorder(javax.swing.BorderFactory.createTitledBorder("Endereço"));
 
@@ -758,7 +757,7 @@ public final class FormManterPessoa extends FormTemplate {
                 .addComponent(jPDados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
+                .addGap(55, 55, 55))
         );
 
         getContentPane().add(jPManterPessoa, java.awt.BorderLayout.CENTER);

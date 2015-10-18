@@ -7,19 +7,28 @@
 package View;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 
 /**
  *
  * @author LucasFernandes
  */
 public class FormTemplate extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form FormTemplate
      */
     public FormTemplate() {
         initComponents();
-        
+    }
+    
+    public JTextField getjTFBusca() {
+        return jTFBusca;
+    }
+    
+    public JTable getjTBBuscaRapida() {
+        return jTBBuscaRapida;
     }
 
     /**
@@ -69,7 +78,7 @@ public class FormTemplate extends javax.swing.JFrame {
                 jTFBuscaActionPerformed(evt);
             }
         });
-        /*jTFBusca.addKeyListener(new java.awt.event.KeyAdapter() {
+        jTFBusca.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTFBuscaKeyTyped(evt);
             }
@@ -79,7 +88,7 @@ public class FormTemplate extends javax.swing.JFrame {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTFBuscaKeyReleased(evt);
             }
-        });*/
+        });
 
         jTBBuscaRapida.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -115,7 +124,7 @@ public class FormTemplate extends javax.swing.JFrame {
                         .addComponent(jLBusca)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTFBusca))
-                    .addComponent(jSPTable, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE))
+                    .addComponent(jSPTable, javax.swing.GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPBuscarLayout.setVerticalGroup(
@@ -128,59 +137,60 @@ public class FormTemplate extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLInstrucao, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSPTable, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jSPTable, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40))
         );
 
         getContentPane().add(jPBuscar, java.awt.BorderLayout.PAGE_START);
 
         jPBotoes.setPreferredSize(new java.awt.Dimension(600, 50));
-        
+
         jBTAlterar.setText("Alterar");
         jBTAlterar.setEnabled(false);
-        /*jBTAlterar.addActionListener(new java.awt.event.ActionListener() {
-         public void actionPerformed(java.awt.event.ActionEvent evt) {
-         jBTAlterarActionPerformed(evt);
-         }
-         });*/
-        
+        jBTAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBTAlterarActionPerformed(evt);
+            }
+        });
+
         jBTSalvar.setText("Salvar");
         jBTSalvar.setEnabled(false);
-        /*jBTSalvar.addActionListener(new java.awt.event.ActionListener() {
-         public void actionPerformed(java.awt.event.ActionEvent evt) {
-         jBTSalvarActionPerformed(evt);
-         }
-         });*/
-        
+        jBTSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBTSalvarActionPerformed(evt);
+            }
+        });
+
         jBTExcluir.setText("Excluir");
         jBTExcluir.setEnabled(false);
-        /*jBTExcluir.addActionListener(new java.awt.event.ActionListener() {
-         public void actionPerformed(java.awt.event.ActionEvent evt) {
-         jBTExcluirActionPerformed(evt);
-         }
-         });*/
-        
+        jBTExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBTExcluirActionPerformed(evt);
+            }
+        });
+
         jBTCadastrar.setText("Cadastrar");
-        /*jBTCadastrar.addActionListener(new java.awt.event.ActionListener() {
-         public void actionPerformed(java.awt.event.ActionEvent evt) {
-         jBTCadastrarActionPerformed(evt);
-         }
-         });*/
-        
+        jBTCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBTCadastrarActionPerformed(evt);
+            }
+        });
+
         jBTConfirmar.setText("Confirmar");
         jBTConfirmar.setEnabled(false);
-        /*jBTConfirmar.addActionListener(new java.awt.event.ActionListener() {
-         public void actionPerformed(java.awt.event.ActionEvent evt) {
-         jBTConfirmarActionPerformed(evt);
-         }
-         });*/
-        
+        jBTConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBTConfirmarActionPerformed(evt);
+            }
+        });
+
         jBTCancelar.setText("Cancelar");
         jBTCancelar.setEnabled(false);
-        /*jBTCancelar.addActionListener(new java.awt.event.ActionListener() {
-         public void actionPerformed(java.awt.event.ActionEvent evt) {
-         jBTCancelarActionPerformed(evt);
-         }
-         });*/
+        jBTCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBTCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPBotoesLayout = new javax.swing.GroupLayout(jPBotoes);
         jPBotoes.setLayout(jPBotoesLayout);

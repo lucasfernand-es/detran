@@ -29,13 +29,12 @@ public class MySQLConnector {
      * @throws Exception
      */
     public Connection connect() throws Exception {
-        System.out.println("hora de conectarmos no banco");
         try {
             if(connection != null)
                 return connection;
             else {
-                Class.forName("com.mysql.jdbc.Driver");
-                connection = DriverManager.getConnection("jdbc:mysql://localhost:8889/Detran","root","root");
+                Class.forName("com.mysql.jdbc.Driver"); // lucas port = 8889, cristhian port = 3306
+                connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/Detran","root","root");
                 return connection;
             }
         } catch (ClassNotFoundException ex) {
