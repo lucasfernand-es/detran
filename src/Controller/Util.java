@@ -115,32 +115,4 @@ public class Util {
         }
     }
     
-    static boolean allDigits(String aux) {
-        for(int i=0; i<aux.length(); i++) {
-            if(aux.charAt(i) < '0' || aux.charAt(i) > '9') {
-                return false;
-            }
-        }
-        return true;
-    }
-    static boolean allAlpha(String aux) {
-        aux = aux.toLowerCase();
-        for(int i=0; i<aux.length(); i++) {
-            if(aux.charAt(i) < 'a' || aux.charAt(i) > 'z') {
-                return false;
-            }
-        }
-        return true;
-    }
-    static boolean allAlphaNumeric(String aux) {
-        aux = aux.toLowerCase();
-        for(int i=0; i<aux.length(); i++) {
-            if((aux.charAt(i) < 'a' || aux.charAt(i) > 'z') && 
-            (aux.charAt(i) < '0' || aux.charAt(i) > '9')) {
-                return false;
-            }
-        }
-        return true;
-    }
-    
 }

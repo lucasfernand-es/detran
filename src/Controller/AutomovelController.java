@@ -20,19 +20,28 @@ public class AutomovelController {
     
     public static void cadastrarAutomovel(Automovel automovel) {
         boolean verifica = AutomovelController.verificarCampos(automovel);
-        
         if(!verifica) {
             automovel.setError(true);
             // Algum dado informado é inválido
             return;
         }
         AutomovelModel.cadastrarAutomovel(automovel);
-        
+    }
+    public static void alterarAutomovel(Automovel automovel) {
+        boolean verifica = AutomovelController.verificarCampos(automovel);
+        if(!verifica) {
+            automovel.setError(true);
+            // Algum dado informado é inválido
+            return;
+        }
+        AutomovelModel.alterarAutomovel(automovel);
+    }
+    public static void excluirAutomovel(Automovel automovel) {
+        AutomovelModel.excluirAutomovel(automovel);
     }
     
     private static boolean verificarCampos(Automovel automovel) {
         String mensagem = "";
-        System.out.println("verifica");
         
         // vazios
         if(automovel.getRenavam().equals(""))
@@ -112,40 +121,6 @@ public class AutomovelController {
     
     private static boolean checaFormatoRenavam(String renavam) {
         return renavam.matches("[0-9]+");
-    }
-    
-    private static boolean mascaraPlaca(Automovel automovel) {
-        String pattern = "###-####";
-        String placa = automovel.getPlaca();
-        // Retirar pontos ou traços
-        placa = placa.replace("-", "");
-        placa = placa.toUpperCase();
-        
-        // Caso a pesquisa por CPF for 'vazia', pesquisa todos
-        if(placa.equals("")) 
-            return true;
-        // Se o CPF não contém nenhum número ou não estar vazio
-        // Se o CPF tiver mais de 11 caracteres
-        else if((!placa.substring(0, 3).matches("[A-Z]+")
-                && !placa.substring(3, 7).matches("[0-9]+") )
-                || (placa.length() > 7) ) 
-            return false;
-        
-        if(placa.length() < 7)
-        {
-            //Adicionando 0's para fazer a função Pattern dar certo
-            for (int i = placa.length(); i <= 11; i++)
-                placa = placa.concat("0");
-        }
-        
-        
-        String newPlaca = format(pattern, placa);
-        System.out.println(newPlaca + " com mask \t" + placa + " sem mask");
-        if(newPlaca.equals("ERROR"))
-            return false;
-        
-        automovel.setPlaca(newPlaca);
-        return true;
     }
     
 }

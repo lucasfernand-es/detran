@@ -13,6 +13,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import valueObject.Automovel;
 import valueObject.Carteira;
@@ -29,6 +30,7 @@ public final class FormManterAutomovel extends FormTemplate {
     private int titularIndex = 0;
     private ArrayList <Pessoa> titularList = new ArrayList<>();
     private boolean editing = false;
+    private int idAutomovel;
    
     private static FormManterAutomovel manterForm = null;
 
@@ -108,6 +110,8 @@ public final class FormManterAutomovel extends FormTemplate {
                 jTBBuscaRapidaMouseClicked(evt);
             }
         });
+        DefaultTableModel tableModel = (DefaultTableModel) super.jTBBuscaRapida.getModel();
+        tableModel.setRowCount(0);
 
         jBTAlterar.setText("Alterar");
         jBTAlterar.setEnabled(false);
@@ -153,24 +157,8 @@ public final class FormManterAutomovel extends FormTemplate {
             return;
         }
         
-        // Caso a carteira tenha sido recém criada, devemos por como seleção default
-        // no jCBTitular, caso contrário será 0
-        
-        // Para diminuir o número de comparações para 2, terá dois "for" diferentes
-        if (proprietario == null) {
-            for (Pessoa pessoaItem : newTitularList) {
-                jCBProprietario.addItem(pessoaItem);
-            }
-        }
-        else {
-            for (Pessoa pessoaItem : newTitularList) {
-                jCBProprietario.addItem(pessoaItem);
-                // Se o titular selecionado e o item atual tiveram o mesmo ID
-                // esse será o novo indexTitular
-                // Seleciona o último Item selecionado
-                if( isTitularIndex(pessoaItem) ) 
-                    titularIndex = jCBProprietario.getItemCount()-1;
-            }
+        for (Pessoa pessoaItem : newTitularList) {
+            jCBProprietario.addItem(pessoaItem);
         }
         
     }
@@ -210,6 +198,21 @@ public final class FormManterAutomovel extends FormTemplate {
         super.getjTFBusca().setEnabled(true);
         super.getjTBBuscaRapida().setEnabled(true);
         editing = false;
+    }
+    public void preencheComponentes(Automovel automovel) {
+        jTFRenavam.setText(automovel.getRenavam());
+        jTFMarca.setText(automovel.getMarca());
+        jTFModelo.setText(automovel.getModelo());
+        jTFCor.setText(automovel.getCor());
+        jTFPlaca.setText(automovel.getPlaca());
+        jTFChassi.setText(automovel.getChassi());
+        jTFAno.setText(automovel.getAno());
+        for(int i=0; i<jCBProprietario.getItemCount(); i++) {
+            if(((Pessoa)jCBProprietario.getItemAt(i)).getCpf().equals( automovel.getProprietario().getCpf() )) {
+                jCBProprietario.setSelectedIndex(i);
+                break;
+            }
+        }
     }
 
     // Define valores nulos para todos os componentes
@@ -299,13 +302,10 @@ public final class FormManterAutomovel extends FormTemplate {
         boolean status = (jRBSimStatus.isSelected());
         Pessoa auxProprietario = (Pessoa) jCBProprietario.getSelectedItem();
         
-        // ID deste objeto no banco de dados
-        int idAutomovel = -1;
-        
         Automovel automovel =  new Automovel (
                 renavam, marca, modelo, cor,
                 placa, chassi, auxProprietario, ano, 
-                status, idAutomovel
+                status, -1
         );
         // Nenhum erro até o momento
         automovel.setError(false);
@@ -324,28 +324,87 @@ public final class FormManterAutomovel extends FormTemplate {
                 bloquearComponentes();
                 limparComponentes();
         }
-    } 
+    }
     @Override
     protected void jBTAlterarActionPerformed(java.awt.event.ActionEvent evt) {
         super.jBTAlterarActionPerformed(evt);
 
         liberarComponentes();
+        
+        DefaultTableModel tableModel = (DefaultTableModel) super.jTBBuscaRapida.getModel();
+        String renavam = (String) tableModel.getValueAt(super.jTBBuscaRapida.getSelectedRow(), 1);
+        Automovel automovel = new Automovel();
+        automovel.setRenavam(renavam);
+        automovel = AutomovelController.buscarAutomovel(automovel, "RENAVAM").get(0);
+        
+        preencheComponentes(automovel);
+        idAutomovel = automovel.getIdAutomovel();
     }
 
     @Override
     protected void jBTSalvarActionPerformed(java.awt.event.ActionEvent evt) {
-        super.jBTSalvarActionPerformed(evt);
+        String renavam = jTFRenavam.getText();
+        String marca = jTFMarca.getText();
+        String modelo = jTFModelo.getText();
+        String cor = jTFCor.getText();
+        String placa = jTFPlaca.getText();
+        String chassi = jTFChassi.getText();
+        String ano = jTFAno.getText();
+        boolean status = (jRBSimStatus.isSelected());
+        Pessoa auxProprietario = (Pessoa) jCBProprietario.getSelectedItem();
+        
+        Automovel automovel =  new Automovel (
+                renavam, marca, modelo, cor,
+                placa, chassi, auxProprietario, ano, 
+                status, this.idAutomovel
+        );
+        // Nenhum erro até o momento
+        automovel.setError(false);
+        automovel.setMessage("");
 
-        bloquearComponentes();
-        limparComponentes();
+        AutomovelController.alterarAutomovel(automovel);
+        
+        if(automovel.isError()){
+                Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
+                        automovel.getMessage());
+            }
+        else {
+                Aviso.showInformation(automovel.getMessage());
+                super.jBTSalvarActionPerformed(evt);
+                bloquearComponentes();
+                limparComponentes();
+                jTFBuscaKeyReleased(null);
+        }
     }
 
     @Override
     protected void jBTExcluirActionPerformed(java.awt.event.ActionEvent evt) {
-        super.jBTExcluirActionPerformed(evt);
-
-        bloquearComponentes();
-        limparComponentes();
+        if(JOptionPane.showConfirmDialog(
+                null, 
+                "Você realmente deseja excluir estes dados?",
+                "Alerta de exclusão de dados",
+                JOptionPane.YES_NO_OPTION) == 1) 
+            return;
+        
+        DefaultTableModel tableModel = (DefaultTableModel) super.jTBBuscaRapida.getModel();
+        String renavam = (String) tableModel.getValueAt(super.jTBBuscaRapida.getSelectedRow(), 1);
+        Automovel automovel = new Automovel();
+        automovel.setRenavam(renavam);
+        automovel = AutomovelController.buscarAutomovel(automovel, "RENAVAM").get(0);
+        
+        AutomovelController.excluirAutomovel(automovel);
+        
+        if(automovel.isError()){
+                Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
+                        automovel.getMessage());
+            }
+        else {
+                Aviso.showInformation(automovel.getMessage());
+                super.jBTSalvarActionPerformed(evt);
+                bloquearComponentes();
+                limparComponentes();
+                jTFBuscaKeyReleased(null);
+        }
     }
 
     @Override
