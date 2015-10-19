@@ -5,7 +5,7 @@
  */
 package Controller;
 
-import Model.PessoaModel;
+
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,9 +43,15 @@ public class Util {
             boolean status = rs.getBoolean("status");
             int idPessoa = rs.getInt("idPessoa");
             
+            ArrayList<Carteira> carteiras = Util.getCarteiraList(idPessoa);
+            ArrayList<Automovel> automoveis = Util.getAutomovelList(idPessoa);
+            
+            
             pessoa = new Pessoa(nome, cpf, rg, orgaoEmissor, rgEstado, 
                     dataNascimento, logradouro,  numeroLogradouro, complementoLogradouro, 
                     bairro, cidade, estado, cep, nomeMae, nomePai, status, idPessoa);
+            pessoa.setAutomoveis(automoveis);
+            pessoa.setCarteiras(carteiras);
             return pessoa;
         }
         catch(Exception e) {
@@ -169,6 +175,48 @@ public class Util {
         
         ArrayList<Multa> list = MultaController.buscarMulta(multa, "IDAUTOMOVEL");
         
+        int count = 0;
+        for(int i=0; i<list.size(); i++) {
+            if(list.get(i).getDataPagamento() == null) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private static ArrayList<Carteira> getCarteiraList(int idPessoa) {
+
+        Carteira carteira = new Carteira();
+        Pessoa pessoa = new Pessoa();
+        
+        pessoa.setIdPessoa(idPessoa);
+        carteira.setTitular(pessoa);
+        
+        
+       ArrayList<Carteira> carteiras = CarteiraController.buscarCarteira(carteira, "TITULAR");
+       return carteiras;
+    }
+
+    private static ArrayList<Automovel> getAutomovelList(int idPessoa) {
+        Automovel automovel = new Automovel();
+        Pessoa pessoa = new Pessoa();
+        
+        pessoa.setIdPessoa(idPessoa);
+        automovel.setProprietario(pessoa);
+        
+        
+        ArrayList<Automovel> automoveis = AutomovelController.buscarAutomovel(automovel, "PROPRIETARIO");
+        return automoveis;
+    }
+
+    public static int multasPendentesCount(Pessoa pessoa) {
+        Multa multa = new Multa();
+        multa.setPessoa(pessoa);
+        
+        ArrayList<Multa> list = MultaController.buscarMulta(multa, "IDPESSOA");
+        
+        if (list == null)
+            return 0;
         int count = 0;
         for(int i=0; i<list.size(); i++) {
             if(list.get(i).getDataPagamento() == null) {

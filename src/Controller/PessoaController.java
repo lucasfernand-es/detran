@@ -181,7 +181,7 @@ public class PessoaController {
         
         ArrayList<Pessoa> newList = buscarPessoa(pessoa, "UNIQUE_ID");
         
-        if(newList == null)
+        if(newList == null) 
             return null;
         else {
             // Seleciona o primeiro item da Array
@@ -190,6 +190,21 @@ public class PessoaController {
             newPessoa = (Pessoa) newList.get(0);
             return newPessoa;
         }
+    }
+
+    public static void alterarPessoa(Pessoa pessoa) {
+        boolean verifica = PessoaController.verificarCampos(pessoa);
+        
+        if(!verifica) {
+            pessoa.setError(true);
+            // Algum dado informado é inválido
+            return;
+        }
+        PessoaModel.alterarPessoa(pessoa);
+    }
+
+    public static void excluirPessoa(Pessoa pessoa) {
+        PessoaModel.excluirPessoa(pessoa);
     }
     
     

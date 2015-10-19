@@ -7,16 +7,13 @@ package View;
 
 import Addons.Aviso;
 import Controller.AutomovelController;
-import Controller.CarteiraController;
 import Controller.PessoaController;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
-import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import valueObject.Automovel;
-import valueObject.Carteira;
 import valueObject.Pessoa;
 
 /**

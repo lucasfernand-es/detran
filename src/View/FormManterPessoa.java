@@ -14,13 +14,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import valueObject.Automovel;
 
 /**
  *
  * @author LucasFernandes
  */
 public final class FormManterPessoa extends FormTemplate {
-    
+    private ArrayList<Pessoa> pessoaList = new ArrayList<>();
+    private Pessoa pessoaSelected = null;
     /**
      * Creates new form FormManterEvento
      */
@@ -190,6 +192,14 @@ public final class FormManterPessoa extends FormTemplate {
         jFTFCEP.setText("84.010-010");
         jRBSim.setSelected(true);
         jRBNao.setSelected(false);
+        
+        super.jTBBuscaRapida.clearSelection();
+        DefaultTableModel tableModel = (DefaultTableModel) super.jTBBuscaRapida.getModel();
+    
+        tableModel.setRowCount(0); 
+        if(pessoaList == null)
+            pessoaList = new ArrayList<>();
+        pessoaList.clear();
     }
 
     @Override
@@ -283,16 +293,91 @@ public final class FormManterPessoa extends FormTemplate {
 
     @Override
     protected void jBTSalvarActionPerformed(java.awt.event.ActionEvent evt) {
-        super.jBTSalvarActionPerformed(evt);
+        
+        try {
+            // Criando objeto para receber os dados preenchidos na tela
+            String nome = jTFNome.getText();
+            String cpf = jFTFCPF.getText();
+            String rg = jFTFRG.getText();
+            String orgaoEmissor = (String) jCBOrgaoEmissor.getSelectedItem();
+            String rgEstado = (String) jCBEstadoEmissor.getSelectedItem();
+            Date dataNascimento = jDCDataNascimento.getDate();
+            String logradouro = jTFLogradouro.getText();
+            String numeroLogradouro = jFTFNumero.getText();
+            String complementoLogradouro = jTFComplemento.getText();
+            String bairro = jTFBairro.getText();
+            String cidade = jTFCidade.getText();
+            String estado = jTFEstado.getText();
+            String cep = jFTFCEP.getText();
+            String nomeMae = jTFNomeMae.getText();
+            String nomePai = jTFNomePai.getText();
+            // Se o status for Ativo. Sim == true e Não == false 
+            // Se o Sim não estiver selecionado, o Não está
+            boolean status = (jRBSim.isSelected());
+            
+            // Dados iguais
+            int idPessoa = pessoaSelected.getIdPessoa();
+            
+            Pessoa pessoa = new Pessoa(nome, cpf, rg, orgaoEmissor, rgEstado, 
+                    dataNascimento, logradouro,  numeroLogradouro, complementoLogradouro, 
+                    bairro, cidade, estado, cep, nomeMae, nomePai, status, idPessoa);
+            // Nenhum erro até o momento
+            pessoa.setError(false);
+            pessoa.setMessage("");
+            
+            System.out.println(pessoa.showPessoa());
+            PessoaController.alterarPessoa(pessoa);
+            
+            if(pessoa.isError())
+            {
+                Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
+                        pessoa.getMessage());
+            }
+            else {
+                Aviso.showInformation(pessoa.getMessage());
+                super.jBTSalvarActionPerformed(evt);
+                bloquearComponentes();
+                limparComponentes();
+                // Perguntar se deseja cadastrar uma carteira
 
-        bloquearComponentes();
-        limparComponentes();
+                int confirmOption = JOptionPane.showConfirmDialog(null, 
+                        "Você deseja cadastrar uma carteira "+pessoa.getNome()+"?", 
+                        "Alerta de cadastro", JOptionPane.YES_NO_OPTION);
+
+                if (confirmOption == 1)
+                {
+                    //System.out.println("não");
+                }
+                else {
+                    //System.out.println("sim");
+                    // Chamar Tela de Manter Carteira
+                    FormManterCarteira formManterCarteira = FormManterCarteira.getForm();
+                    formManterCarteira.setTitular(pessoa);
+                    formManterCarteira.setVisible(true);
+                }
+            }
+            
+        }
+        catch(NumberFormatException ex) {
+            Aviso.showError("Campo(s) númerico(s) contém valor(es) inválido(s).");
+        }
     }
 
     @Override
     protected void jBTExcluirActionPerformed(java.awt.event.ActionEvent evt) {
         super.jBTExcluirActionPerformed(evt);
 
+        Pessoa pessoa = pessoaSelected;
+
+        System.out.println(pessoa.showPessoa());
+        PessoaController.excluirPessoa(pessoa);
+
+        if(pessoa.isError())
+        {
+            Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
+                    pessoa.getMessage());
+        }
+        
         bloquearComponentes();
         limparComponentes();
     }
@@ -300,8 +385,42 @@ public final class FormManterPessoa extends FormTemplate {
     @Override
     protected void jTBBuscaRapidaMouseClicked(java.awt.event.MouseEvent evt) {
         super.jTBBuscaRapidaMouseClicked(evt);
-        System.out.println("carregar coisinhas"); // oi
+        //System.out.println("carregar coisinhas"); // oi
+        // Não executar sem dados
+        if (pessoaList.isEmpty())
+            return;
+        
+        int selectedRow = super.jTBBuscaRapida.getSelectedRow();
+        pessoaSelected = pessoaList.get(selectedRow);
+        
+        //System.out.println(pessoaSelected.showPessoa());
+        preencheComponentes(pessoaSelected);
+        
         bloquearComponentes();
+    }
+    
+    public void preencheComponentes(Pessoa pessoa) {
+        
+        jTFNome.setText(pessoa.getNome());
+        jFTFCPF.setText(pessoa.getCpf());
+        jFTFRG.setText(pessoa.getRg());
+        jCBOrgaoEmissor.setSelectedItem( pessoa.getOrgaoEmissor() );
+        jCBEstadoEmissor.setSelectedItem( pessoa.getRgEstado() );
+        jDCDataNascimento.setDate( pessoa.getDataNascimento() );
+        jTFLogradouro.setText(pessoa.getLogradouro());
+        jFTFNumero.setText(pessoa.getNumeroLogradouro());
+        jTFComplemento.setText(pessoa.getComplementoLogradouro());
+        jTFBairro.setText(pessoa.getBairro());
+        jTFCidade.setText(pessoa.getCidade());
+        jTFEstado.setText(pessoa.getEstado());
+        jFTFCEP.setText(pessoa.getCep());
+        jTFNomeMae.setText(pessoa.getNomeMae());
+        jTFNomePai.setText(pessoa.getNomePai());
+        if (pessoa.isStatus()) {
+            jRBSim.setSelected(true);
+        }
+        else
+            jRBNao.setSelected(true);
     }
 
     @Override
@@ -319,12 +438,15 @@ public final class FormManterPessoa extends FormTemplate {
         
        // System.out.println(jTFBusca.getText());
         
-        ArrayList<Pessoa> pessoaList;
+        
         
         Pessoa pessoa = new Pessoa();
         pessoa.setCpf( jTFBusca.getText() );
-        
+        pessoaList.clear();
         pessoaList = PessoaController.buscarPessoa(pessoa, "CPF");
+        if(pessoaList == null)
+            pessoaList = new ArrayList<>();
+        
         
         if(pessoa.isError())
         {
@@ -334,7 +456,7 @@ public final class FormManterPessoa extends FormTemplate {
         else if (pessoaList == null)
             return;
         
-        testPessoa(pessoaList);
+        //testPessoa(pessoaList);
         preencherPesquisa(pessoaList);
     } 
     
@@ -353,7 +475,7 @@ public final class FormManterPessoa extends FormTemplate {
         for(Pessoa pessoa : pessoaList ) {
             tableModel.addRow(new Object[] { 
                                             pessoa.getNome(), pessoa.getCpf(), pessoa.getDataNascimento(),
-                                            pessoa.isStatus(), pessoa.getCarteiras().size(), pessoa.getAutomoveis().size()
+                                            (pessoa.isStatus())? "Sim" : "Não", pessoa.getCarteiras().size(), pessoa.getAutomoveis().size()
                                             } );
         }
     }

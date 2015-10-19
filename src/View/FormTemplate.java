@@ -78,7 +78,7 @@ public class FormTemplate extends javax.swing.JFrame {
                 jTFBuscaActionPerformed(evt);
             }
         });
-        jTFBusca.addKeyListener(new java.awt.event.KeyAdapter() {
+        /*jTFBusca.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTFBuscaKeyTyped(evt);
             }
@@ -88,7 +88,7 @@ public class FormTemplate extends javax.swing.JFrame {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTFBuscaKeyReleased(evt);
             }
-        });
+        });*/
 
         jTBBuscaRapida.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -101,11 +101,11 @@ public class FormTemplate extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTBBuscaRapida.addMouseListener(new java.awt.event.MouseAdapter() {
+       /* jTBBuscaRapida.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTBBuscaRapidaMouseClicked(evt);
             }
-        });
+        }); */
         jSPTable.setViewportView(jTBBuscaRapida);
 
         jLBusca.setText("Busca Rápida");
@@ -147,50 +147,50 @@ public class FormTemplate extends javax.swing.JFrame {
 
         jBTAlterar.setText("Alterar");
         jBTAlterar.setEnabled(false);
-        jBTAlterar.addActionListener(new java.awt.event.ActionListener() {
+        /*jBTAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBTAlterarActionPerformed(evt);
             }
-        });
+        });*/
 
         jBTSalvar.setText("Salvar");
         jBTSalvar.setEnabled(false);
-        jBTSalvar.addActionListener(new java.awt.event.ActionListener() {
+        /*jBTSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBTSalvarActionPerformed(evt);
             }
-        });
+        });*/
 
         jBTExcluir.setText("Excluir");
         jBTExcluir.setEnabled(false);
-        jBTExcluir.addActionListener(new java.awt.event.ActionListener() {
+        /*jBTExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBTExcluirActionPerformed(evt);
             }
-        });
+        });*/
 
         jBTCadastrar.setText("Cadastrar");
-        jBTCadastrar.addActionListener(new java.awt.event.ActionListener() {
+        /*jBTCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBTCadastrarActionPerformed(evt);
             }
-        });
+        });*/
 
         jBTConfirmar.setText("Confirmar");
         jBTConfirmar.setEnabled(false);
-        jBTConfirmar.addActionListener(new java.awt.event.ActionListener() {
+        /*jBTConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBTConfirmarActionPerformed(evt);
             }
-        });
+        });*/
 
         jBTCancelar.setText("Cancelar");
         jBTCancelar.setEnabled(false);
-        jBTCancelar.addActionListener(new java.awt.event.ActionListener() {
+        /*jBTCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBTCancelarActionPerformed(evt);
             }
-        });
+        });*/
 
         javax.swing.GroupLayout jPBotoesLayout = new javax.swing.GroupLayout(jPBotoes);
         jPBotoes.setLayout(jPBotoesLayout);

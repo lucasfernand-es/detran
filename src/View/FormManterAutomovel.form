@@ -99,10 +99,8 @@
                                       <Component id="jTFAno" min="-2" pref="88" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="jTFMarca" alignment="0" max="32767" attributes="0"/>
-                                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="jTFChassi" alignment="0" pref="245" max="32767" attributes="0"/>
-                                      <Component id="jTFCor" alignment="0" max="32767" attributes="0"/>
-                                  </Group>
+                                  <Component id="jTFChassi" alignment="0" pref="245" max="32767" attributes="0"/>
+                                  <Component id="jTFCor" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jTFPlaca" alignment="0" min="-2" pref="145" max="-2" attributes="0"/>
                               </Group>
                           </Group>

@@ -6,17 +6,13 @@
 package Model;
 
 import Connector.MySQLConnector;
-import Controller.MultaController;
 import Controller.Util;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import valueObject.Automovel;
-import valueObject.Multa;
-import valueObject.Pessoa;
 
 /**
  *
@@ -199,7 +195,7 @@ public class AutomovelModel {
             switch(tipo) {
                 case "RENAVAM":
                     stm = con.prepareStatement("SELECT * FROM automovel WHERE renavam LIKE ? AND status = true");
-                    stm.setString(1, automovel.getRenavam() + '%');
+                    stm.setString(1,'%' + automovel.getRenavam() + '%');
                     break;
                 case "STATUS":
                     stm = con.prepareStatement("SELECT * FROM automovel WHERE status = ?");
@@ -208,6 +204,10 @@ public class AutomovelModel {
                 case "ID":
                     stm = con.prepareStatement("SELECT * FROM automovel WHERE idAutomovel = ?");
                     stm.setInt(1, automovel.getIdAutomovel());
+                    break;
+                case "PROPRIETARIO":
+                    stm = con.prepareStatement("SELECT * FROM automovel WHERE idPessoa = ?");
+                    stm.setInt(1, automovel.getProprietario().getIdPessoa());
                     break;
                 default: 
                     stm = con.prepareStatement("SELECT * FROM automovel");

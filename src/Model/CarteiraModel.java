@@ -99,6 +99,10 @@ public class CarteiraModel {
                     stm  = con.prepareStatement("SELECT * FROM carteira WHERE idPessoa = ? AND status = TRUE");
                     stm.setInt(1, carteira.getTitular().getIdPessoa());
                     break;
+                case "TITULAR":
+                    stm  = con.prepareStatement("SELECT * FROM carteira WHERE idPessoa = ?");
+                    stm.setInt(1, carteira.getTitular().getIdPessoa());
+                    break;
                 default: 
                     stm  = con.prepareStatement("SELECT * FROM carteira");
                     break;
