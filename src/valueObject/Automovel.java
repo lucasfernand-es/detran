@@ -8,9 +8,9 @@ public class Automovel {
         private String cor;
         private String placa;
         private String chassi;
-        private int ano;
-        private boolean status;
         private Pessoa proprietario;
+        private String ano;
+        private boolean status;
 
         // ID deste objeto no banco de dados
         private int idAutomovel;
@@ -29,20 +29,25 @@ public class Automovel {
 
     
     public Automovel(String renavam, String marca, String modelo, String cor,
-            String placa, String chassi, int ano, boolean status, 
-            Pessoa proprietario, int idAutomovel) {
+            String placa, String chassi, Pessoa proprietario, String ano, 
+            boolean status, int idAutomovel) {
         this.renavam = renavam;
         this.marca = marca;
         this.modelo = modelo;
         this.cor = cor;
         this.placa = placa;
         this.chassi = chassi;
+        this.proprietario = proprietario;
         this.ano = ano;
         this.status = status;
-        this.proprietario = proprietario;
         this.idAutomovel = idAutomovel;
     }
     public Automovel() {
+    }
+    
+    @Override
+    public String toString() {
+        return "Renavam: " + this.renavam;
     }
     
     /**
@@ -132,14 +137,14 @@ public class Automovel {
     /**
      * @return the ano
      */
-    public int getAno() {
+    public String getAno() {
         return ano;
     }
 
     /**
      * @param ano the ano to set
      */
-    public void setAno(int ano) {
+    public void setAno(String ano) {
         this.ano = ano;
     }
 

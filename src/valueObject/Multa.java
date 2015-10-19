@@ -9,32 +9,51 @@ import java.util.Date;
 
 public class Multa {
 
-	private Date dataEmissao;
-	private float taxaAcrescimo;
-	private Date dataPagamento;
-	private Automovel automovel;
-	private Pessoa pessoa;
-	private Carteira carteira;
-	private Autuacao autuacao;
-        
-        // ID deste objeto no banco de dados
-        private int idMulta;
+    private Date dataEmissao;
+    private float taxaAcrescimo;
+    private Date dataPagamento;
+    private Automovel automovel;
+    private Pessoa pessoa;
+    private Carteira carteira;
+    private Autuacao autuacao;
 
-        /*
-         * Ajuda MVC
-         * Os atributos abaixo contribuir para o controle das operações 
-         * envolvendo os objetos desta classe.
-         */
+    // ID deste objeto no banco de dados
+    private int idMulta;
 
-        // Quando uma operação envolvendo este objeto der erro em tempo de execução, 
-        // este atributo será acionado
-        private boolean error = false;
-        // Especificação do erro
-        private String message;
+    /*
+     * Ajuda MVC
+     * Os atributos abaixo contribuir para o controle das operações 
+     * envolvendo os objetos desta classe.
+     */
+    // Quando uma operação envolvendo este objeto der erro em tempo de execução, 
+    // este atributo será acionado
+    private boolean error = false;
+    // Especificação do erro
+    private String message;
 
-	public boolean estaPago() {
-		return false;
-	}
+    public boolean estaPago() {
+        return false;
+    }
+    
+    public Multa(Date dataEmissao, float taxaAcrescimo, Date dataPagamento,
+            Automovel automovel, Pessoa pessoa, Carteira carteira,
+            Autuacao autuacao, int idMulta) {
+        this.dataEmissao = dataEmissao;
+        this.taxaAcrescimo = taxaAcrescimo;
+        this.dataPagamento = dataPagamento;
+        this.automovel = automovel;
+        this.pessoa = pessoa;
+        this.carteira = carteira;
+        this.autuacao = autuacao;
+        this.idMulta = idMulta;
+    }
+    public Multa() {
+    }
+    
+    @Override
+    public String toString() {
+        return "multa: " + this.idMulta + " ao automovel: " + this.automovel.getIdAutomovel();
+    }
 
     /**
      * @return the dataEmissao
