@@ -41,8 +41,13 @@ public class MultaModel {
                     stm.setInt(1, multa.getAutomovel().getIdAutomovel());
                     break;
                 case "IDPESSOA":
-                    stm = con.prepareStatement("SELECT * FROM multa WHERE idPessoa = ?");
+                    stm = con.prepareStatement("SELECT * FROM multa WHERE idPessoa = ? OR idPessoa = ?");
                     stm.setInt(1, multa.getAutomovel().getProprietario().getIdPessoa());
+                    stm.setInt(2, multa.getPessoa().getIdPessoa());
+                    break;
+                case "IDCARTEIRA":
+                    stm = con.prepareStatement("SELECT * FROM multa WHERE idCarteira = ?");
+                    stm.setInt(1, multa.getCarteira().getIdCarteira());
                     break;
                 default: 
                     stm = con.prepareStatement("SELECT * FROM multa");

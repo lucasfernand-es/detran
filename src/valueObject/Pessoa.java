@@ -27,11 +27,11 @@ public class Pessoa {
 	private String nomePai;
         private boolean status;
         
-        private ArrayList<Carteira> carteiras = new ArrayList<>();
-        private ArrayList<Automovel> automoveis = new ArrayList<>();
+        private int carteiras = 0;
+        private int automoveis = 0;
 
         // ID deste objeto no banco de dados
-        private int idPessoa;
+        private int idPessoa = -1;
 
         /*
          * Ajuda MVC
@@ -348,36 +348,39 @@ public class Pessoa {
         this.message = message;
     }
 
-    /**
-     * @return the carteiras
-     */
-    public ArrayList<Carteira> getCarteiras() {
-        return carteiras;
-    }
 
-    /**
-     * @param carteiras the carteiras to set
-     */
-    public void setCarteiras(ArrayList<Carteira> carteiras) {
-        this.carteiras = carteiras;
-    }
 
         @Override
     public String toString() {
         return this.nome + " " + this.cpf;
     }
 
+
     /**
-     * @return the automoveis
+     * @param carteiras the carteiras to set
      */
-    public ArrayList<Automovel> getAutomoveis() {
-        return automoveis;
+    public void setCarteiras(int carteiras) {
+        this.carteiras = carteiras;
     }
 
     /**
      * @param automoveis the automoveis to set
      */
-    public void setAutomoveis(ArrayList<Automovel> automoveis) {
+    public void setAutomoveis(int automoveis) {
         this.automoveis = automoveis;
+    }
+
+    /**
+     * @return the carteiras
+     */
+    public int getCarteiras() {
+        return carteiras;
+    }
+
+    /**
+     * @return the automoveis
+     */
+    public int getAutomoveis() {
+        return automoveis;
     }
 }

@@ -12,6 +12,8 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import valueObject.Carteira;
 import valueObject.Pessoa;
 
@@ -25,7 +27,10 @@ public final class FormManterCarteira extends FormTemplate {
     private Pessoa titular = null;
     private int titularIndex = 0;
     private ArrayList <Pessoa> titularList = new ArrayList<>();
-             
+    
+    
+    private ArrayList<Carteira> carteiraList = new ArrayList<>();
+    private Carteira carteiraSelected = null;
    
     private static FormManterCarteira manterForm = null;
 
@@ -71,20 +76,20 @@ public final class FormManterCarteira extends FormTemplate {
     public void iniciarComponentes() {
         super.jTBBuscaRapida.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
-                    {null, null, null, null, null, null}
+                    {null, null, null, null, null}
                 },
-                new String[]{
-                    "Titulo", "Tema", "Data de Inicio",
-                    "Data de Fim", "Data Prazo das Inscrições", "Agenda Finalizada"
+               new String[]{
+                    "N. Registro", "Titular", "Data de Emissão",
+                    "Data de Vencimento", "Tipo"
                 }
         ) {
             // Quatidade de Colunas
             Class[] types = new Class[]{
                 java.lang.String.class, java.lang.String.class, java.lang.String.class,
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean[]{
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             @Override
@@ -103,6 +108,21 @@ public final class FormManterCarteira extends FormTemplate {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTBBuscaRapidaMouseClicked(evt);
+            }
+        });
+        
+        jTFBusca.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTFBuscaKeyTyped(evt);
+            }
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTFBuscaKeyPressed(evt);
+            }
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTFBuscaKeyReleased(evt);
             }
         });
 
@@ -140,8 +160,12 @@ public final class FormManterCarteira extends FormTemplate {
         Pessoa pessoa = new Pessoa();
         pessoa.setStatus(true);
         
+        if (titularList == null) {
+            titularList = new ArrayList();
+        }
+        titularList.clear();
         // Busca no Banco de Dados TODOS os possíveis titulares
-        ArrayList<Pessoa> newTitularList = PessoaController.buscarPessoa(pessoa, "STATUS");
+        titularList = PessoaController.buscarPessoa(pessoa, "STATUS");
         
         // Caso algum erro tenha acontecido
         if(pessoa.isError()){
@@ -155,12 +179,12 @@ public final class FormManterCarteira extends FormTemplate {
         
         // Para diminuir o número de comparações para 2, terá dois "for" diferentes
         if (titular == null) {
-            for (Pessoa pessoaItem : newTitularList) {
+            for (Pessoa pessoaItem : titularList) {
                 jCBTitular.addItem(pessoaItem);
             }
         }
         else {
-            for (Pessoa pessoaItem : newTitularList) {
+            for (Pessoa pessoaItem : titularList) {
                 jCBTitular.addItem(pessoaItem);
                 // Se o titular selecionado e o item atual tiveram o mesmo ID
                 // esse será o novo indexTitular
@@ -271,30 +295,75 @@ public final class FormManterCarteira extends FormTemplate {
         super.jBTAlterarActionPerformed(evt);
 
         liberarComponentes();
+        
+        jTFNRegistro.setEnabled(false);
+        jDCDataEmissao.setEnabled(false);
+        jDCDataVencimento.setEnabled(false);
+        jCBTipo.setEnabled(false);
+        jCBTitular.setEnabled(false);
     }
 
     @Override
     protected void jBTSalvarActionPerformed(java.awt.event.ActionEvent evt) {
-        super.jBTSalvarActionPerformed(evt);
+         Date dataVencimento = jDCDataVencimento.getDate();
+	Date dataEmissao = jDCDataEmissao.getDate();
+	String nRegistro = jTFNRegistro.getText();
+        // Se a permissão existe. Sim == true e Não == false 
+        // Se o Sim não estiver selecionado, o Não está
+	boolean permissao = (jRBSimPermissao.isSelected());
+	String tipo = (String) jCBTipo.getSelectedItem();
+	Pessoa pessoaTitular = (Pessoa) jCBTitular.getSelectedItem();
+        // Se o status for Ativo. Sim == true e Não == false 
+        // Se o Sim não estiver selecionado, o Não está
+        boolean status = (jRBSimStatus.isSelected());
+        // ID deste objeto no banco de dados
+        int idCarteira = carteiraSelected.getIdCarteira();
+        
+        Carteira carteira =  new Carteira(dataVencimento, dataEmissao, nRegistro, 
+            permissao, tipo, pessoaTitular, status, idCarteira);
+        // Nenhum erro até o momento
+        carteira.setError(false);
+        carteira.setMessage("");
 
-        bloquearComponentes();
-        limparComponentes();
+        //System.out.println(carteira.showCarteira());
+        CarteiraController.alterarCarteira(carteira);
+        
+        if(carteira.isError()){
+                Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
+                        carteira.getMessage());
+            }
+        else {
+                Aviso.showInformation(carteira.getMessage());
+                super.jBTConfirmarActionPerformed(evt);
+                bloquearComponentes();
+                limparComponentes();
+        }
     }
 
     @Override
     protected void jBTExcluirActionPerformed(java.awt.event.ActionEvent evt) {
-        super.jBTExcluirActionPerformed(evt);
+        if(JOptionPane.showConfirmDialog(
+                null, 
+                "Você realmente deseja excluir estes dados?",
+                "Alerta de exclusão de dados",
+                JOptionPane.YES_NO_OPTION) == 1) 
+            return;
+        
+        Carteira carteira = carteiraSelected;
 
+        //System.out.println(carteira.showPessoa());
+        CarteiraController.excluirCarteira(carteira);
+
+        if(carteira.isError())
+        {
+            Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
+                    carteira.getMessage());
+        }
+        
         bloquearComponentes();
         limparComponentes();
     }
 
-    @Override
-    protected void jTBBuscaRapidaMouseClicked(java.awt.event.MouseEvent evt) {
-        super.jTBBuscaRapidaMouseClicked(evt);
-
-        bloquearComponentes();
-    }
 
     @Override
     protected void jBTCancelarActionPerformed(java.awt.event.ActionEvent evt) {
@@ -303,7 +372,95 @@ public final class FormManterCarteira extends FormTemplate {
         bloquearComponentes();
         limparComponentes();
     }
+    
+    @Override
+    protected void jTFBuscaKeyReleased(java.awt.event.KeyEvent evt) {                                    
+        // TODO add your handling code here:
+        super.jTFBuscaKeyReleased(evt);
+        
+       // System.out.println(jTFBusca.getText());
+        
+        
+        
+        Carteira carteira = new Carteira();
+        carteira.setnRegistro( jTFBusca.getText() );
+        //System.out.println(jTFBusca.getText());
+        carteiraList.clear();
+        carteiraList = CarteiraController.buscarCarteira(carteira, "REGISTRO");
+        
+            
+        if(carteira.isError())
+        {
+            Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
+                    carteira.getMessage());
+        }
+        
+        if (carteiraList == null)
+        {
+            carteiraList = new ArrayList<>();
+            return;
+        }
+            
+        
+        //testPessoa(pessoaList);
+        preencherPesquisa(carteiraList);
+    } 
+    
+    private void preencherPesquisa( ArrayList<Carteira> carteiraList) { 
+                    
+        DefaultTableModel tableModel = (DefaultTableModel) super.jTBBuscaRapida.getModel();
+    
+        tableModel.setRowCount(0);
+        
+        for(Carteira carteira : carteiraList ) {
+            tableModel.addRow(new Object[] { 
+                    carteira.getnRegistro(), carteira.getTitular(), carteira.getDataEmissao(),
+                    carteira.getDataVencimento(), carteira.getTipo()
+            } );
+        }
+    }
 
+    @Override
+    protected void jTBBuscaRapidaMouseClicked(java.awt.event.MouseEvent evt) {
+        super.jTBBuscaRapidaMouseClicked(evt);
+        //System.out.println("carregar coisinhas"); // oi
+        // Não executar sem dados
+        if (carteiraList.isEmpty())
+            return;
+        
+        int selectedRow = super.jTBBuscaRapida.getSelectedRow();
+        carteiraSelected = carteiraList.get(selectedRow);
+        
+        //System.out.println(pessoaSelected.showPessoa());
+        preencheComponentes(carteiraSelected);
+        
+        bloquearComponentes();
+    }
+    
+    public void preencheComponentes(Carteira carteira) {
+        
+        
+        jTFNRegistro.setText(carteira.getnRegistro());
+        jDCDataEmissao.setDate(carteira.getDataEmissao());
+        // Por definição
+        if (carteira.isPermissao())
+            jRBSimPermissao.setSelected(true);
+        else
+            jRBNaoPermissao.setSelected(true);
+        jDCDataVencimento.setDate(carteira.getDataVencimento());
+        // Por definição
+        if (carteira.isStatus())
+            jRBSimStatus.setSelected(true);
+        else
+            jRBNaoStatus.setSelected(true);
+        
+        jCBTitular.setSelectedItem( carteira.getTipo());
+        
+        int idCarteira = CarteiraController.buscaIDCarteira(titularList, carteira);
+
+        jCBTitular.setSelectedIndex(idCarteira);
+       
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

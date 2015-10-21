@@ -103,6 +103,14 @@ public class CarteiraModel {
                     stm  = con.prepareStatement("SELECT * FROM carteira WHERE idPessoa = ?");
                     stm.setInt(1, carteira.getTitular().getIdPessoa());
                     break;
+                case "REGISTRO":
+                    stm  = con.prepareStatement("SELECT * FROM carteira WHERE nRegistro LIKE ?");
+                    stm.setString(1, '%' + carteira.getnRegistro() + '%');
+                    break;
+                case "NCARTEIRAS":
+                    stm  = con.prepareStatement("SELECT * FROM carteira WHERE idPessoa = ?");
+                    stm.setInt(1, carteira.getTitular().getIdPessoa());
+                    break;
                 default: 
                     stm  = con.prepareStatement("SELECT * FROM carteira");
                     break;
@@ -111,8 +119,13 @@ public class CarteiraModel {
             rs = stm.executeQuery();
                     
             while (rs.next()) {
-                Carteira carteiraVO = Util.criarCarteira(rs);
-                carteiraList.add(carteiraVO);
+                Carteira carteiraVO;
+                if(tipo.equals("NCARTEIRAS"))
+                    carteiraVO = new Carteira();
+                else
+                    carteiraVO = Util.criarCarteira(rs);
+                
+                carteiraList.add(carteiraVO); 
             }
             
             mCon.disconnect();
@@ -124,6 +137,104 @@ public class CarteiraModel {
             return null;
         }
     
+    }
+
+    public static void alterarCarteira(Carteira carteira) {
+        try {
+            // Connect with database
+            MySQLConnector mCon = new MySQLConnector();
+            Connection con = mCon.connect();
+            
+            // SQL que vai ser executada
+            String query = (
+                    "UPDATE carteira SET "
+                    + "dataVencimento = ?, "
+                    + "dataEmissao = ?, "
+                    + "nRegistro = ?, "
+                    + "permissao = ?, "
+                    + "tipo = ?, "
+                    + "idPessoa = ?, "
+                    + "status = ? "
+                    + "WHERE idCarteira = ?");
+            
+            PreparedStatement stm;
+            stm = con.prepareStatement(query);
+            
+            Timestamp dataVencimento = new Timestamp(carteira.getDataVencimento().getTime());
+            stm.setTimestamp(1, dataVencimento);
+            Timestamp dataEmissao = new Timestamp(carteira.getDataEmissao().getTime());
+            stm.setTimestamp(2, dataEmissao);
+            
+            stm.setString(3, carteira.getnRegistro());
+            stm.setBoolean(4, carteira.isPermissao());
+            stm.setString(5, carteira.getTipo());
+            stm.setInt(6, carteira.getTitular().getIdPessoa());
+            
+            stm.setBoolean(7, carteira.isStatus());
+            
+            stm.setInt(8, carteira.getIdCarteira());
+            // Confere se alguma linha do BD foi modificada
+            int status = stm.executeUpdate();
+            
+            if(status == 1) {
+                carteira.setError(false);
+                carteira.setMessage("Alterado com Sucesso!");
+            }
+            else {
+                carteira.setError(true);
+                carteira.setMessage("Falha ao Cadastrar!");
+            }
+            
+            mCon.disconnect();
+        }
+        catch(Exception e) {
+            carteira.setError(true);
+            carteira.setMessage("\tFalha Técnica\n\t" + e.getMessage());
+        }
+    }
+
+    public static void excluirCarteira(Carteira carteira) {
+        try {
+            // Connect with database
+            MySQLConnector mCon = new MySQLConnector();
+            Connection con = mCon.connect();
+            
+            int multas_pendentes = Util.multasPendentesCount(carteira);
+            if(multas_pendentes > 0) {
+                carteira.setError(true);
+                carteira.setMessage("Há multas pendentes neste veículo\n");
+                return;
+            }
+            
+            // SQL que vai ser executada
+            // UPDATE automovel SET status = false WHERE idAutomovel = ?
+            String query = 
+                    "UPDATE carteira SET "
+                            + "status = false "
+                    + "WHERE idCarteira = ?";
+            
+            PreparedStatement stm;
+            stm = con.prepareStatement(query);
+            
+            stm.setInt(1, carteira.getIdCarteira());
+            
+            // Confere se alguma linha do BD foi modificada
+            int status = stm.executeUpdate();
+            
+            if(status == 1) {
+                carteira.setError(false);
+                carteira.setMessage("Excluído com Sucesso!");
+            }
+            else {
+                carteira.setMessage("Falha ao Excluir!");
+            }
+            
+            mCon.disconnect();
+        }
+        catch(Exception e) {
+            carteira.setError(true);
+            carteira.setMessage("\tFalha Técnica\n\t" + e.getMessage());
+        }
     }
     
 }

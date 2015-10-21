@@ -107,33 +107,47 @@ public final class FormManterAutomovel extends FormTemplate {
                 jTBBuscaRapidaMouseClicked(evt);
             }
         });
+        
+        jTFBusca.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTFBuscaKeyTyped(evt);
+            }
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTFBuscaKeyPressed(evt);
+            }
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTFBuscaKeyReleased(evt);
+            }
+        });
+        
         DefaultTableModel tableModel = (DefaultTableModel) super.jTBBuscaRapida.getModel();
         tableModel.setRowCount(0);
 
         jBTAlterar.setText("Alterar");
         jBTAlterar.setEnabled(false);
-        //jBTAlterar.addActionListener(this::jBTAlterarActionPerformed);
+        jBTAlterar.addActionListener(this::jBTAlterarActionPerformed);
 
         jBTSalvar.setText("Salvar");
         jBTSalvar.setEnabled(false);
-        //jBTSalvar.addActionListener(this::jBTSalvarActionPerformed);
+        jBTSalvar.addActionListener(this::jBTSalvarActionPerformed);
 
         jBTExcluir.setText("Excluir");
         jBTExcluir.setEnabled(false);
-        //jBTExcluir.addActionListener(this::jBTExcluirActionPerformed);
+        jBTExcluir.addActionListener(this::jBTExcluirActionPerformed);
 
         jBTCadastrar.setText("Cadastrar");
-        //jBTCadastrar.addActionListener(this::jBTCadastrarActionPerformed);
+        jBTCadastrar.addActionListener(this::jBTCadastrarActionPerformed);
 
         jBTConfirmar.setText("Confirmar");
         jBTConfirmar.setEnabled(false);
-        jBTConfirmar.addActionListener((java.awt.event.ActionEvent evt) -> {
-            //jBTConfirmarActionPerformed(evt);
-        });
+        jBTConfirmar.addActionListener(this::jBTConfirmarActionPerformed);
 
         jBTCancelar.setText("Cancelar");
         jBTCancelar.setEnabled(false);
-        //jBTCancelar.addActionListener(this::jBTCancelarActionPerformed);
+        jBTCancelar.addActionListener(this::jBTCancelarActionPerformed);
     }
     
     //  Carregar Pessoas do BD
@@ -174,8 +188,8 @@ public final class FormManterAutomovel extends FormTemplate {
         jTFChassi.setEnabled(true);
         jTFAno.setEnabled(true);
         jCBProprietario.setEnabled(true);
-        super.getjTFBusca().setEnabled(false);
-        super.getjTBBuscaRapida().setEnabled(false);
+        //super.getjTFBusca().setEnabled(false);
+        //super.getjTBBuscaRapida().setEnabled(false);
         editing = true;
     }
 
@@ -188,8 +202,8 @@ public final class FormManterAutomovel extends FormTemplate {
         jTFChassi.setEnabled(false);
         jTFAno.setEnabled(false);
         jCBProprietario.setEnabled(false);
-        super.getjTFBusca().setEnabled(true);
-        super.getjTBBuscaRapida().setEnabled(true);
+        //super.getjTFBusca().setEnabled(true);
+        //super.getjTBBuscaRapida().setEnabled(true);
         editing = false;
     }
     public void preencheComponentes(Automovel automovel) {
@@ -237,8 +251,8 @@ public final class FormManterAutomovel extends FormTemplate {
         ArrayList<Automovel> automovelList;
         
         Automovel automovel = new Automovel();
-        automovel.setRenavam( jTFBusca.getText() );
-        
+        automovel.setRenavam( super.jTFBusca.getText() );
+        System.out.println( super.jTFBusca.getText() );
         automovelList = AutomovelController.buscarAutomovel(automovel, "RENAVAM");
         
         if(automovel.isError())

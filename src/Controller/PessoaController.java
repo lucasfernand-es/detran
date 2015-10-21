@@ -64,6 +64,8 @@ public class PessoaController {
         if(!validaCPF)
             mensagem = mensagem.concat("CPF informado é inválido\n");
         
+        
+        
         // A nova mensagem dentro do objeto será a mensagem atual 
         // com as novas informações
         // Verifica de erro para quando mensagem estiver vazia

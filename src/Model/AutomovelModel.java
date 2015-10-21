@@ -175,6 +175,11 @@ public class AutomovelModel {
         }
     }
     
+    public static int  buscarNAutomovel(Automovel automovel, String tipo) {
+    
+            return 0;
+    }
+    
     public static ArrayList<Automovel>  buscarAutomovel(Automovel automovel, String tipo) {
         try {
             // Connect with database
@@ -209,6 +214,10 @@ public class AutomovelModel {
                     stm = con.prepareStatement("SELECT * FROM automovel WHERE idPessoa = ?");
                     stm.setInt(1, automovel.getProprietario().getIdPessoa());
                     break;
+                case "NAUTOMOVEIS":
+                    stm = con.prepareStatement("SELECT * FROM automovel WHERE idPessoa = ?");
+                    stm.setInt(1, automovel.getProprietario().getIdPessoa());
+                    break;
                 default: 
                     stm = con.prepareStatement("SELECT * FROM automovel");
                     break;
@@ -217,7 +226,11 @@ public class AutomovelModel {
             rs = stm.executeQuery();
             
             while (rs.next()) {
-                Automovel automovelVO = Util.criarAutomovel(rs);
+                Automovel automovelVO;
+                if(tipo.equals("NAUTOMOVEIS"))
+                    automovelVO = new Automovel();
+                else
+                    automovelVO = Util.criarAutomovel(rs);
                 automovelList.add(automovelVO);
             }
             

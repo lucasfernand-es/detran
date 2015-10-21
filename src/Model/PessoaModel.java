@@ -130,6 +130,7 @@ public class PessoaModel {
                     
             while (rs.next()) {
                 Pessoa pessoaVO = Util.criarPessoa(rs);
+                
                 pessoaList.add(pessoaVO);
             }
             

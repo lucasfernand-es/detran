@@ -43,8 +43,8 @@ public class Util {
             boolean status = rs.getBoolean("status");
             int idPessoa = rs.getInt("idPessoa");
             
-            ArrayList<Carteira> carteiras = Util.getCarteiraList(idPessoa);
-            ArrayList<Automovel> automoveis = Util.getAutomovelList(idPessoa);
+            int carteiras = Util.getCarteiras(idPessoa);
+            int automoveis = Util.getAutomoveis(idPessoa);
             
             
             pessoa = new Pessoa(nome, cpf, rg, orgaoEmissor, rgEstado, 
@@ -68,7 +68,7 @@ public class Util {
             // Criando objeto para receber os dados preenchidos na tela
             Date dataVencimento = rs.getDate("dataVencimento");
             Date dataEmissao = rs.getDate("dataEmissao");
-            String nRegistro = rs.getString("nomeMae");
+            String nRegistro = rs.getString("nRegistro");
             boolean permissao = rs.getBoolean("permissao");
             String tipo = rs.getString("tipo");
             int idPessoa = rs.getInt("idPessoa");
@@ -84,6 +84,7 @@ public class Util {
             carteira = new Carteira();
             carteira.setError(true);
             carteira.setMessage(e.getMessage());
+            System.out.println(e.getMessage());
             return null;
         }
     }
@@ -184,7 +185,7 @@ public class Util {
         return count;
     }
 
-    private static ArrayList<Carteira> getCarteiraList(int idPessoa) {
+    private static int getCarteiras(int idPessoa) {
 
         Carteira carteira = new Carteira();
         Pessoa pessoa = new Pessoa();
@@ -193,11 +194,18 @@ public class Util {
         carteira.setTitular(pessoa);
         
         
-       ArrayList<Carteira> carteiras = CarteiraController.buscarCarteira(carteira, "TITULAR");
-       return carteiras;
+       ArrayList<Carteira> carteiras = CarteiraController.buscarCarteira(carteira, "NCARTEIRAS");
+       
+       if (carteiras == null) {
+            return 0;
+        }
+        else {
+            int nCarteiras = carteiras.size();
+            return nCarteiras;
+        }
     }
 
-    private static ArrayList<Automovel> getAutomovelList(int idPessoa) {
+    private static int getAutomoveis(int idPessoa) {
         Automovel automovel = new Automovel();
         Pessoa pessoa = new Pessoa();
         
@@ -205,8 +213,14 @@ public class Util {
         automovel.setProprietario(pessoa);
         
         
-        ArrayList<Automovel> automoveis = AutomovelController.buscarAutomovel(automovel, "PROPRIETARIO");
-        return automoveis;
+        ArrayList<Automovel> automoveis = AutomovelController.buscarAutomovel(automovel, "NAUTOMOVEIS");
+        if (automoveis == null) {
+            return 0;
+        }
+        else {
+            int nAutomoveis = automoveis.size();
+            return nAutomoveis;
+        }
     }
 
     public static int multasPendentesCount(Pessoa pessoa) {
@@ -214,6 +228,23 @@ public class Util {
         multa.setPessoa(pessoa);
         
         ArrayList<Multa> list = MultaController.buscarMulta(multa, "IDPESSOA");
+        
+        if (list == null)
+            return 0;
+        int count = 0;
+        for(int i=0; i<list.size(); i++) {
+            if(list.get(i).getDataPagamento() == null) {
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    public static int multasPendentesCount(Carteira carteira) {
+        Multa multa = new Multa();
+        multa.setCarteira(carteira);
+        
+        ArrayList<Multa> list = MultaController.buscarMulta(multa, "IDCARTEIRA");
         
         if (list == null)
             return 0;

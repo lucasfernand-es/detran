@@ -6,8 +6,13 @@
 package Controller;
 
 import Model.CarteiraModel;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import valueObject.Carteira;
+import valueObject.Pessoa;
 
 /**
  *
@@ -43,6 +48,18 @@ public class CarteiraController {
                 mensagem = mensagem.concat("Não é possível haver duas carteiras válidas para o mesmo titular\n");
         }
         
+        
+        if(carteira.getnRegistro().length() == 11 || carteira.getnRegistro().length() == 9)
+            mensagem = mensagem.concat("Número de Registro tem que ter 9 ou 11 dígitos.\n");
+        
+        //getting current date and time using Date class
+        DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+        Date maioridade = new Date();
+        //System.out.println(df.format(maioridade));
+        // Maioridade
+        if(!isMaioridade(maioridade, carteira.getTitular().getDataNascimento()) )
+            mensagem = mensagem.concat("Tem que ser maior de Idade\n");
+        
         // A nova mensagem dentro do objeto será a mensagem atual 
         // com as novas informações
         // Verifica de erro para quando mensagem estiver vazia
@@ -52,6 +69,24 @@ public class CarteiraController {
         
         // Caso alguma regra não tenha sido cumprida, há erro e a mensagem não é vazia
         return mensagem.equals("");
+    }
+    
+    private static boolean isMaioridade(Date hoje, Date titular) {
+        
+        long minutes = getDateDiff(hoje, titular, TimeUnit.MINUTES);
+        
+        long idade = 60 * 24 * 365 * 18;
+        
+        if(minutes - idade >= 0)
+            return true;
+        else
+            return false;
+        
+    }
+    
+    private static long getDateDiff(Date hoje, Date titular, TimeUnit timeUnit) {
+        long diffnMills = hoje.getTime() - titular.getTime();
+        return timeUnit.convert(diffnMills, timeUnit.MILLISECONDS);
     }
     
     public static void cadastrarCarteira(Carteira carteira) {
@@ -91,6 +126,37 @@ public class CarteiraController {
         }
         else
             return newList;
+    }
+
+    public static int buscaIDCarteira(ArrayList<Pessoa> pessoaList, Carteira carteira) {
+        int id = 0;
+        for (int i = 0; i < pessoaList.size(); i ++)
+        {
+            Pessoa pessoaVO = (Pessoa) pessoaList.get(i);
+            if(pessoaVO.getIdPessoa() == carteira.getTitular().getIdPessoa()){
+                id = i;
+                break;
+            }
+            
+        }
+        System.out.println("id " + id);
+        return id;
+    }
+
+    public static void alterarCarteira(Carteira carteira) {
+        boolean verifica = CarteiraController.verificarCampos(carteira);
+        
+        if(!verifica) {
+            carteira.setError(true);
+            // Algum dado informado é inválido
+            return;
+        }
+       
+        CarteiraModel.alterarCarteira(carteira);
+    }
+
+    public static void excluirCarteira(Carteira carteira) {
+        CarteiraModel.excluirCarteira(carteira);
     }
     
 }

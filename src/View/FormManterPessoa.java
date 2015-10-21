@@ -325,7 +325,7 @@ public final class FormManterPessoa extends FormTemplate {
             pessoa.setError(false);
             pessoa.setMessage("");
             
-            System.out.println(pessoa.showPessoa());
+            //System.out.println(pessoa.showPessoa());
             PessoaController.alterarPessoa(pessoa);
             
             if(pessoa.isError())
@@ -365,11 +365,16 @@ public final class FormManterPessoa extends FormTemplate {
 
     @Override
     protected void jBTExcluirActionPerformed(java.awt.event.ActionEvent evt) {
-        super.jBTExcluirActionPerformed(evt);
-
+        if(JOptionPane.showConfirmDialog(
+                null, 
+                "Você realmente deseja excluir estes dados?",
+                "Alerta de exclusão de dados",
+                JOptionPane.YES_NO_OPTION) == 1) 
+            return;
+        
         Pessoa pessoa = pessoaSelected;
 
-        System.out.println(pessoa.showPessoa());
+        //System.out.println(pessoa.showPessoa());
         PessoaController.excluirPessoa(pessoa);
 
         if(pessoa.isError())
@@ -442,6 +447,7 @@ public final class FormManterPessoa extends FormTemplate {
         
         Pessoa pessoa = new Pessoa();
         pessoa.setCpf( jTFBusca.getText() );
+        System.out.println(jTFBusca.getText());
         pessoaList.clear();
         pessoaList = PessoaController.buscarPessoa(pessoa, "CPF");
         if(pessoaList == null)
@@ -475,7 +481,7 @@ public final class FormManterPessoa extends FormTemplate {
         for(Pessoa pessoa : pessoaList ) {
             tableModel.addRow(new Object[] { 
                                             pessoa.getNome(), pessoa.getCpf(), pessoa.getDataNascimento(),
-                                            (pessoa.isStatus())? "Sim" : "Não", pessoa.getCarteiras().size(), pessoa.getAutomoveis().size()
+                                            (pessoa.isStatus())? "Sim" : "Não", pessoa.getCarteiras(), pessoa.getAutomoveis()
                                             } );
         }
     }
