@@ -7,33 +7,34 @@ package View;
 
 import Addons.Aviso;
 import Controller.AutomovelController;
+import Controller.AutuacaoController;
+import Controller.CarteiraController;
 import Controller.PessoaController;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import valueObject.Automovel;
+import valueObject.Autuacao;
+import valueObject.Carteira;
 import valueObject.Pessoa;
 
 /**
  *
  * @author LucasFernandes
  */
-public final class FormManterAutomovel extends FormTemplate {
+public final class FormManterAutuacao extends FormTemplate {
     
-    
-    private Pessoa proprietario = null;
-    private int titularIndex = 0;
-    private ArrayList <Pessoa> titularList = new ArrayList<>();
     private boolean editing = false;
     private int idAutomovel;
    
-    private static FormManterAutomovel manterForm = null;
+    private static FormManterAutuacao manterForm = null;
 
-    public static FormManterAutomovel getForm() {
+    public static FormManterAutuacao getForm() {
         if (manterForm == null) {
-            manterForm = new FormManterAutomovel();
+            manterForm = new FormManterAutuacao();
         }
         return manterForm;
     }
@@ -41,8 +42,8 @@ public final class FormManterAutomovel extends FormTemplate {
     /**
      * Creates new form FormManterEvento
      */
-    private FormManterAutomovel() {
-        this.setTitle("Gerenciar Automóvel");
+    private FormManterAutuacao() {
+        this.setTitle("Gerenciar Autuações");
         initComponents();
         iniciarComponentes();
         this.setLocationRelativeTo(null);
@@ -57,12 +58,10 @@ public final class FormManterAutomovel extends FormTemplate {
             
             @Override
             public void componentShown(ComponentEvent e) {
-                    iniciarComboBoxTitular();
                     limparComponentes();
                 }
             });
         
-        jTFBuscaKeyReleased(null);
     }
 
     
@@ -71,20 +70,20 @@ public final class FormManterAutomovel extends FormTemplate {
         
         super.jTBBuscaRapida.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
-                    {null, null, null, null, null, null}
+                    {null, null, null, null, null}
                 },
                 new String[]{
-                    "Proprietário", "Renavam", "Marca",
-                    "Modelo", "Cor", "Placa"
+                    "Título", "Descrição", "Pontuação",
+                    "Custo", "Prazo"
                 }
         ) {
             // Quatidade de Colunas
             Class[] types = new Class[]{
-                java.lang.String.class, java.lang.String.class, java.lang.String.class,
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class,
+                java.lang.Double.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean[]{
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             @Override
@@ -99,7 +98,7 @@ public final class FormManterAutomovel extends FormTemplate {
         });
         super.jSPTable.setViewportView(jTBBuscaRapida);
         
-        super.jLInstrucao.setText("Informe o número do Renavam (Somente Números)");
+        super.jLInstrucao.setText("Informe o título da autuação");
 
         jTBBuscaRapida.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -107,71 +106,33 @@ public final class FormManterAutomovel extends FormTemplate {
                 jTBBuscaRapidaMouseClicked(evt);
             }
         });
-        
-        jTFBusca.addKeyListener(new java.awt.event.KeyAdapter() {
-            @Override
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTFBuscaKeyTyped(evt);
-            }
-            @Override
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTFBuscaKeyPressed(evt);
-            }
-            @Override
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTFBuscaKeyReleased(evt);
-            }
-        });
-        
         DefaultTableModel tableModel = (DefaultTableModel) super.jTBBuscaRapida.getModel();
         tableModel.setRowCount(0);
 
         jBTAlterar.setText("Alterar");
         jBTAlterar.setEnabled(false);
-        jBTAlterar.addActionListener(this::jBTAlterarActionPerformed);
+        //jBTAlterar.addActionListener(this::jBTAlterarActionPerformed);
 
         jBTSalvar.setText("Salvar");
         jBTSalvar.setEnabled(false);
-        jBTSalvar.addActionListener(this::jBTSalvarActionPerformed);
+        //jBTSalvar.addActionListener(this::jBTSalvarActionPerformed);
 
         jBTExcluir.setText("Excluir");
         jBTExcluir.setEnabled(false);
-        jBTExcluir.addActionListener(this::jBTExcluirActionPerformed);
+        //jBTExcluir.addActionListener(this::jBTExcluirActionPerformed);
 
         jBTCadastrar.setText("Cadastrar");
-        jBTCadastrar.addActionListener(this::jBTCadastrarActionPerformed);
+        //jBTCadastrar.addActionListener(this::jBTCadastrarActionPerformed);
 
         jBTConfirmar.setText("Confirmar");
         jBTConfirmar.setEnabled(false);
-        jBTConfirmar.addActionListener(this::jBTConfirmarActionPerformed);
+        jBTConfirmar.addActionListener((java.awt.event.ActionEvent evt) -> {
+            //jBTConfirmarActionPerformed(evt);
+        });
 
         jBTCancelar.setText("Cancelar");
         jBTCancelar.setEnabled(false);
-        jBTCancelar.addActionListener(this::jBTCancelarActionPerformed);
-    }
-    
-    //  Carregar Pessoas do BD
-    //  Será carregado somente quando a Janela for visível
-    private void iniciarComboBoxTitular() {
-        jCBProprietario.removeAllItems();
-        // Carrega todas as pessoas do BD, que são ativos. (Status == true)
-        Pessoa pessoa = new Pessoa();
-        pessoa.setStatus(true);
-        
-        // Busca no Banco de Dados TODOS os possíveis titulares
-        ArrayList<Pessoa> newTitularList = PessoaController.buscarPessoa(pessoa, "STATUS");
-        
-        // Caso algum erro tenha acontecido
-        if(pessoa.isError()){
-            Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
-                    pessoa.getMessage());
-            return;
-        }
-        
-        for (Pessoa pessoaItem : newTitularList) {
-            jCBProprietario.addItem(pessoaItem);
-        }
-        
+        //jBTCancelar.addActionListener(this::jBTCancelarActionPerformed);
     }
 
     public void liberarComponentes() {
@@ -183,8 +144,8 @@ public final class FormManterAutomovel extends FormTemplate {
         jTFChassi.setEnabled(true);
         jTFAno.setEnabled(true);
         jCBProprietario.setEnabled(true);
-        //super.getjTFBusca().setEnabled(false);
-        //super.getjTBBuscaRapida().setEnabled(false);
+        super.getjTFBusca().setEnabled(false);
+        super.getjTBBuscaRapida().setEnabled(false);
         editing = true;
     }
 
@@ -197,8 +158,8 @@ public final class FormManterAutomovel extends FormTemplate {
         jTFChassi.setEnabled(false);
         jTFAno.setEnabled(false);
         jCBProprietario.setEnabled(false);
-        //super.getjTFBusca().setEnabled(true);
-        //super.getjTBBuscaRapida().setEnabled(true);
+        super.getjTFBusca().setEnabled(true);
+        super.getjTBBuscaRapida().setEnabled(true);
         editing = false;
     }
     public void preencheComponentes(Automovel automovel) {
@@ -209,9 +170,6 @@ public final class FormManterAutomovel extends FormTemplate {
         jTFPlaca.setText(automovel.getPlaca());
         jTFChassi.setText(automovel.getChassi());
         jTFAno.setText(automovel.getAno());
-        // talvez ele escolha o proprietario errado, 
-        // pois no momento o cpf não está sendo único no banco
-        // (mas na versão final será)
         for(int i=0; i<jCBProprietario.getItemCount(); i++) {
             if(((Pessoa)jCBProprietario.getItemAt(i)).getCpf().equals( automovel.getProprietario().getCpf() )) {
                 jCBProprietario.setSelectedIndex(i);
@@ -230,15 +188,6 @@ public final class FormManterAutomovel extends FormTemplate {
         jTFPlaca.setText("");
         jTFChassi.setText("");
         jTFAno.setText("");
-        
-        // Verificação para selecionar um item no comboBox
-        if(jCBProprietario.getItemCount() == 0){
-            // Não há como selecionar um item
-            //System.out.println("Vazio");
-        }
-        else {
-            jCBProprietario.setSelectedIndex(titularIndex);
-        }
     }
     
     @Override
@@ -246,43 +195,36 @@ public final class FormManterAutomovel extends FormTemplate {
         // TODO add your handling code here:
         super.jTFBuscaKeyReleased(evt);
         
-        ArrayList<Automovel> automovelList;
+        ArrayList<Autuacao> autuacaoList;
         
-        Automovel automovel = new Automovel();
-        automovel.setRenavam( super.jTFBusca.getText() );
-        automovelList = AutomovelController.buscarAutomovel(automovel, "RENAVAM");
+        Autuacao autuacao = new Autuacao();
+        autuacao.setTitulo( jTFBusca.getText() );
         
-        if(automovel.isError())
+        autuacaoList = AutuacaoController.buscarAutuacao(autuacao, "TITULO");
+        
+        if(autuacao.isError())
         {
             Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
-                    automovel.getMessage());
+                    autuacao.getMessage());
         }
-        else if (automovelList == null)
+        else if (autuacaoList == null)
             return;
         
-        preencherPesquisa(automovelList);
+        preenchePesquisa(autuacaoList);
     } 
     
-    private void preencherPesquisa(ArrayList<Automovel> automovelList) {
+    private void preenchePesquisa(ArrayList<Autuacao> autuacaoList) {
         DefaultTableModel tableModel = (DefaultTableModel) super.jTBBuscaRapida.getModel();
         
         tableModel.setRowCount(0);
-        if(automovelList == null) return;
         
-        for(Automovel automovel : automovelList ) if(automovel != null) {
-            String nome;
-            if(automovel.getProprietario() == null) 
-                nome = "Sem proprietário.";
-            else 
-                nome = automovel.getProprietario().getNome();
-            
+        for(Autuacao autuacao : autuacaoList ) {
             tableModel.addRow(new Object[] { 
-                nome,
-                automovel.getRenavam(),
-                automovel.getMarca(),
-                automovel.getModelo(),
-                automovel.getCor(),
-                automovel.getPlaca()
+                autuacao.getTitulo(),
+                autuacao.getDescricao(),
+                autuacao.getPontuacao(),
+                autuacao.getCusto(),
+                autuacao.getPrazo()
             });
         }
     }
@@ -441,6 +383,7 @@ public final class FormManterAutomovel extends FormTemplate {
         jTFMarca = new javax.swing.JTextField();
         jTFModelo = new javax.swing.JTextField();
         jTFCor = new javax.swing.JTextField();
+        jTFChassi = new javax.swing.JTextField();
         jTFAno = new javax.swing.JTextField();
         jCBProprietario = new javax.swing.JComboBox();
         jLabel8 = new javax.swing.JLabel();
@@ -452,7 +395,6 @@ public final class FormManterAutomovel extends FormTemplate {
         jLabel14 = new javax.swing.JLabel();
         jTFPlaca = new javax.swing.JFormattedTextField();
         jTFRenavam = new javax.swing.JFormattedTextField();
-        jTFChassi = new javax.swing.JFormattedTextField();
 
         setSize(new java.awt.Dimension(650, 185));
 
@@ -468,6 +410,8 @@ public final class FormManterAutomovel extends FormTemplate {
         jTFModelo.setBackground(new java.awt.Color(240, 240, 240));
 
         jTFCor.setBackground(new java.awt.Color(240, 240, 240));
+
+        jTFChassi.setBackground(new java.awt.Color(240, 240, 240));
 
         jTFAno.setBackground(new java.awt.Color(240, 240, 240));
 
@@ -512,18 +456,6 @@ public final class FormManterAutomovel extends FormTemplate {
             }
         });
 
-        jTFChassi.setBackground(new java.awt.Color(240, 240, 240));
-        try {
-            jTFChassi.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("AAAAAAAAAAAAAAAAA")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        jTFChassi.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jTFChassiFocusGained(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPDadosLayout = new javax.swing.GroupLayout(jPDados);
         jPDados.setLayout(jPDadosLayout);
         jPDadosLayout.setHorizontalGroup(
@@ -551,9 +483,10 @@ public final class FormManterAutomovel extends FormTemplate {
                                 .addGap(9, 9, 9)
                                 .addComponent(jTFAno, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jTFMarca)
-                            .addComponent(jTFCor)
-                            .addComponent(jTFPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTFChassi))))
+                            .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jTFChassi, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+                                .addComponent(jTFCor))
+                            .addComponent(jTFPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(170, Short.MAX_VALUE))
         );
         jPDadosLayout.setVerticalGroup(
@@ -583,8 +516,8 @@ public final class FormManterAutomovel extends FormTemplate {
                     .addComponent(jTFPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(jTFChassi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTFChassi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCBProprietario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -621,10 +554,6 @@ public final class FormManterAutomovel extends FormTemplate {
         this.jTFRenavam.setText(null);
     }//GEN-LAST:event_jTFRenavamFocusGained
 
-    private void jTFChassiFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFChassiFocusGained
-        this.jTFChassi.setText(null);
-    }//GEN-LAST:event_jTFChassiFocusGained
-
     /**
      * @param args the command line arguments
      */
@@ -642,14 +571,18 @@ public final class FormManterAutomovel extends FormTemplate {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormManterAutomovel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormManterAutuacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormManterAutomovel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormManterAutuacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormManterAutomovel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormManterAutuacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormManterAutomovel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormManterAutuacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -657,7 +590,7 @@ public final class FormManterAutomovel extends FormTemplate {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new FormManterAutomovel().setVisible(true);
+            new FormManterAutuacao().setVisible(true);
         });
     }
 
@@ -675,7 +608,7 @@ public final class FormManterAutomovel extends FormTemplate {
     private javax.swing.JPanel jPDados;
     private javax.swing.JPanel jPManter;
     private javax.swing.JTextField jTFAno;
-    private javax.swing.JFormattedTextField jTFChassi;
+    private javax.swing.JTextField jTFChassi;
     private javax.swing.JTextField jTFCor;
     private javax.swing.JTextField jTFMarca;
     private javax.swing.JTextField jTFModelo;
@@ -683,17 +616,4 @@ public final class FormManterAutomovel extends FormTemplate {
     private javax.swing.JFormattedTextField jTFRenavam;
     // End of variables declaration//GEN-END:variables
 
-    /**
-     * @return the titular
-     */
-    public Pessoa getTitular() {
-        return proprietario;
-    }
-
-    /**
-     * @param titular the titular to set
-     */
-    public void setTitular(Pessoa titular) {
-        this.proprietario = titular;
-    }
 }

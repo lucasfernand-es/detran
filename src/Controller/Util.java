@@ -43,9 +43,8 @@ public class Util {
             boolean status = rs.getBoolean("status");
             int idPessoa = rs.getInt("idPessoa");
             
+            int automoveis = Util.getAutomoveisCount(idPessoa);
             int carteiras = Util.getCarteiras(idPessoa);
-            int automoveis = Util.getAutomoveis(idPessoa);
-            
             
             pessoa = new Pessoa(nome, cpf, rg, orgaoEmissor, rgEstado, 
                     dataNascimento, logradouro,  numeroLogradouro, complementoLogradouro, 
@@ -205,13 +204,12 @@ public class Util {
         }
     }
 
-    private static int getAutomoveis(int idPessoa) {
+    private static int getAutomoveisCount(int idPessoa) {
         Automovel automovel = new Automovel();
         Pessoa pessoa = new Pessoa();
         
         pessoa.setIdPessoa(idPessoa);
         automovel.setProprietario(pessoa);
-        
         
         ArrayList<Automovel> automoveis = AutomovelController.buscarAutomovel(automovel, "NAUTOMOVEIS");
         if (automoveis == null) {

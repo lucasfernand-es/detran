@@ -63,7 +63,6 @@ public class AutomovelModel {
                 keys.next();  
                 
                 int key = keys.getInt(1);
-                System.out.println("key: " + key);
                 // Adicionando pro Objeto o devido ID
                 automovel.setIdAutomovel(key);
             }
@@ -207,19 +206,19 @@ public class AutomovelModel {
                     stm.setBoolean(1, automovel.isStatus());
                     break;
                 case "ID":
-                    stm = con.prepareStatement("SELECT * FROM automovel WHERE idAutomovel = ?");
+                    stm = con.prepareStatement("SELECT * FROM automovel WHERE idAutomovel = ? AND status = true");
                     stm.setInt(1, automovel.getIdAutomovel());
                     break;
                 case "PROPRIETARIO":
-                    stm = con.prepareStatement("SELECT * FROM automovel WHERE idPessoa = ?");
+                    stm = con.prepareStatement("SELECT * FROM automovel WHERE idPessoa = ? AND status = true");
                     stm.setInt(1, automovel.getProprietario().getIdPessoa());
                     break;
                 case "NAUTOMOVEIS":
-                    stm = con.prepareStatement("SELECT * FROM automovel WHERE idPessoa = ?");
+                    stm = con.prepareStatement("SELECT * FROM automovel WHERE idPessoa = ? AND status = true");
                     stm.setInt(1, automovel.getProprietario().getIdPessoa());
                     break;
                 default: 
-                    stm = con.prepareStatement("SELECT * FROM automovel");
+                    stm = con.prepareStatement("SELECT * FROM automovel WHERE status = true");
                     break;
             }
             

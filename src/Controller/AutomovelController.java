@@ -6,11 +6,8 @@
 package Controller;
 
 import Model.AutomovelModel;
-import Model.PessoaModel;
-import static java.lang.String.format;
 import java.util.ArrayList;
 import valueObject.Automovel;
-import valueObject.Pessoa;
 
 /**
  *
@@ -43,46 +40,48 @@ public class AutomovelController {
     private static boolean verificarCampos(Automovel automovel) {
         String mensagem = "";
         
-        // vazios
-        if(automovel.getRenavam().equals(""))
-            mensagem = mensagem.concat("Renavam não pode estar vazio\n");
-        if(automovel.getMarca().equals(""))
-            mensagem = mensagem.concat("Marca não pode estar vazio\n");
-        if(automovel.getModelo().equals(""))
-            mensagem = mensagem.concat("Modelo não pode estar vazio\n");
-        if(automovel.getCor().equals(""))
-            mensagem = mensagem.concat("Cor não pode estar vazio\n");
-        if(automovel.getPlaca().equals(""))
-            mensagem = mensagem.concat("Placa não pode estar vazio\n");
-        if(automovel.getChassi().equals(""))
-            mensagem = mensagem.concat("Chassi não pode estar vazio\n");
+        // renavam
+        if(!automovel.getRenavam().matches("[0-9]{11}"))
+            mensagem = mensagem.concat("Renavam deve conter 11 dígitos\n");
+        
+        // ano
         if(automovel.getAno().equals(""))
             mensagem = mensagem.concat("Ano não pode estar vazio\n");
-        if(automovel.getProprietario() == null)
-            mensagem = mensagem.concat("Proprietário não pode estar vazio\n");
+        else {
+            try {
+                int ano = Integer.decode( automovel.getAno() );
+                if(ano < 1900 || ano > 2015) {
+                    mensagem = mensagem.concat("Ano deve ser entre 1900 e 2015\n");
+                }
+            } catch (Exception e) {
+                mensagem = mensagem.concat("Ano deve ser um inteiro válido\n");
+            }
+        }
         
-        // tamanhos especiais
-        if(automovel.getRenavam().length() != 11)
-            mensagem = mensagem.concat("Renavam deve conter 11 dígitos\n");
-        if(automovel.getPlaca().length() != 8)
+        // marca
+        if(automovel.getMarca().equals(""))
+            mensagem = mensagem.concat("Marca não pode estar vazio\n");
+        
+        // modelo
+        if(automovel.getModelo().equals(""))
+            mensagem = mensagem.concat("Modelo não pode estar vazio\n");
+        
+        // cor
+        if(automovel.getCor().equals(""))
+            mensagem = mensagem.concat("Cor não pode estar vazio\n");
+        
+        // placa
+        if(!automovel.getPlaca().substring(0, 3).matches("[A-Za-z]{3}")
+                || !automovel.getPlaca().substring(4, 8).matches("[0-9]{4}"))
             mensagem = mensagem.concat("Placa deve conter 7 caracteres\n");
-        if(automovel.getChassi().length() != 17)
+        
+        // chassi
+        if(!automovel.getChassi().matches("[0-9A-Za-z]{17}"))
             mensagem = mensagem.concat("Chassi deve conter 17 caracteres\n");
         
-        // casos especiais
-        try {
-            int ano = Integer.decode( automovel.getAno() );
-            if(ano < 1900 || ano > 2015) {
-                mensagem = mensagem.concat("Ano deve ser entre 1900 e 2015\n");
-            }
-        } catch (Exception e) {
-            mensagem = mensagem.concat("Ano deve ser um inteiro válido\n");
-        }
-        
-        // máscaras
-        if(!automovel.getChassi().matches("[0-9A-Za-z]{17}")) {
-            mensagem = mensagem.concat("Chassi deve conter apenas letras e dígitos\n");
-        }
+        // proprietário
+        if(automovel.getProprietario() == null)
+            mensagem = mensagem.concat("Proprietário não pode estar vazio\n");
         
         // A nova mensagem dentro do objeto será a mensagem atual 
         // com as novas informações
@@ -99,7 +98,7 @@ public class AutomovelController {
     // Objeto2 (String) especifica o tipo da pesquisa
     public static ArrayList<Automovel>  buscarAutomovel(Automovel automovel, String tipo) {
         // Tratando pesquisa por Renavam
-        if(tipo.equals("RENAVAM")) {
+        if(tipo.equals("RENAVAM") && automovel.getRenavam().length() > 0) {
             boolean renavamValido = checaFormatoRenavam(automovel.getRenavam());
             // Se o que foi digitado na pesquisa não for válido, não é necessário fazer a busca
             if(!renavamValido)
