@@ -254,5 +254,41 @@ public class Util {
         }
         return count;
     }
+    public static int multasRelacionadasCount(int idAutuacao) {
+        Multa multa = new Multa();
+        Autuacao autuacao = new Autuacao();
+        autuacao.setIdAutuacao(idAutuacao);
+        multa.setAutuacao(autuacao);
+        
+        ArrayList<Multa> list = MultaController.buscarMulta(multa, "IDAUTUACAO");
+        
+        if(list != null)
+            return list.size();
+        else
+            return 0;
+    }
+    
+    public static Autuacao criarAutuacao(ResultSet rs) {
+        Autuacao autuacao;
+        try {
+            // Criando objeto para receber os dados preenchidos na tela
+            String titulo = rs.getString("titulo");
+            String descricao = rs.getString("descricao");
+            int pontuacao = rs.getInt("pontuacao");
+            double custo = rs.getDouble("custo");
+            int prazo = rs.getInt("prazo");
+            int idAutuacao = rs.getInt("idAutuacao");
+            
+            autuacao = new Autuacao(titulo, descricao, pontuacao, 
+                    custo, prazo, idAutuacao);
+            return autuacao;
+        }
+        catch(Exception e) {
+            autuacao = new Autuacao();
+            autuacao.setError(true);
+            autuacao.setMessage(e.getMessage());
+            return null;
+        }
+    }
     
 }

@@ -6,28 +6,44 @@
 package valueObject;
 
 public class Autuacao {
+    
+    private String titulo;
+    private String descricao;
+    private int pontuacao;
+    private double custo;
+    private int prazo;
+    
+    // checagem de custo
+    private String custo_str;
+    
+    // ID deste objeto no banco de dados
+    private int idAutuacao;
 
-	private String titulo;
-	private String descricao;
-	private int pontuacao;
-	private double custo;
-	private int prazo;
+    /*
+     * Ajuda MVC
+     * Os atributos abaixo contribuir para o controle das operações 
+     * envolvendo os objetos desta classe.
+     */
 
-        // ID deste objeto no banco de dados
-        private int idAutuacao;
-
-        /*
-         * Ajuda MVC
-         * Os atributos abaixo contribuir para o controle das operações 
-         * envolvendo os objetos desta classe.
-         */
-
-        // Quando uma operação envolvendo este objeto der erro em tempo de execução, 
-        // este atributo será acionado
-        private boolean error = false;
-        // Especificação do erro
-        private String message;
-
+    // Quando uma operação envolvendo este objeto der erro em tempo de execução, 
+    // este atributo será acionado
+    private boolean error = false;
+    // Especificação do erro
+    private String message;
+    
+    public Autuacao(String titulo, String descricao, int pontuacao,
+            double custo, int prazo, int idAutuacao) {
+        this.titulo = titulo;
+        this.descricao = descricao;
+        this.pontuacao = pontuacao;
+        this.custo = custo;
+        this.prazo = prazo;
+        this.idAutuacao = idAutuacao;
+    }
+    
+    public Autuacao() {
+    }
+        
     /**
      * @return the titulo
      */
@@ -138,6 +154,13 @@ public class Autuacao {
      */
     public void setMessage(String message) {
         this.message = message;
+    }
+    
+    public String getCustoStr() {
+        return this.custo_str;
+    }
+    public void setCustoStr(String custo_str) {
+        this.custo_str = custo_str;
     }
 
 }

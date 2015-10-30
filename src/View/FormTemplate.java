@@ -310,7 +310,7 @@ public class FormTemplate extends javax.swing.JFrame {
     }//GEN-LAST:event_jBTCancelarActionPerformed
 
     protected void jTFBuscaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFBuscaKeyReleased
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jTFBuscaKeyReleased
     
     protected void jTFBuscaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFBuscaKeyPressed

@@ -70,7 +70,7 @@ public class AutuacaoModel {
             
             // SQL que vai ser executada
             // INSERT INTO autuacao (titulo, descricao, pontuacao, 
-            //                       custo, prazo
+            //                       custo, prazo)
             //               values (?, ?, ?, ?, ?)
             String query = (
                     "insert into autuacao ("
@@ -115,4 +115,92 @@ public class AutuacaoModel {
         }
     }
     
+    public static void alterarAutuacao(Autuacao autuacao){
+        try {
+            // Connect with database
+            MySQLConnector mCon = new MySQLConnector();
+            Connection con = mCon.connect();
+            
+            // SQL que vai ser executada
+            // UPDATE autuacao SET modelo = focuss WHERE idAutuacao = ?;
+            String query = 
+                    "UPDATE autuacao SET "
+                            + "titulo = ?, "
+                            + "descricao = ?, "
+                            + "pontuacao = ?, "
+                            + "custo = ?, "
+                            + "prazo = ? "
+                    + "WHERE idAutuacao = ?";
+            
+            PreparedStatement stm;
+            stm = con.prepareStatement(query);
+            
+            stm.setString(1, autuacao.getTitulo());
+            stm.setString(2, autuacao.getDescricao());
+            stm.setInt(3, autuacao.getPontuacao());
+            stm.setDouble(4, autuacao.getCusto());
+            stm.setInt(5, autuacao.getPrazo());
+            stm.setInt(6, autuacao.getIdAutuacao());
+            
+            // Confere se alguma linha do BD foi modificada
+            int status = stm.executeUpdate();
+            
+            if(status == 1) {
+                autuacao.setError(false);
+                autuacao.setMessage("Alterado com Sucesso!");
+            }
+            else {
+                autuacao.setMessage("Falha ao Alterar!");
+            }
+            
+            mCon.disconnect();
+        }
+        catch(Exception e) {
+            autuacao.setError(true);
+            autuacao.setMessage("\tFalha Técnica\n\t" + e.getMessage());
+        }
+    }
+    
+    public static void excluirAutuacao(Autuacao autuacao){
+        try {
+            // Connect with database
+            MySQLConnector mCon = new MySQLConnector();
+            Connection con = mCon.connect();
+            
+            int multas_relacionadas = Util.multasRelacionadasCount(autuacao.getIdAutuacao());
+            if(multas_relacionadas > 0) {
+                autuacao.setError(true);
+                autuacao.setMessage("Há multas relacionadas a esta autuação\n");
+                return;
+            }
+            
+            // SQL que vai ser executada
+            // UPDATE automovel SET status = false WHERE idAutomovel = ?
+            String query = 
+                    "DELETE FROM autuacao " +
+                    "WHERE idAutuacao = ?";
+            
+            PreparedStatement stm;
+            stm = con.prepareStatement(query);
+            
+            stm.setInt(1, autuacao.getIdAutuacao());
+            
+            // Confere se alguma linha do BD foi modificada
+            int status = stm.executeUpdate();
+            
+            if(status == 1) {
+                autuacao.setError(false);
+                autuacao.setMessage("Excluído com Sucesso!");
+            }
+            else {
+                autuacao.setMessage("Falha ao Excluir!");
+            }
+            
+            mCon.disconnect();
+        }
+        catch(Exception e) {
+            autuacao.setError(true);
+            autuacao.setMessage("\tFalha Técnica\n\t" + e.getMessage());
+        }
+    }
 }

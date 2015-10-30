@@ -40,6 +40,10 @@ public class MultaModel {
                     stm = con.prepareStatement("SELECT * FROM multa WHERE idAutomovel = ?");
                     stm.setInt(1, multa.getAutomovel().getIdAutomovel());
                     break;
+                case "IDAUTUACAO":
+                    stm = con.prepareStatement("SELECT * FROM multa WHERE idAutuacao = ?");
+                    stm.setInt(1, multa.getAutuacao().getIdAutuacao());
+                    break;
                 case "IDPESSOA":
                     stm = con.prepareStatement("SELECT * FROM multa WHERE idPessoa = ? OR idPessoa = ?");
                     stm.setInt(1, multa.getAutomovel().getProprietario().getIdPessoa());
@@ -57,7 +61,6 @@ public class MultaModel {
             rs = stm.executeQuery();
             
             while (rs.next()) {
-                System.out.println("about to instance");
                 Multa multaVO = Util.criarMulta(rs);
                 System.out.println( multaVO.toString() );
                 multaList.add(multaVO);

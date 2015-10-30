@@ -1,9 +1,7 @@
 package Controller;
 
-import Model.AutomovelModel;
 import Model.AutuacaoModel;
 import java.util.ArrayList;
-import valueObject.Automovel;
 import valueObject.Autuacao;
 
 /**
@@ -34,47 +32,52 @@ public class AutuacaoController {
         }
         AutuacaoModel.cadastrarAutuacao(autuacao);
     }
+    public static void alterarAutuacao(Autuacao autuacao) {
+        boolean verifica = AutuacaoController.verificarCampos(autuacao);
+        if(!verifica) {
+            autuacao.setError(true);
+            // Algum dado informado é inválido
+            return;
+        }
+        AutuacaoModel.alterarAutuacao(autuacao);
+    }
+    public static void excluirAutuacao(Autuacao autuacao) {
+        AutuacaoModel.excluirAutuacao(autuacao);
+    }
     
     private static boolean verificarCampos(Autuacao autuacao) {
         String mensagem = "";
         
-        // vazios
+        // titulo
         if(autuacao.getTitulo().length() == 0)
             mensagem = mensagem.concat("Título não pode estar vazio\n");
+        
+        // descricao
         if(autuacao.getDescricao().length() == 0)
             mensagem = mensagem.concat("Descrição não pode estar vazio\n");
-        if(autuacao.getPontuacaoStr().length() == 0)
-            mensagem = mensagem.concat("Pontuação não pode estar vazio\n");
-        if(autuacao.getCustoStr().length() == 0)
-            mensagem = mensagem.concat("Custo não pode estar vazio\n");
-        if(autuacao.getPrazoStr().length() == 0)
-            mensagem = mensagem.concat("Prazo não pode estar vazio\n");
         
-        // números
-        try {
-            int pontuacao = Integer.decode( autuacao.getPontuacaoStr() );
-            if(pontuacao < 1 || pontuacao > 10)
-                mensagem = mensagem.concat("Pontuação deve estar entre 1 e 10\n");
-            autuacao.setPontuacao(pontuacao);
-        } catch (Exception e) {
-            mensagem = mensagem.concat("Pontuação deve ser um inteiro\n");
+        // custo
+        if(autuacao.getCustoStr().length() == 0) {
+            mensagem = mensagem.concat("Custo não pode estar vazio\n");
+        } else {
+            try {
+                double custo = Double.parseDouble( autuacao.getCustoStr() );
+                autuacao.setCusto(custo);
+                if(custo <= 0.0) {
+                    mensagem = mensagem.concat("Custo deve ser um valor real maior que 0\n");
+                }
+            } catch (Exception e) {
+                mensagem = mensagem.concat("Custo deve ser um valor real válido\n");
+            }
         }
-        try {
-            double custo = Double.parseDouble( autuacao.getCustoStr() );
-            if(custo < 1.0 || custo > 1000.0)
-                mensagem = mensagem.concat("Custo deve estar entre 1 e 1000\n");
-            autuacao.setCusto(custo);
-        } catch (Exception e) {
-            mensagem = mensagem.concat("Custo deve ser um número decimal\n");
-        }
-        try {
-            int prazo = Integer.decode( autuacao.getPrazoStr() );
-            if(prazo < 1 || prazo > 60)
-                mensagem = mensagem.concat("Prazo deve estar entre 1 e 60\n");
-            autuacao.setPrazo(prazo);
-        } catch (Exception e) {
-            mensagem = mensagem.concat("Prazo deve ser um inteiro\n");
-        }
+        
+        // prazo
+        if(autuacao.getPrazo() <= 0)
+            mensagem = mensagem.concat("Prazo deve ser maior do que 0\n");
+        
+        // pontuacao
+        if(autuacao.getPontuacao() <= 0)
+            mensagem = mensagem.concat("Pontuacao deve ser maior do que 0\n");
         
         // A nova mensagem dentro do objeto será a mensagem atual 
         // com as novas informações

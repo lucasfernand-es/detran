@@ -8,28 +8,23 @@ package View;
 import Addons.Aviso;
 import Controller.AutomovelController;
 import Controller.AutuacaoController;
-import Controller.CarteiraController;
-import Controller.PessoaController;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
-import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import valueObject.Automovel;
 import valueObject.Autuacao;
-import valueObject.Carteira;
-import valueObject.Pessoa;
 
 /**
  *
  * @author LucasFernandes
  */
 public final class FormManterAutuacao extends FormTemplate {
-    
+
     private boolean editing = false;
-    private int idAutomovel;
-   
+    private int idAutuacao;
+
     private static FormManterAutuacao manterForm = null;
 
     public static FormManterAutuacao getForm() {
@@ -38,7 +33,7 @@ public final class FormManterAutuacao extends FormTemplate {
         }
         return manterForm;
     }
-    
+
     /**
      * Creates new form FormManterEvento
      */
@@ -51,39 +46,39 @@ public final class FormManterAutuacao extends FormTemplate {
         // Resetar todos os componentes
         bloquearComponentes();
         limparComponentes();
-        
+
         // Toda vez que o formulário for mostrado, carrega o ComboBoxTitular Novamente e limpar os campos
         this.addComponentListener(new ComponentAdapter() {
             /* code run when JFrame shown */
-            
+
             @Override
             public void componentShown(ComponentEvent e) {
-                    limparComponentes();
-                }
-            });
+                limparComponentes();
+            }
+        });
         
+        jTFBuscaKeyReleased(null);
     }
 
-    
     public void iniciarComponentes() {
         super.setSize(714, 776);
-        
+
         super.jTBBuscaRapida.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{
-                    {null, null, null, null, null}
+                    {null, null, null, null, null, null}
                 },
                 new String[]{
-                    "Título", "Descrição", "Pontuação",
-                    "Custo", "Prazo"
+                    "Id", "Título", "Descrição", 
+                    "Pontuação", "Custo", "Prazo"
                 }
         ) {
             // Quatidade de Colunas
             Class[] types = new Class[]{
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class,
-                java.lang.Double.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class,
+                java.lang.Integer.class, java.lang.Double.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean[]{
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             @Override
@@ -97,8 +92,15 @@ public final class FormManterAutuacao extends FormTemplate {
             }
         });
         super.jSPTable.setViewportView(jTBBuscaRapida);
-        
+
         super.jLInstrucao.setText("Informe o título da autuação");
+        
+        jTFBusca.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTFBuscaKeyReleased(evt);
+            }
+        });
 
         jTBBuscaRapida.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -111,115 +113,99 @@ public final class FormManterAutuacao extends FormTemplate {
 
         jBTAlterar.setText("Alterar");
         jBTAlterar.setEnabled(false);
-        //jBTAlterar.addActionListener(this::jBTAlterarActionPerformed);
+        jBTAlterar.addActionListener(this::jBTAlterarActionPerformed);
 
         jBTSalvar.setText("Salvar");
         jBTSalvar.setEnabled(false);
-        //jBTSalvar.addActionListener(this::jBTSalvarActionPerformed);
+        jBTSalvar.addActionListener(this::jBTSalvarActionPerformed);
 
         jBTExcluir.setText("Excluir");
         jBTExcluir.setEnabled(false);
-        //jBTExcluir.addActionListener(this::jBTExcluirActionPerformed);
+        jBTExcluir.addActionListener(this::jBTExcluirActionPerformed);
 
         jBTCadastrar.setText("Cadastrar");
-        //jBTCadastrar.addActionListener(this::jBTCadastrarActionPerformed);
+        jBTCadastrar.addActionListener(this::jBTCadastrarActionPerformed);
 
         jBTConfirmar.setText("Confirmar");
         jBTConfirmar.setEnabled(false);
         jBTConfirmar.addActionListener((java.awt.event.ActionEvent evt) -> {
-            //jBTConfirmarActionPerformed(evt);
+            jBTConfirmarActionPerformed(evt);
         });
 
         jBTCancelar.setText("Cancelar");
         jBTCancelar.setEnabled(false);
-        //jBTCancelar.addActionListener(this::jBTCancelarActionPerformed);
+        jBTCancelar.addActionListener(this::jBTCancelarActionPerformed);
     }
 
     public void liberarComponentes() {
-        jTFRenavam.setEnabled(true);
-        jTFMarca.setEnabled(true);
-        jTFModelo.setEnabled(true);
-        jTFCor.setEnabled(true);
-        jTFPlaca.setEnabled(true);
-        jTFChassi.setEnabled(true);
-        jTFAno.setEnabled(true);
-        jCBProprietario.setEnabled(true);
+        jTextFieldTitulo.setEnabled(true);
+        jTextAreaDescricao.setEnabled(true);
+        jTextFieldCusto.setEnabled(true);
+        jSpinnerPrazo.setEnabled(true);
+        jSpinnerPontuacao.setEnabled(true);
         super.getjTFBusca().setEnabled(false);
         super.getjTBBuscaRapida().setEnabled(false);
         editing = true;
     }
 
     public void bloquearComponentes() {
-        jTFRenavam.setEnabled(false);
-        jTFMarca.setEnabled(false);
-        jTFModelo.setEnabled(false);
-        jTFCor.setEnabled(false);
-        jTFPlaca.setEnabled(false);
-        jTFChassi.setEnabled(false);
-        jTFAno.setEnabled(false);
-        jCBProprietario.setEnabled(false);
+        jTextFieldTitulo.setEnabled(false);
+        jTextAreaDescricao.setEnabled(false);
+        jTextFieldCusto.setEnabled(false);
+        jSpinnerPrazo.setEnabled(false);
+        jSpinnerPontuacao.setEnabled(false);
         super.getjTFBusca().setEnabled(true);
         super.getjTBBuscaRapida().setEnabled(true);
         editing = false;
     }
-    public void preencheComponentes(Automovel automovel) {
-        jTFRenavam.setText(automovel.getRenavam());
-        jTFMarca.setText(automovel.getMarca());
-        jTFModelo.setText(automovel.getModelo());
-        jTFCor.setText(automovel.getCor());
-        jTFPlaca.setText(automovel.getPlaca());
-        jTFChassi.setText(automovel.getChassi());
-        jTFAno.setText(automovel.getAno());
-        for(int i=0; i<jCBProprietario.getItemCount(); i++) {
-            if(((Pessoa)jCBProprietario.getItemAt(i)).getCpf().equals( automovel.getProprietario().getCpf() )) {
-                jCBProprietario.setSelectedIndex(i);
-                break;
-            }
-        }
+
+    public void preencheComponentes(Autuacao autuacao) {
+        jTextFieldTitulo.setText(autuacao.getTitulo());
+        jTextAreaDescricao.setText(autuacao.getDescricao());
+        jTextFieldCusto.setText(String.valueOf(autuacao.getCusto()));
+        jSpinnerPrazo.setValue(autuacao.getPrazo());
+        jSpinnerPontuacao.setValue(autuacao.getPontuacao());
     }
 
     // Define valores nulos para todos os componentes
-
     public void limparComponentes() {
-        jTFRenavam.setText("");
-        jTFMarca.setText("");
-        jTFModelo.setText("");
-        jTFCor.setText("");
-        jTFPlaca.setText("");
-        jTFChassi.setText("");
-        jTFAno.setText("");
+        jTextFieldTitulo.setText("");
+        jTextAreaDescricao.setText("");
+        jTextFieldCusto.setText("");
+        jSpinnerPrazo.setValue(1);
+        jSpinnerPontuacao.setValue(1);
     }
-    
+
     @Override
-    protected void jTFBuscaKeyReleased(java.awt.event.KeyEvent evt) {                                    
+    protected void jTFBuscaKeyReleased(java.awt.event.KeyEvent evt) {
         // TODO add your handling code here:
         super.jTFBuscaKeyReleased(evt);
-        
+
         ArrayList<Autuacao> autuacaoList;
-        
+
         Autuacao autuacao = new Autuacao();
-        autuacao.setTitulo( jTFBusca.getText() );
-        
+        autuacao.setTitulo(jTFBusca.getText().toUpperCase());
+
         autuacaoList = AutuacaoController.buscarAutuacao(autuacao, "TITULO");
-        
-        if(autuacao.isError())
-        {
-            Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
-                    autuacao.getMessage());
-        }
-        else if (autuacaoList == null)
+
+        if (autuacao.isError()) {
+            Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n"
+                    + autuacao.getMessage());
+        } else if (autuacaoList == null) {
             return;
-        
+        }
+
         preenchePesquisa(autuacaoList);
-    } 
-    
+    }
+
     private void preenchePesquisa(ArrayList<Autuacao> autuacaoList) {
         DefaultTableModel tableModel = (DefaultTableModel) super.jTBBuscaRapida.getModel();
-        
+
         tableModel.setRowCount(0);
-        
-        for(Autuacao autuacao : autuacaoList ) {
-            tableModel.addRow(new Object[] { 
+
+        for (Autuacao autuacao : autuacaoList) {
+            tableModel.addRow(new Object[]{
+                autuacao.getIdAutuacao(),
                 autuacao.getTitulo(),
                 autuacao.getDescricao(),
                 autuacao.getPontuacao(),
@@ -238,86 +224,78 @@ public final class FormManterAutuacao extends FormTemplate {
 
     @Override
     protected void jBTConfirmarActionPerformed(java.awt.event.ActionEvent evt) {
-        String renavam = jTFRenavam.getText();
-        String marca = jTFMarca.getText();
-        String modelo = jTFModelo.getText();
-        String cor = jTFCor.getText();
-        String placa = jTFPlaca.getText();
-        String chassi = jTFChassi.getText();
-        String ano = jTFAno.getText();
-        Pessoa auxProprietario = (Pessoa) jCBProprietario.getSelectedItem();
-        
-        Automovel automovel =  new Automovel (
-                renavam, marca, modelo, cor,
-                placa, chassi, auxProprietario, ano, 
-                true, -1
-        );
-        // Nenhum erro até o momento
-        automovel.setError(false);
-        automovel.setMessage("");
+        String titulo = jTextFieldTitulo.getText();
+        String descricao = jTextAreaDescricao.getText();
+        String custo = jTextFieldCusto.getText();
+        int prazo = (int) jSpinnerPrazo.getValue();
+        int pontuacao = (int) jSpinnerPontuacao.getValue();
 
-        //System.out.println(carteira.showCarteira());
-        AutomovelController.cadastrarAutomovel(automovel);
+        Autuacao autuacao = new Autuacao(
+                titulo, descricao, pontuacao,
+                0.0, prazo, -1
+        );
+        autuacao.setCustoStr(custo);
         
-        if(automovel.isError()){
-                Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
-                        automovel.getMessage());
-            }
-        else {
-                Aviso.showInformation(automovel.getMessage());
-                super.jBTConfirmarActionPerformed(evt);
-                bloquearComponentes();
-                limparComponentes();
+        // Nenhum erro até o momento
+        autuacao.setError(false);
+        autuacao.setMessage("");
+
+        AutuacaoController.cadastrarAutuacao(autuacao);
+
+        if (autuacao.isError()) {
+            Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n"
+                    + autuacao.getMessage());
+        } else {
+            Aviso.showInformation(autuacao.getMessage());
+            super.jBTConfirmarActionPerformed(evt);
+            bloquearComponentes();
+            limparComponentes();
         }
     }
+
     @Override
     protected void jBTAlterarActionPerformed(java.awt.event.ActionEvent evt) {
         super.jBTAlterarActionPerformed(evt);
 
         liberarComponentes();
-        
+
         DefaultTableModel tableModel = (DefaultTableModel) super.jTBBuscaRapida.getModel();
-        String renavam = (String) tableModel.getValueAt(super.jTBBuscaRapida.getSelectedRow(), 1);
-        Automovel automovel = new Automovel();
-        automovel.setRenavam(renavam);
-        automovel = AutomovelController.buscarAutomovel(automovel, "RENAVAM").get(0);
-        
-        preencheComponentes(automovel);
-        idAutomovel = automovel.getIdAutomovel();
+        this.idAutuacao = (int) tableModel.getValueAt(super.jTBBuscaRapida.getSelectedRow(), 0);
+        Autuacao autuacao = new Autuacao();
+        autuacao.setIdAutuacao(this.idAutuacao);
+        autuacao = AutuacaoController.buscarAutuacao(autuacao, "ID").get(0);
+
+        preencheComponentes(autuacao);
     }
 
     @Override
     protected void jBTSalvarActionPerformed(java.awt.event.ActionEvent evt) {
-        String renavam = jTFRenavam.getText();
-        String marca = jTFMarca.getText();
-        String modelo = jTFModelo.getText();
-        String cor = jTFCor.getText();
-        String placa = jTFPlaca.getText();
-        String chassi = jTFChassi.getText();
-        String ano = jTFAno.getText();
-        Pessoa auxProprietario = (Pessoa) jCBProprietario.getSelectedItem();
-        
-        Automovel automovel =  new Automovel (
-                renavam, marca, modelo, cor,
-                placa, chassi, auxProprietario, ano, 
-                true, this.idAutomovel
-        );
-        // Nenhum erro até o momento
-        automovel.setError(false);
-        automovel.setMessage("");
+        String titulo = jTextFieldTitulo.getText();
+        String descricao = jTextAreaDescricao.getText();
+        String custo = jTextFieldCusto.getText();
+        int prazo = (int) jSpinnerPrazo.getValue();
+        int pontuacao = (int) jSpinnerPontuacao.getValue();
 
-        AutomovelController.alterarAutomovel(automovel);
-        
-        if(automovel.isError()){
-                Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
-                        automovel.getMessage());
-            }
-        else {
-                Aviso.showInformation(automovel.getMessage());
-                super.jBTSalvarActionPerformed(evt);
-                bloquearComponentes();
-                limparComponentes();
-                jTFBuscaKeyReleased(null);
+        Autuacao autuacao = new Autuacao(
+                titulo, descricao, pontuacao,
+                0.0, prazo, idAutuacao
+        );
+        autuacao.setCustoStr(custo);
+        // Nenhum erro até o momento
+        autuacao.setError(false);
+        autuacao.setMessage("");
+
+        AutuacaoController.alterarAutuacao(autuacao);
+
+        if (autuacao.isError()) {
+            Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n"
+                    + autuacao.getMessage());
+        } else {
+            Aviso.showInformation(autuacao.getMessage());
+            super.jBTSalvarActionPerformed(evt);
+            bloquearComponentes();
+            limparComponentes();
+            jTFBuscaKeyReleased(null);
         }
     }
 
@@ -331,19 +309,18 @@ public final class FormManterAutuacao extends FormTemplate {
             return;
         
         DefaultTableModel tableModel = (DefaultTableModel) super.jTBBuscaRapida.getModel();
-        String renavam = (String) tableModel.getValueAt(super.jTBBuscaRapida.getSelectedRow(), 1);
-        Automovel automovel = new Automovel();
-        automovel.setRenavam(renavam);
-        automovel = AutomovelController.buscarAutomovel(automovel, "RENAVAM").get(0);
+        this.idAutuacao = (int) tableModel.getValueAt(super.jTBBuscaRapida.getSelectedRow(), 0);
+        Autuacao autuacao = new Autuacao();
+        autuacao.setIdAutuacao(this.idAutuacao);
         
-        AutomovelController.excluirAutomovel(automovel);
+        AutuacaoController.excluirAutuacao(autuacao);
         
-        if(automovel.isError()){
+        if(autuacao.isError()){
                 Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
-                        automovel.getMessage());
+                        autuacao.getMessage());
             }
         else {
-                Aviso.showInformation(automovel.getMessage());
+                Aviso.showInformation(autuacao.getMessage());
                 super.jBTSalvarActionPerformed(evt);
                 bloquearComponentes();
                 limparComponentes();
@@ -353,7 +330,9 @@ public final class FormManterAutuacao extends FormTemplate {
 
     @Override
     protected void jTBBuscaRapidaMouseClicked(java.awt.event.MouseEvent evt) {
-        if(editing) return;
+        if (editing) {
+            return;
+        }
         super.jTBBuscaRapidaMouseClicked(evt);
 
         bloquearComponentes();
@@ -380,81 +359,42 @@ public final class FormManterAutuacao extends FormTemplate {
         jPManter = new javax.swing.JPanel();
         jPDados = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jTFMarca = new javax.swing.JTextField();
-        jTFModelo = new javax.swing.JTextField();
-        jTFCor = new javax.swing.JTextField();
-        jTFChassi = new javax.swing.JTextField();
-        jTFAno = new javax.swing.JTextField();
-        jCBProprietario = new javax.swing.JComboBox();
+        jTextFieldCusto = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jTFPlaca = new javax.swing.JFormattedTextField();
-        jTFRenavam = new javax.swing.JFormattedTextField();
+        jTextFieldTitulo = new javax.swing.JTextField();
+        jSpinnerPontuacao = new javax.swing.JSpinner();
+        jSpinnerPrazo = new javax.swing.JSpinner();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextAreaDescricao = new javax.swing.JTextArea();
 
         setSize(new java.awt.Dimension(650, 185));
 
         jPManter.setPreferredSize(new java.awt.Dimension(650, 200));
 
-        jPDados.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados do Veículo"));
+        jPDados.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados da Autuação"));
         jPDados.setRequestFocusEnabled(false);
 
-        jLabel3.setText("Renavam");
+        jLabel3.setText("Título");
 
-        jTFMarca.setBackground(new java.awt.Color(240, 240, 240));
+        jTextFieldCusto.setBackground(new java.awt.Color(240, 240, 240));
 
-        jTFModelo.setBackground(new java.awt.Color(240, 240, 240));
+        jLabel8.setText("Descrição");
 
-        jTFCor.setBackground(new java.awt.Color(240, 240, 240));
+        jLabel9.setText("Pontos");
 
-        jTFChassi.setBackground(new java.awt.Color(240, 240, 240));
+        jLabel10.setText("Custo");
 
-        jTFAno.setBackground(new java.awt.Color(240, 240, 240));
+        jLabel11.setText("Prazo");
 
-        jCBProprietario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Titular 1", "Titular 2", "Titular 3" }));
-        jCBProprietario.setEnabled(false);
+        jTextFieldTitulo.setBackground(new java.awt.Color(240, 240, 240));
 
-        jLabel8.setText("Marca");
-
-        jLabel9.setText("Modelo");
-
-        jLabel10.setText("Cor");
-
-        jLabel11.setText("Placa");
-
-        jLabel12.setText("Chassi");
-
-        jLabel13.setText("Ano");
-
-        jLabel14.setText("Proprietário");
-
-        jTFPlaca.setBackground(new java.awt.Color(240, 240, 240));
-        try {
-            jTFPlaca.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("UUU-####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        jTFPlaca.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jTFPlacaFocusGained(evt);
-            }
-        });
-
-        jTFRenavam.setBackground(new java.awt.Color(240, 240, 240));
-        try {
-            jTFRenavam.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###########")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        jTFRenavam.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jTFRenavamFocusGained(evt);
-            }
-        });
+        jTextAreaDescricao.setBackground(new java.awt.Color(240, 240, 240));
+        jTextAreaDescricao.setColumns(20);
+        jTextAreaDescricao.setRows(5);
+        jScrollPane1.setViewportView(jTextAreaDescricao);
 
         javax.swing.GroupLayout jPDadosLayout = new javax.swing.GroupLayout(jPDados);
         jPDados.setLayout(jPDadosLayout);
@@ -463,31 +403,27 @@ public final class FormManterAutuacao extends FormTemplate {
             .addGroup(jPDadosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10)
+                    .addGroup(jPDadosLayout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE))
                     .addGroup(jPDadosLayout.createSequentialGroup()
                         .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel14)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel11))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTFModelo)
-                            .addComponent(jCBProprietario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPDadosLayout.createSequentialGroup()
-                                .addComponent(jTFRenavam, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel13)
-                                .addGap(9, 9, 9)
-                                .addComponent(jTFAno, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jTFMarca)
-                            .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTFChassi, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
-                                .addComponent(jTFCor))
-                            .addComponent(jTFPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(170, Short.MAX_VALUE))
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel9))
+                        .addGap(25, 25, 25)
+                        .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldTitulo)
+                            .addGroup(jPDadosLayout.createSequentialGroup()
+                                .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldCusto, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jSpinnerPontuacao, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                                        .addComponent(jSpinnerPrazo, javax.swing.GroupLayout.Alignment.LEADING)))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addContainerGap())
         );
         jPDadosLayout.setVerticalGroup(
             jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -495,33 +431,23 @@ public final class FormManterAutuacao extends FormTemplate {
                 .addContainerGap()
                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTFAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel13)
-                    .addComponent(jTFRenavam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTFMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTFModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTFCor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldCusto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jTFPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jSpinnerPrazo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTFChassi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCBProprietario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel14))
+                    .addComponent(jSpinnerPontuacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -538,21 +464,13 @@ public final class FormManterAutuacao extends FormTemplate {
             .addGroup(jPManterLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPDados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPManter, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTFPlacaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFPlacaFocusGained
-        this.jTFPlaca.setText(null);
-    }//GEN-LAST:event_jTFPlacaFocusGained
-
-    private void jTFRenavamFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFRenavamFocusGained
-        this.jTFRenavam.setText(null);
-    }//GEN-LAST:event_jTFRenavamFocusGained
 
     /**
      * @param args the command line arguments
@@ -596,24 +514,19 @@ public final class FormManterAutuacao extends FormTemplate {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bGStatus;
-    private javax.swing.JComboBox jCBProprietario;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPDados;
     private javax.swing.JPanel jPManter;
-    private javax.swing.JTextField jTFAno;
-    private javax.swing.JTextField jTFChassi;
-    private javax.swing.JTextField jTFCor;
-    private javax.swing.JTextField jTFMarca;
-    private javax.swing.JTextField jTFModelo;
-    private javax.swing.JFormattedTextField jTFPlaca;
-    private javax.swing.JFormattedTextField jTFRenavam;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner jSpinnerPontuacao;
+    private javax.swing.JSpinner jSpinnerPrazo;
+    private javax.swing.JTextArea jTextAreaDescricao;
+    private javax.swing.JTextField jTextFieldCusto;
+    private javax.swing.JTextField jTextFieldTitulo;
     // End of variables declaration//GEN-END:variables
 
 }
