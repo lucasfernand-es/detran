@@ -51,10 +51,14 @@ public class AutuacaoController {
         // titulo
         if(autuacao.getTitulo().length() == 0)
             mensagem = mensagem.concat("Título não pode estar vazio\n");
+        if(autuacao.getTitulo().length() > 50)
+            mensagem = mensagem.concat("Título deve ter 50 caracteres ou menos\n");
         
         // descricao
         if(autuacao.getDescricao().length() == 0)
-            mensagem = mensagem.concat("Descrição não pode estar vazio\n");
+            mensagem = mensagem.concat("Descrição não pode estar vazia\n");
+        if(autuacao.getDescricao().length() > 250)
+            mensagem = mensagem.concat("Descrição deve ter 250 caracteres ou menos\n");
         
         // custo
         if(autuacao.getCustoStr().length() == 0) {

@@ -6,14 +6,12 @@
 package View;
 
 import Addons.Aviso;
-import Controller.AutomovelController;
 import Controller.AutuacaoController;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import valueObject.Automovel;
 import valueObject.Autuacao;
 
 /**
@@ -56,7 +54,7 @@ public final class FormManterAutuacao extends FormTemplate {
                 limparComponentes();
             }
         });
-        
+
         jTFBuscaKeyReleased(null);
     }
 
@@ -68,7 +66,7 @@ public final class FormManterAutuacao extends FormTemplate {
                     {null, null, null, null, null, null}
                 },
                 new String[]{
-                    "Id", "Título", "Descrição", 
+                    "Id", "Título", "Descrição",
                     "Pontuação", "Custo", "Prazo"
                 }
         ) {
@@ -94,7 +92,7 @@ public final class FormManterAutuacao extends FormTemplate {
         super.jSPTable.setViewportView(jTBBuscaRapida);
 
         super.jLInstrucao.setText("Informe o título da autuação");
-        
+
         jTFBusca.addKeyListener(new java.awt.event.KeyAdapter() {
             @Override
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -235,7 +233,7 @@ public final class FormManterAutuacao extends FormTemplate {
                 0.0, prazo, -1
         );
         autuacao.setCustoStr(custo);
-        
+
         // Nenhum erro até o momento
         autuacao.setError(false);
         autuacao.setMessage("");
@@ -250,6 +248,7 @@ public final class FormManterAutuacao extends FormTemplate {
             super.jBTConfirmarActionPerformed(evt);
             bloquearComponentes();
             limparComponentes();
+            jTFBuscaKeyReleased(null);
         }
     }
 
@@ -301,30 +300,30 @@ public final class FormManterAutuacao extends FormTemplate {
 
     @Override
     protected void jBTExcluirActionPerformed(java.awt.event.ActionEvent evt) {
-        if(JOptionPane.showConfirmDialog(
-                null, 
+        if (JOptionPane.showConfirmDialog(
+                null,
                 "Você realmente deseja excluir estes dados?",
                 "Alerta de exclusão de dados",
-                JOptionPane.YES_NO_OPTION) == 1) 
+                JOptionPane.YES_NO_OPTION) == 1) {
             return;
-        
+        }
+
         DefaultTableModel tableModel = (DefaultTableModel) super.jTBBuscaRapida.getModel();
         this.idAutuacao = (int) tableModel.getValueAt(super.jTBBuscaRapida.getSelectedRow(), 0);
         Autuacao autuacao = new Autuacao();
         autuacao.setIdAutuacao(this.idAutuacao);
-        
+
         AutuacaoController.excluirAutuacao(autuacao);
-        
-        if(autuacao.isError()){
-                Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
-                        autuacao.getMessage());
-            }
-        else {
-                Aviso.showInformation(autuacao.getMessage());
-                super.jBTSalvarActionPerformed(evt);
-                bloquearComponentes();
-                limparComponentes();
-                jTFBuscaKeyReleased(null);
+
+        if (autuacao.isError()) {
+            Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n"
+                    + autuacao.getMessage());
+        } else {
+            Aviso.showInformation(autuacao.getMessage());
+            super.jBTSalvarActionPerformed(evt);
+            bloquearComponentes();
+            limparComponentes();
+            jTFBuscaKeyReleased(null);
         }
     }
 
@@ -393,7 +392,9 @@ public final class FormManterAutuacao extends FormTemplate {
 
         jTextAreaDescricao.setBackground(new java.awt.Color(240, 240, 240));
         jTextAreaDescricao.setColumns(20);
-        jTextAreaDescricao.setRows(5);
+        jTextAreaDescricao.setLineWrap(true);
+        jTextAreaDescricao.setRows(4);
+        jTextAreaDescricao.setWrapStyleWord(true);
         jScrollPane1.setViewportView(jTextAreaDescricao);
 
         javax.swing.GroupLayout jPDadosLayout = new javax.swing.GroupLayout(jPDados);

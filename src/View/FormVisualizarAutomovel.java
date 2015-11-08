@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package View;
 
 import Addons.Aviso;
@@ -11,7 +6,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import javax.swing.JFrame;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
 import valueObject.Automovel;
 import valueObject.Pessoa;
 
@@ -20,13 +15,10 @@ import valueObject.Pessoa;
  * @author LucasFernandes
  */
 public final class FormVisualizarAutomovel extends JFrame {
-    
+
     private Pessoa proprietario = null;
-    private int titularIndex = 0;
-    private ArrayList <Pessoa> titularList = new ArrayList<>();
-    private boolean editing = false;
     private int idAutomovel;
-   
+
     private static FormVisualizarAutomovel manterForm = null;
 
     public static FormVisualizarAutomovel getForm() {
@@ -35,12 +27,12 @@ public final class FormVisualizarAutomovel extends JFrame {
         }
         return manterForm;
     }
-    
+
     /**
      * Creates new form FormManterEvento
      */
     private FormVisualizarAutomovel() {
-        this.setTitle("Gerenciar Automóvel");
+        this.setTitle("Buscar Automóvel");
         initComponents();
         iniciarComponentes();
         this.setLocationRelativeTo(null);
@@ -48,24 +40,24 @@ public final class FormVisualizarAutomovel extends JFrame {
         // Resetar todos os componentes
         bloquearComponentes();
         limparComponentes();
-        
+
         // Toda vez que o formulário for mostrado, carrega o ComboBoxTitular Novamente e limpar os campos
         this.addComponentListener(new ComponentAdapter() {
             /* code run when JFrame shown */
-            
+
             @Override
             public void componentShown(ComponentEvent e) {
-                    limparComponentes();
-                    bloquearComponentes();
-                }
-            });
-        
+                limparComponentes();
+                bloquearComponentes();
+            }
+        });
+
         jTFBuscaKeyReleased(null);
     }
-    
+
     public void iniciarComponentes() {
         super.setSize(714, 776);
-        
+
         jTFBusca.addKeyListener(new java.awt.event.KeyAdapter() {
             @Override
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -74,26 +66,44 @@ public final class FormVisualizarAutomovel extends JFrame {
         });
     }
 
-    public void bloquearComponentes() {
-        jTFRenavam.setEnabled(false);
-        jTFMarca.setEnabled(false);
-        jTFModelo.setEnabled(false);
-        jTFCor.setEnabled(false);
-        jTFPlaca.setEnabled(false);
-        jTFProprietario.setEnabled(false);
+    private void setAllEditable(boolean opt) {
+        jTFRenavam.setEditable(opt);
+        jTFMarca.setEditable(opt);
+        jTFModelo.setEditable(opt);
+        jTFCor.setEditable(opt);
+        jTFPlaca.setEditable(opt);
+        jTFProprietario.setEditable(opt);
     }
-    
+
+    private void setAllEnabled(boolean opt) {
+        jTFRenavam.setEnabled(opt);
+        jTFMarca.setEnabled(opt);
+        jTFModelo.setEnabled(opt);
+        jTFCor.setEnabled(opt);
+        jTFPlaca.setEnabled(opt);
+        jTFProprietario.setEnabled(opt);
+        jButtonMultas.setEnabled(opt);
+    }
+
+    public void bloquearComponentes() {
+        setAllEditable(false);
+        setAllEnabled(false);
+        limparComponentes();
+    }
+
     public void preencheComponentes(Automovel automovel) {
+        idAutomovel = automovel.getIdAutomovel();
         jTFRenavam.setText(automovel.getRenavam());
         jTFMarca.setText(automovel.getMarca());
         jTFModelo.setText(automovel.getModelo());
         jTFCor.setText(automovel.getCor());
         jTFPlaca.setText(automovel.getPlaca());
-        if(automovel.getProprietario() != null) {
-            jTFProprietario.setText( automovel.getProprietario().getNome() );
+        if (automovel.getProprietario() != null) {
+            jTFProprietario.setText(automovel.getProprietario().getNome());
         } else {
             jTFProprietario.setText("Sem proprietário.");
         }
+        setAllEnabled(true);
     }
 
     // Define valores nulos para todos os componentes
@@ -105,22 +115,23 @@ public final class FormVisualizarAutomovel extends JFrame {
         jTFPlaca.setText("");
         jTFProprietario.setText("");
     }
-    
+
     protected void jTFBuscaKeyReleased(java.awt.event.KeyEvent evt) {
         ArrayList<Automovel> automovelList;
-        
+
         Automovel automovel = new Automovel();
-        automovel.setRenavam( jTFBusca.getText() );
+        automovel.setRenavam(jTFBusca.getText());
         automovelList = AutomovelController.buscarAutomovel(automovel, "RENAVAM_RESTRITO");
-        
-        if(automovel.isError())
-        {
-            Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
-                    automovel.getMessage());
-        }
-        else if (automovelList == null || automovelList.size() != 1)
+
+        if (automovel.isError()) {
+            Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n"
+                    + automovel.getMessage());
+            bloquearComponentes();
+        } else if (automovelList == null || automovelList.size() != 1) {
+            bloquearComponentes();
             return;
-        
+        }
+
         preencheComponentes(automovelList.get(0));
     }
 
@@ -148,7 +159,9 @@ public final class FormVisualizarAutomovel extends JFrame {
         jTFRenavam = new javax.swing.JFormattedTextField();
         jTFProprietario = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        jButtonMultas = new javax.swing.JButton();
         jTFBusca = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
 
         setSize(new java.awt.Dimension(650, 185));
 
@@ -201,6 +214,13 @@ public final class FormVisualizarAutomovel extends JFrame {
 
         jLabel1.setText("Proprietário");
 
+        jButtonMultas.setText("Visualizar multas");
+        jButtonMultas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonMultasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPDadosLayout = new javax.swing.GroupLayout(jPDados);
         jPDados.setLayout(jPDadosLayout);
         jPDadosLayout.setHorizontalGroup(
@@ -227,6 +247,10 @@ public final class FormVisualizarAutomovel extends JFrame {
                             .addComponent(jTFPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTFProprietario))))
                 .addContainerGap(75, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPDadosLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonMultas)
+                .addContainerGap())
         );
         jPDadosLayout.setVerticalGroup(
             jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -255,29 +279,35 @@ public final class FormVisualizarAutomovel extends JFrame {
                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTFProprietario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonMultas)
+                .addContainerGap())
         );
 
-        jTFBusca.setText("jTextField1");
+        jLabel2.setText("Informe o RENAVAM do veículo:");
 
         javax.swing.GroupLayout jPManterLayout = new javax.swing.GroupLayout(jPManter);
         jPManter.setLayout(jPManterLayout);
         jPManterLayout.setHorizontalGroup(
             jPManterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPManterLayout.createSequentialGroup()
-                .addComponent(jPDados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPManterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPDados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPManterLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTFBusca)))
                 .addContainerGap())
-            .addGroup(jPManterLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTFBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPManterLayout.setVerticalGroup(
             jPManterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPManterLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTFBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8)
+                .addGroup(jPManterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTFBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPDados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -288,12 +318,17 @@ public final class FormVisualizarAutomovel extends JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTFPlacaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFPlacaFocusGained
-        this.jTFPlaca.setText(null);
+
     }//GEN-LAST:event_jTFPlacaFocusGained
 
     private void jTFRenavamFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTFRenavamFocusGained
-        this.jTFRenavam.setText(null);
+
     }//GEN-LAST:event_jTFRenavamFocusGained
+
+    private void jButtonMultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMultasActionPerformed
+        JOptionPane.showMessageDialog(this, "esta interface será montada na sprint 3");
+        // idAutomovel;
+    }//GEN-LAST:event_jButtonMultasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -337,9 +372,11 @@ public final class FormVisualizarAutomovel extends JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bGStatus;
+    private javax.swing.JButton jButtonMultas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
