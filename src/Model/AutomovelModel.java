@@ -194,12 +194,17 @@ public class AutomovelModel {
             DEFAULT - Busca todos os possíveis
             STATUS - Busca todas os automoveis com o status == ? 
             RENAVAM - Busca todos os automoveis com o renavam LIKE ?
+            RENAVAM_RESTRITO - Busca todos os automóveis com o renavam = ?
             ID - Busca todos os automoveis com o idAutomovel == ?
             */
             switch(tipo) {
                 case "RENAVAM":
                     stm = con.prepareStatement("SELECT * FROM automovel WHERE renavam LIKE ? AND status = true");
-                    stm.setString(1,'%' + automovel.getRenavam() + '%');
+                    stm.setString(1, '%' + automovel.getRenavam() + '%');
+                    break;
+                case "RENAVAM_RESTRITO":
+                    stm = con.prepareStatement("SELECT * FROM automovel WHERE renavam = ? AND status = true");
+                    stm.setString(1, automovel.getRenavam());
                     break;
                 case "STATUS":
                     stm = con.prepareStatement("SELECT * FROM automovel WHERE status = ?");

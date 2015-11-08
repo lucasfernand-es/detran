@@ -22,7 +22,6 @@ import valueObject.Pessoa;
  */
 public final class FormManterAutomovel extends FormTemplate {
     
-    
     private Pessoa proprietario = null;
     private int titularIndex = 0;
     private ArrayList <Pessoa> titularList = new ArrayList<>();
@@ -64,7 +63,6 @@ public final class FormManterAutomovel extends FormTemplate {
         
         jTFBuscaKeyReleased(null);
     }
-
     
     public void iniciarComponentes() {
         super.setSize(714, 776);
@@ -221,7 +219,6 @@ public final class FormManterAutomovel extends FormTemplate {
     }
 
     // Define valores nulos para todos os componentes
-
     public void limparComponentes() {
         jTFRenavam.setText("");
         jTFMarca.setText("");

@@ -310,7 +310,12 @@ public class FormTemplate extends javax.swing.JFrame {
     }//GEN-LAST:event_jBTCancelarActionPerformed
 
     protected void jTFBuscaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFBuscaKeyReleased
-        
+        this.jBTConfirmar.setEnabled(false);
+        this.jBTCadastrar.setEnabled(true);
+        this.jBTAlterar.setEnabled(false);
+        this.jBTSalvar.setEnabled(false);
+        this.jBTExcluir.setEnabled(false);
+        this.jBTCancelar.setEnabled(false);
     }//GEN-LAST:event_jTFBuscaKeyReleased
     
     protected void jTFBuscaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFBuscaKeyPressed
