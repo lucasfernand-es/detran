@@ -32,7 +32,7 @@ public class Multa {
     private String message;
 
     public boolean estaPago() {
-        return false;
+        return this.dataPagamento != null;
     }
     
     public Multa(Date dataEmissao, float taxaAcrescimo, Date dataPagamento,
@@ -53,6 +53,14 @@ public class Multa {
     @Override
     public String toString() {
         return "multa: " + this.idMulta + " ao automovel: " + this.automovel.getIdAutomovel();
+    }
+    
+
+    public String showMulta() {
+        return  "Multa: " + this.idMulta + 
+               " Automóvel: " + this.automovel.getIdAutomovel() +
+               " Carteira: " + this.carteira +
+               " Pessoa: " + this.pessoa;
     }
 
     /**

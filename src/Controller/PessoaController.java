@@ -57,15 +57,11 @@ public class PessoaController {
             mensagem = mensagem.concat("CEP não pode estar vazio\n");
         
         
-        String newCpf;
-        newCpf = pessoa.getCpf().replaceAll("(\\.|-)", "");
+        
         //System.out.println("newCpf " + newCpf);
-        boolean validaCPF = ValidaCPF.isCPF(newCpf);
+        boolean validaCPF = ValidaCPF.isCPF(pessoa.getCpf());
         if(!validaCPF)
             mensagem = mensagem.concat("CPF informado é inválido\n");
-        
-        
-        
         // A nova mensagem dentro do objeto será a mensagem atual 
         // com as novas informações
         // Verifica de erro para quando mensagem estiver vazia
@@ -105,9 +101,12 @@ public class PessoaController {
     }
     
     // Trata o texto digitado e aplica a máscara para ser usada na pesquisa no banco
-    private static boolean mascaraCPF(Pessoa pessoa) {
+    public static boolean mascaraCPF(Pessoa pessoa) {
+
+        
         String pattern = "###.###.###-##";
-        String cpf = pessoa.getCpf();
+        
+        String cpf = pessoa.getCpf().replaceAll("(\\.|-)", "");
         // Retirar pontos ou traços
         cpf = cpf.replace("-", "");
         cpf = cpf.replace(".", "");
@@ -150,6 +149,7 @@ public class PessoaController {
         }
         
         pessoa.setCpf(newCPF);
+        //System.out.println(newCPF);
             
         return true;
     }
@@ -179,20 +179,7 @@ public class PessoaController {
             return newList;
     }
     
-    public static Pessoa  buscarPessoaID(Pessoa pessoa) {
-        
-        ArrayList<Pessoa> newList = buscarPessoa(pessoa, "UNIQUE_ID");
-        
-        if(newList == null) 
-            return null;
-        else {
-            // Seleciona o primeiro item da Array
-
-            Pessoa newPessoa;
-            newPessoa = (Pessoa) newList.get(0);
-            return newPessoa;
-        }
-    }
+    
 
     public static void alterarPessoa(Pessoa pessoa) {
         boolean verifica = PessoaController.verificarCampos(pessoa);

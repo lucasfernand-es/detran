@@ -115,7 +115,9 @@ public class CarteiraController {
     
     public static ArrayList<Carteira> buscarCarteira(Carteira carteira, String tipo) {
         
+        
         ArrayList<Carteira> newList = CarteiraModel.buscarCarteira(carteira, tipo);
+        
         
         // Se não houve nenhum erro na pesquisa, e ainda assim, a lista está vazia
         if(!carteira.isError() && newList == null)
@@ -158,5 +160,6 @@ public class CarteiraController {
     public static void excluirCarteira(Carteira carteira) {
         CarteiraModel.excluirCarteira(carteira);
     }
+
     
 }

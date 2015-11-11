@@ -162,5 +162,9 @@ public class Autuacao {
     public void setCustoStr(String custo_str) {
         this.custo_str = custo_str;
     }
+    
+    public String toString() {
+        return this.titulo + " - " + this.custo;
+    }
 
 }

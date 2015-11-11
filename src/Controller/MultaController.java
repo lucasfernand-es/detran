@@ -1,9 +1,15 @@
 package Controller;
 
 import Model.AutomovelModel;
+import Model.CarteiraModel;
 import Model.MultaModel;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import valueObject.Automovel;
+import valueObject.Carteira;
 import valueObject.Multa;
 
 /**
@@ -25,5 +31,62 @@ public class MultaController {
         else
             return newList;
     }
+
+    public static void cadastrarMulta(Multa multa) {
+        
+        boolean verifica = MultaController.verificarCampos(multa);
+        
+        if(!verifica) {
+            multa.setError(true);
+            // Algum dado informado é inválido
+            return;
+        }
+       
+        MultaModel.cadastrarMulta(multa);
+    }
+
+    // Função verifica os dados do objeto. Se sim, retorna true, se não retorna false
+    // Altera a mensagem do objeto para especificar os erros
+    private static boolean verificarCampos(Multa multa) {
+        String mensagem = "";
+        
+        // Verificar campos nulos
+        if(multa.getDataEmissao()== null)
+            mensagem = mensagem.concat("Data de Emissão não pode estar vazio\n");
+        
+        if(multa.getTaxaAcrescimo() < 1 || multa.getTaxaAcrescimo() > 100)
+            mensagem = mensagem.concat("Taxa de Acréscimo deve ser <= a 1 e >= a 100.\n");
+        
+        if(multa.getAutomovel() == null)
+            mensagem = mensagem.concat("Automóvel não pode estar vazio\n");
+        
+        if(multa.getAutuacao() == null)
+            mensagem = mensagem.concat("Autuação não pode estar vazio\n");
+        
+        if(multa.getCarteira() == null && multa.getPessoa() == null)
+            mensagem = mensagem.concat("Deve existir Carteira ou Pessoa\n");
+        
+        // Comparar Data de Vencimento com Data de Emissão
+        // Se as duas não estão vazias e a data de vencimento for menor que a data de Emissão
+        if( (multa.getDataEmissao()!= null) && (multa.getDataPagamento() != null)
+                && (  multa.getDataEmissao().after( multa.getDataPagamento() ) ))
+            mensagem = mensagem.concat("Data de Emissão deve ser antes de Data de Pagamento\n");
+        
+        
+        
+        
+        // A nova mensagem dentro do objeto será a mensagem atual 
+        // com as novas informações
+        // Verifica de erro para quando mensagem estiver vazia
+        String mensagemAtual = ( multa.getMessage() == null )? "": multa.getMessage();
+        String mensagemNova = mensagemAtual.concat(mensagem);
+        multa.setMessage(mensagemNova);
+        
+        // Caso alguma regra não tenha sido cumprida, há erro e a mensagem não é vazia
+        return mensagem.equals("");
+              
+    }
+    
+    
     
 }

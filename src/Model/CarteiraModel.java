@@ -111,6 +111,21 @@ public class CarteiraModel {
                     stm  = con.prepareStatement("SELECT * FROM carteira WHERE idPessoa = ?");
                     stm.setInt(1, carteira.getTitular().getIdPessoa());
                     break;
+                case "UNIQUE_ID":
+                    stm  = con.prepareStatement("SELECT * FROM Carteira WHERE idcarteira = ?");
+                    stm.setInt(1, carteira.getIdCarteira());
+                    break;
+                case "STATUS":
+                    stm  = con.prepareStatement("SELECT * FROM carteira WHERE status = ?");
+                    stm.setBoolean(1, carteira.isStatus());
+                    break;
+                case "CARTEIRASATIVAS":
+                    stm  = con.prepareStatement("SELECT * "
+                            + "FROM Carteira AS c "
+                            + "INNER JOIN Pessoa AS p ON c.idPessoa = p.idPessoa "
+                            + "WHERE c.Status = 1 AND p.Status = 1 "
+                            + "GROUP BY p.idPessoa");
+                    break;
                 default: 
                     stm  = con.prepareStatement("SELECT * FROM carteira");
                     break;

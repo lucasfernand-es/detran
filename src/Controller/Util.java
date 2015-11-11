@@ -6,6 +6,7 @@
 package Controller;
 
 
+import static Controller.CarteiraController.buscarCarteira;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
@@ -92,9 +93,14 @@ public class Util {
         Pessoa pessoa = new Pessoa();
         pessoa.setIdPessoa(idPessoa);
         
-        pessoa = PessoaController.buscarPessoaID(pessoa);
+        ArrayList<Pessoa> newList = PessoaController.buscarPessoa(pessoa, "UNIQUE_ID");
+
+        pessoa = (newList == null || newList.isEmpty())? null: newList.get(0);
+
         return pessoa;
     }
+        
+    
     private static Automovel getAutomovel(int idAutomovel) {
         Automovel automovel = new Automovel();
         automovel.setIdAutomovel(idAutomovel);
@@ -147,13 +153,23 @@ public class Util {
                 dataPagamento = null;
             }
             int idAutomovel = rs.getInt("idAutomovel");
+            System.out.println(idAutomovel + "idAutomovel");
             Automovel automovel = Util.getAutomovel(idAutomovel);
+            
             int idPessoa = rs.getInt("idPessoa");
-            Pessoa pessoa = null; //Util.getPessoa(idPessoa);
+            System.out.println(idPessoa + "idPessoa");
+            Pessoa pessoa = Util.getPessoa(idPessoa); // Pessoa pessoa = null;
+            
             int idCarteira = rs.getInt("idCarteira");
-            Carteira carteira = null; //Util.getCarteira(idCarteira);
+            System.out.println(idCarteira + "idCarteira");
+            Carteira carteira = Util.getCarteira(idCarteira); // Carteira carteira = null; 
+            
+            System.out.println(idCarteira + " depois");
+            
             int idAutuacao = rs.getInt("idAutuacao");
-            Autuacao autuacao = null; //Util.getAutuacao(idAutuacao);
+            System.out.println(idAutuacao + "idAutuacao");
+            Autuacao autuacao = Util.getAutuacao(idAutuacao); // Autuacao autuacao = null; 
+            
             int idMulta = rs.getInt("idMulta");
             
             multa = new Multa(
@@ -289,6 +305,31 @@ public class Util {
             autuacao.setMessage(e.getMessage());
             return null;
         }
+    }
+
+    private static Carteira getCarteira(int idCarteira) {
+        Carteira carteira = new Carteira();
+        carteira.setIdCarteira(idCarteira);
+        
+        System.out.println("getCarteira antes");
+        
+        ArrayList<Carteira> newList = CarteiraController.buscarCarteira(carteira, "UNIQUE_ID");
+        
+        System.out.println("getCarteira depois");
+        System.out.println(newList + "what are this");
+        carteira = (newList == null || newList.isEmpty())? null: newList.get(0);
+
+        return carteira;
+    }
+    
+    private static Autuacao getAutuacao(int idAutuacao) {
+        Autuacao autuacao = new Autuacao();
+        autuacao.setIdAutuacao(idAutuacao);
+        
+        autuacao = AutuacaoController.buscaAutuacaoID(autuacao);
+        System.out.println("Autuacao");
+        
+        return autuacao;
     }
     
 }

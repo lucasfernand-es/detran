@@ -93,5 +93,19 @@ public class AutuacaoController {
         // Caso alguma regra não tenha sido cumprida, há erro e a mensagem não é vazia
         return mensagem.equals("");
     }
+
+    public static Autuacao buscaAutuacaoID(Autuacao autuacao) {
+        ArrayList<Autuacao> newList = buscarAutuacao(autuacao, "ID");
+        
+        if(newList == null) 
+            return null;
+        else {
+            // Seleciona o primeiro item da Array
+
+            Autuacao newAutuacao;
+            newAutuacao = (Autuacao) newList.get(0);
+            return newAutuacao;
+        }
+    }
     
 }

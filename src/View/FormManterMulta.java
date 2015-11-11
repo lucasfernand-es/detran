@@ -6,15 +6,18 @@
 package View;
 
 import Addons.Aviso;
+import Controller.AutomovelController;
+import Controller.AutuacaoController;
 import Controller.CarteiraController;
+import Controller.MultaController;
 import Controller.PessoaController;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.Date;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import valueObject.Automovel;
+import valueObject.Autuacao;
 import valueObject.Carteira;
+import valueObject.Multa;
 import valueObject.Pessoa;
 
 /**
@@ -23,8 +26,13 @@ import valueObject.Pessoa;
  */
 public final class FormManterMulta extends FormTemplate {
     
-    
+    private ArrayList <Automovel> automovelList = new ArrayList<>();
+    private ArrayList <Autuacao> autuacaoList = new ArrayList<>();
+    private ArrayList <Carteira> carteiraList = new ArrayList<>();
     private ArrayList <Pessoa> pessoaList = new ArrayList<>();
+    
+    
+    private ArrayList<Multa> multaList = new ArrayList<>();
    
     private static FormManterMulta manterForm = null;
     
@@ -55,6 +63,9 @@ public final class FormManterMulta extends FormTemplate {
         limparComponentes();
         
         iniciarComboBoxPessoa();
+        iniciarComboBoxCarteira();
+        iniciarComboBoxAutomovel();
+        iniciarComboBoxAutuacao();
         
     }
 
@@ -151,7 +162,7 @@ public final class FormManterMulta extends FormTemplate {
         }
         pessoaList.clear();
         // Busca no Banco de Dados TODOS os possíveis titulares
-        pessoaList = PessoaController.buscarPessoa(pessoa, "STATUS");
+        pessoaList = PessoaController.buscarPessoa(pessoa, "SEMCARTEIRA");
         
         // Caso algum erro tenha acontecido
         if(pessoa.isError()){
@@ -163,11 +174,103 @@ public final class FormManterMulta extends FormTemplate {
         // Caso a carteira tenha sido recém criada, devemos por como seleção default
         // no jCBPessoa, caso contrário será 0
         
-        
+        jCBPessoa.addItem(null);
         for (Pessoa pessoaItem : pessoaList) {
             jCBPessoa.addItem(pessoaItem);
         }
         
+    }
+    
+    //  Carregar Automóveis do BD
+    //  Será carregado somente quando a Janela for visível
+    private void iniciarComboBoxAutomovel() {
+        jCBAutomovel.removeAllItems();
+        // Carrega todas as pessoas do BD, que são ativos. (Status == true)
+        Automovel automovel = new Automovel();
+        automovel.setStatus(true);
+        
+        if (automovelList == null) {
+            automovelList = new ArrayList();
+        }
+        automovelList.clear();
+        // Busca no Banco de Dados TODOS os possíveis automoveis
+        automovelList = AutomovelController.buscarAutomovel(automovel, "STATUS");
+        
+        // Caso algum erro tenha acontecido
+        if(automovel.isError()){
+            Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
+                    automovel.getMessage());
+            return;
+        }
+        
+        // Caso a carteira tenha sido recém criada, devemos por como seleção default
+        // no jCBPessoa, caso contrário será 0
+        
+        for (Automovel item : automovelList) {
+            jCBAutomovel.addItem(item);
+        }
+        
+    }
+    
+    //  Carregar Autuações do BD
+    //  Será carregado somente quando a Janela for visível
+    private void iniciarComboBoxAutuacao() {
+        jCBAutuacao.removeAllItems();
+        // Carrega todas as pessoas do BD, que são ativos. (Status == true)
+        Autuacao autuacao = new Autuacao();
+        //autuacao.setStatus(true);
+        
+        if (autuacaoList == null) {
+            autuacaoList = new ArrayList();
+        }
+        autuacaoList.clear();
+        // Busca no Banco de Dados TODOS os possíveis automoveis
+        autuacaoList = AutuacaoController.buscarAutuacao(autuacao, "ALL");
+        
+        // Caso algum erro tenha acontecido
+        if(autuacao.isError()){
+            Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
+                    autuacao.getMessage());
+            return;
+        }
+        
+        // Caso a carteira tenha sido recém criada, devemos por como seleção default
+        // no jCBPessoa, caso contrário será 0
+        
+        for (Autuacao item : autuacaoList) {
+            jCBAutuacao.addItem(item);
+        }
+        
+    }
+    
+    //  Carregar Autuações do BD
+    //  Será carregado somente quando a Janela for visível
+    private void iniciarComboBoxCarteira() {
+        jCBCarteira.removeAllItems();
+        // Carrega todas as pessoas do BD, que são ativos. (Status == true)
+        Carteira carteira = new Carteira();
+        //autuacao.setStatus(true);
+        
+        if (carteiraList == null) {
+            carteiraList = new ArrayList();
+        }
+        carteiraList.clear();
+        // Busca no Banco de Dados TODOS os possíveis automoveis
+        carteiraList = CarteiraController.buscarCarteira(carteira, "CARTEIRASATIVAS");
+        
+        // Caso algum erro tenha acontecido
+        if(carteira.isError()){
+            Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
+                    carteira.getMessage());
+            return;
+        }
+        
+        // Caso a carteira tenha sido recém criada, devemos por como seleção default
+        // no jCBPessoa, caso contrário será 0
+        jCBCarteira.addItem(null);
+        for (Carteira item : carteiraList) {
+            jCBCarteira.addItem(item);
+        }
         
     }
 
@@ -225,43 +328,52 @@ public final class FormManterMulta extends FormTemplate {
     @Override
     protected void jBTConfirmarActionPerformed(java.awt.event.ActionEvent evt) {                                             
         
-        /*
-        
-        Date dataVencimento = jDCDataPagamento.getDate();
-	Date dataEmissao = jDCDataEmissao.getDate();
-	String nRegistro = jTFNRegistro.getText();
-        // Se a permissão existe. Sim == true e Não == false 
-        // Se o Sim não estiver selecionado, o Não está
-	boolean permissao = (jRBSimPermissao.isSelected());
-	String tipo = (String) jCBTipo.getSelectedItem();
-	Pessoa pessoaTitular = (Pessoa) jCBPessoa.getSelectedItem();
-        // Se o status for Ativo. Sim == true e Não == false 
-        // Se o Sim não estiver selecionado, o Não está
-        boolean status = (jRBSimStatus.isSelected());
-        // ID deste objeto no banco de dados
-        int idCarteira = -1;
-        
-        Carteira carteira =  new Carteira(dataVencimento, dataEmissao, nRegistro, 
-            permissao, tipo, pessoaTitular, status, idCarteira);
-        // Nenhum erro até o momento
-        carteira.setError(false);
-        carteira.setMessage("");
+        try {
+            Date dataEmissao = jDCDataEmissao.getDate();
+            float taxaAcrescimo = Float.parseFloat(jFTFTaxa.getText());
+            Date dataPagamento = jDCDataPagamento.getDate();
+            Automovel automovel = (Automovel) jCBAutomovel.getSelectedItem();
+            Autuacao autuacao = (Autuacao) jCBAutuacao.getSelectedItem();
+            Pessoa pessoa = null;
+            Carteira carteira = null ;
 
-        //System.out.println(carteira.showCarteira());
-        CarteiraController.cadastrarCarteira(carteira);
-        
-        if(carteira.isError()){
-                Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
-                        carteira.getMessage());
+            if(jRBCarteira.isSelected())
+                carteira = (Carteira) jCBCarteira.getSelectedItem();
+            else
+                pessoa = (Pessoa) jCBPessoa.getSelectedItem();
+
+            // ID deste objeto no banco de dados
+            int idMulta = -2;
+
+            Multa multa = new Multa(dataEmissao, taxaAcrescimo, dataPagamento,
+                automovel, pessoa, carteira,
+                autuacao, idMulta);
+
+            multa.setError(false);
+            multa.setMessage("");
+
+
+            //System.out.println(carteira.showCarteira());
+            MultaController.cadastrarMulta(multa);
+
+            if(multa.isError()){
+                    Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
+                            multa.getMessage());
+                }
+            else {
+                    Aviso.showInformation(multa.getMessage());
+                    super.jBTConfirmarActionPerformed(evt);
+                    bloquearComponentes();
+                    limparComponentes();
             }
-        else {
-                Aviso.showInformation(carteira.getMessage());
-                super.jBTConfirmarActionPerformed(evt);
-                bloquearComponentes();
-                limparComponentes();
+        }
+        catch(Exception e)
+        {
+             Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
+                            "Campo numérico Taxa de Acréscimo não é válido\n" +
+                            e.getMessage());
         }
         
-        */
     } 
     @Override
     protected void jBTAlterarActionPerformed(java.awt.event.ActionEvent evt) {
@@ -318,6 +430,8 @@ public final class FormManterMulta extends FormTemplate {
 
     @Override
     protected void jBTExcluirActionPerformed(java.awt.event.ActionEvent evt) {
+        
+        /*
         if(JOptionPane.showConfirmDialog(
                 null, 
                 "Você realmente deseja excluir estes dados?",
@@ -338,6 +452,7 @@ public final class FormManterMulta extends FormTemplate {
         
         bloquearComponentes();
         limparComponentes();
+        */
     }
 
 
@@ -351,19 +466,45 @@ public final class FormManterMulta extends FormTemplate {
     
     @Override
     protected void jTFBuscaKeyReleased(java.awt.event.KeyEvent evt) {                                    
-        // TODO add your handling code here:
+       // TODO add your handling code here:
         super.jTFBuscaKeyReleased(evt);
         
-       // System.out.println(jTFBusca.getText());
+        System.out.println("Busca: " + jTFBusca.getText());
         
-        
-        
+        String busca = jTFBusca.getText();
+       
+        Automovel automovel = new Automovel(); 
         Carteira carteira = new Carteira();
-        carteira.setnRegistro( jTFBusca.getText() );
-        //System.out.println(jTFBusca.getText());
-        carteiraList.clear();
-        carteiraList = CarteiraController.buscarCarteira(carteira, "REGISTRO");
+        Pessoa pessoa = new Pessoa();
         
+        //renavam, cpf e/ou carteira
+        
+        automovel.setRenavam(busca);
+        
+        pessoa.setCpf(busca);
+        boolean cpfValido  = PessoaController.mascaraCPF(pessoa);
+        // Se o que foi digitado na pesquisa não for válido, não é necessário fazer a busca
+        if(!cpfValido)
+            pessoa.setCpf("");
+        //System.out.println("MASK: " + pessoa.getCpf());
+        
+        carteira.setnRegistro(busca);
+        
+        Multa multa = new Multa();
+        
+        multa.setAutomovel(automovel);
+        multa.setPessoa(pessoa);
+        multa.setCarteira(carteira);
+        
+        
+        multaList.clear();
+        
+        
+        multaList = MultaController.buscarMulta(multa, "ALLMULTA");
+        
+        for(Multa item: multaList) {
+            System.out.println(item.showMulta());
+        }
             
         if(carteira.isError())
         {
@@ -379,7 +520,8 @@ public final class FormManterMulta extends FormTemplate {
             
         
         //testPessoa(pessoaList);
-        preencherPesquisa(carteiraList);
+        //preencherPesquisa(carteiraList);
+     
     } 
     
     private void preencherPesquisa( ArrayList<Carteira> carteiraList) { 
@@ -398,7 +540,7 @@ public final class FormManterMulta extends FormTemplate {
 
     @Override
     protected void jTBBuscaRapidaMouseClicked(java.awt.event.MouseEvent evt) {
-        super.jTBBuscaRapidaMouseClicked(evt);
+        /* super.jTBBuscaRapidaMouseClicked(evt);
         //System.out.println("carregar coisinhas"); // oi
         // Não executar sem dados
         if (carteiraList.isEmpty())
@@ -410,7 +552,7 @@ public final class FormManterMulta extends FormTemplate {
         //System.out.println(pessoaSelected.showPessoa());
         preencheComponentes(carteiraSelected);
         
-        bloquearComponentes();
+        bloquearComponentes();*.
     }
     
     public void preencheComponentes(Carteira carteira) {
@@ -467,10 +609,12 @@ public final class FormManterMulta extends FormTemplate {
         jCBCarteira = new javax.swing.JComboBox();
         jLabel7 = new javax.swing.JLabel();
         jFTFTaxa = new javax.swing.JFormattedTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jTFProprietario = new javax.swing.JLabel();
 
         setSize(new java.awt.Dimension(650, 185));
 
-        jPManter.setPreferredSize(new java.awt.Dimension(650, 220));
+        jPManter.setPreferredSize(new java.awt.Dimension(650, 250));
 
         jPDados.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados da Multa"));
         jPDados.setRequestFocusEnabled(false);
@@ -529,14 +673,16 @@ public final class FormManterMulta extends FormTemplate {
 
         jFTFTaxa.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
 
+        jLabel3.setText("Proprietário do Veículo:");
+
         javax.swing.GroupLayout jPDadosLayout = new javax.swing.GroupLayout(jPDados);
         jPDados.setLayout(jPDadosLayout);
         jPDadosLayout.setHorizontalGroup(
             jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPDadosLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPDadosLayout.createSequentialGroup()
-                        .addGap(25, 25, 25)
                         .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPDadosLayout.createSequentialGroup()
                                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -560,15 +706,21 @@ public final class FormManterMulta extends FormTemplate {
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jCBAutuacao, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(jPDadosLayout.createSequentialGroup()
-                        .addContainerGap(25, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPDadosLayout.createSequentialGroup()
                         .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jRBCarteira)
                             .addComponent(jRBPessoa))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jCBPessoa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jCBCarteira, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPDadosLayout.createSequentialGroup()
+                                .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPDadosLayout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTFProprietario))
+                                    .addComponent(jCBCarteira, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPDadosLayout.setVerticalGroup(
@@ -598,13 +750,17 @@ public final class FormManterMulta extends FormTemplate {
                             .addComponent(jCBAutuacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTFProprietario))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCBCarteira, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jRBCarteira))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCBPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jRBPessoa))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPManterLayout = new javax.swing.GroupLayout(jPManter);
@@ -620,8 +776,8 @@ public final class FormManterMulta extends FormTemplate {
             jPManterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPManterLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPDados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addComponent(jPDados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         getContentPane().add(jPManter, java.awt.BorderLayout.CENTER);
@@ -705,25 +861,14 @@ public final class FormManterMulta extends FormTemplate {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPDados;
     private javax.swing.JPanel jPManter;
     private javax.swing.JRadioButton jRBCarteira;
     private javax.swing.JRadioButton jRBPessoa;
+    private javax.swing.JLabel jTFProprietario;
     // End of variables declaration//GEN-END:variables
 
-    /**
-     * @return the titular
-     */
-    public Pessoa getTitular() {
-        return titular;
-    }
-
-    /**
-     * @param titular the titular to set
-     */
-    public void setTitular(Pessoa titular) {
-        this.titular = titular;
-    }
 }

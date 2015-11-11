@@ -193,5 +193,9 @@ public class Carteira {
                         permissao + " " + tipo + " " + titular + " " + status + " " + idCarteira;
         return carteira;
     }
+    
+    public String toString() {
+        return this.titular.getNome() + " - " + this.nRegistro;
+    }
 
 }

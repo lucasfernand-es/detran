@@ -108,6 +108,15 @@ public class PessoaModel {
             STATUS - Busca todas as pessoas com o status == ? 
             */
             switch(tipo) {
+                case "SEMCARTEIRA":
+                    stm  = con.prepareStatement("SELECT * FROM Pessoa AS p "
+                            + "WHERE NOT EXISTS "
+                            + "     (SELECT p.idPessoa "
+                            + "         FROM Carteira AS c "
+                            + "         WHERE p.idPessoa = c.idPessoa "
+                            + "             AND c.STATUS = 1 GROUP BY 1) "
+                            + "AND p.Status = 1 ORDER BY 1");
+                    break;
                 case "STATUS":
                     stm  = con.prepareStatement("SELECT * FROM pessoa WHERE status = ?");
                     stm.setBoolean(1, pessoa.isStatus());
