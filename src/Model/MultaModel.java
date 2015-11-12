@@ -69,6 +69,12 @@ public class MultaModel {
                     stm.setInt(1, multa.getAutomovel().getProprietario().getIdPessoa());
                     stm.setInt(2, multa.getPessoa().getIdPessoa());
                     break;
+                case "CARTEIRA_1YEAR":
+                    stm = con.prepareStatement("SELECT * FROM multa "
+                            + "WHERE idCarteira = ? "
+                            + "AND (dataEmissao + interval 1 year)  >= CURDATE()");
+                    stm.setInt(1, multa.getCarteira().getIdCarteira());
+                    break;
                 case "IDCARTEIRA":
                     stm = con.prepareStatement("SELECT * FROM multa WHERE idCarteira = ?");
                     stm.setInt(1, multa.getCarteira().getIdCarteira());
