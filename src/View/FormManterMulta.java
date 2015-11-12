@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package View;
 
 import Addons.Aviso;
@@ -36,6 +37,8 @@ public final class FormManterMulta extends FormTemplate {
    
     private static FormManterMulta manterForm = null;
     
+    private Multa multaSelected;
+    
     
 
     public static FormManterMulta getForm() {
@@ -53,7 +56,7 @@ public final class FormManterMulta extends FormTemplate {
      * Creates new form FormManterEvento
      */
     private FormManterMulta() {
-        this.setTitle("Gerenciar Carteira");
+        this.setTitle("Gerenciar Multa");
         initComponents();
         iniciarComponentes();
         this.setLocationRelativeTo(null);
@@ -76,17 +79,17 @@ public final class FormManterMulta extends FormTemplate {
                     {null, null, null, null, null}
                 },
                new String[]{
-                    "N. Registro", "Titular", "Data de Emissão",
-                    "Data de Vencimento", "Tipo"
+                    "Responsável", "Automóvel", "Autuação",
+                    "Data de Emissão", "Status do Pagamento", "Taxa de Acréscimo"
                 }
         ) {
             // Quatidade de Colunas
             Class[] types = new Class[]{
                 java.lang.String.class, java.lang.String.class, java.lang.String.class,
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean[]{
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             @Override
@@ -100,6 +103,9 @@ public final class FormManterMulta extends FormTemplate {
             }
         });
         super.jSPTable.setViewportView(jTBBuscaRapida);
+        
+        
+        super.jLInstrucao.setText("Informe o número do CPF, Renavam ou Número da Carteira");
 
         jTBBuscaRapida.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -147,6 +153,9 @@ public final class FormManterMulta extends FormTemplate {
         jBTCancelar.setText("Cancelar");
         jBTCancelar.setEnabled(false);
         jBTCancelar.addActionListener(this::jBTCancelarActionPerformed);
+        
+        DefaultTableModel tableModel = (DefaultTableModel) super.jTBBuscaRapida.getModel();
+        tableModel.setRowCount(0);
     }
     
     //  Carregar Pessoas do BD
@@ -306,6 +315,8 @@ public final class FormManterMulta extends FormTemplate {
 
     public void limparComponentes() {
         
+        
+        
         jDCDataPagamento.setDate(null);
         jDCDataEmissao.setDate(null);
         jFTFTaxa.setText("");
@@ -378,81 +389,77 @@ public final class FormManterMulta extends FormTemplate {
     @Override
     protected void jBTAlterarActionPerformed(java.awt.event.ActionEvent evt) {
         super.jBTAlterarActionPerformed(evt);
-
-        liberarComponentes();
-        /*
-        jTFNRegistro.setEnabled(false);
+        
+        jDCDataPagamento.setEnabled(true);
         jDCDataEmissao.setEnabled(false);
-        jDCDataPagamento.setEnabled(false);
-        jCBTipo.setEnabled(false);
-        jCBPessoa.setEnabled(false);
-        */
+        jFTFTaxa.setEnabled(false);
+        
+        jCBAutomovel.setEnabled(false);
+        jCBAutuacao.setEnabled(false);
+        jCBPessoa.setEnabled(true);
+        jCBCarteira.setEnabled(true);
+        
+        jRBPessoa.setEnabled(true);
+        jRBCarteira.setEnabled(true);
+       
     }
 
     @Override
     protected void jBTSalvarActionPerformed(java.awt.event.ActionEvent evt) {
-        /*
-        Date dataVencimento = jDCDataPagamento.getDate();
-	Date dataEmissao = jDCDataEmissao.getDate();
-	String nRegistro = jTFNRegistro.getText();
-        // Se a permissão existe. Sim == true e Não == false 
-        // Se o Sim não estiver selecionado, o Não está
-	boolean permissao = (jRBSimPermissao.isSelected());
-	String tipo = (String) jCBTipo.getSelectedItem();
-	Pessoa pessoaTitular = (Pessoa) jCBPessoa.getSelectedItem();
-        // Se o status for Ativo. Sim == true e Não == false 
-        // Se o Sim não estiver selecionado, o Não está
-        boolean status = (jRBSimStatus.isSelected());
-        // ID deste objeto no banco de dados
-        int idCarteira = carteiraSelected.getIdCarteira();
         
-        Carteira carteira =  new Carteira(dataVencimento, dataEmissao, nRegistro, 
-            permissao, tipo, pessoaTitular, status, idCarteira);
-        // Nenhum erro até o momento
-        carteira.setError(false);
-        carteira.setMessage("");
+        try {
+            
+            multaSelected.showMulta();
+            
+            multaSelected.setDataPagamento(  jDCDataPagamento.getDate()  );
+            
+            
+            
+            
+            Pessoa pessoa = null;
+            Carteira carteira = null ;
 
-        //System.out.println(carteira.showCarteira());
-        CarteiraController.alterarCarteira(carteira);
-        
-        if(carteira.isError()){
-                Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
-                        carteira.getMessage());
+            if(jRBCarteira.isSelected())
+                carteira = (Carteira) jCBCarteira.getSelectedItem();
+            else
+                pessoa = (Pessoa) jCBPessoa.getSelectedItem();
+            
+            multaSelected.setCarteira(carteira);
+            multaSelected.setPessoa(pessoa);
+            
+            multaSelected.showMulta();
+            
+            multaSelected.setError(false);
+            multaSelected.setMessage("");
+
+
+            //System.out.println(carteira.showCarteira());
+            MultaController.alterarMulta(multaSelected);
+
+            if(multaSelected.isError()){
+                    Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
+                            multaSelected.getMessage());
+                }
+            else {
+                    Aviso.showInformation(multaSelected.getMessage());
+                    super.jBTConfirmarActionPerformed(evt);
+                    bloquearComponentes();
+                    limparComponentes();
+                    
+                    DefaultTableModel tableModel = (DefaultTableModel) super.jTBBuscaRapida.getModel();
+                    tableModel.setRowCount(0);
             }
-        else {
-                Aviso.showInformation(carteira.getMessage());
-                super.jBTConfirmarActionPerformed(evt);
-                bloquearComponentes();
-                limparComponentes();
         }
-        */
+        catch(Exception e)
+        {
+             Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
+                            e.getMessage());
+        }
     }
 
     @Override
     protected void jBTExcluirActionPerformed(java.awt.event.ActionEvent evt) {
         
-        /*
-        if(JOptionPane.showConfirmDialog(
-                null, 
-                "Você realmente deseja excluir estes dados?",
-                "Alerta de exclusão de dados",
-                JOptionPane.YES_NO_OPTION) == 1) 
-            return;
-        
-        Carteira carteira = carteiraSelected;
-
-        //System.out.println(carteira.showPessoa());
-        CarteiraController.excluirCarteira(carteira);
-
-        if(carteira.isError())
-        {
-            Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
-                    carteira.getMessage());
-        }
-        
-        bloquearComponentes();
-        limparComponentes();
-        */
     }
 
 
@@ -469,7 +476,7 @@ public final class FormManterMulta extends FormTemplate {
        // TODO add your handling code here:
         super.jTFBuscaKeyReleased(evt);
         
-        System.out.println("Busca: " + jTFBusca.getText());
+        //System.out.println("Busca: " + jTFBusca.getText());
         
         String busca = jTFBusca.getText();
        
@@ -496,90 +503,103 @@ public final class FormManterMulta extends FormTemplate {
         multa.setPessoa(pessoa);
         multa.setCarteira(carteira);
         
-        
         multaList.clear();
         
         
         multaList = MultaController.buscarMulta(multa, "ALLMULTA");
         
-        for(Multa item: multaList) {
-            System.out.println(item.showMulta());
-        }
-            
-        if(carteira.isError())
+
+        if(multa.isError())
         {
             Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n" + 
-                    carteira.getMessage());
+                    multa.getMessage());
         }
-        
-        if (carteiraList == null)
+        if (multaList == null)
         {
-            carteiraList = new ArrayList<>();
+            multaList = new ArrayList<>();
             return;
         }
             
+        preencherPesquisa();
         
-        //testPessoa(pessoaList);
-        //preencherPesquisa(carteiraList);
-     
+        bloquearComponentes();
+        limparComponentes();
     } 
     
-    private void preencherPesquisa( ArrayList<Carteira> carteiraList) { 
+    private void preencherPesquisa() { 
                     
         DefaultTableModel tableModel = (DefaultTableModel) super.jTBBuscaRapida.getModel();
     
         tableModel.setRowCount(0);
         
-        for(Carteira carteira : carteiraList ) {
+        for(Multa multa : multaList ) {
             tableModel.addRow(new Object[] { 
-                    carteira.getnRegistro(), carteira.getTitular(), carteira.getDataEmissao(),
-                    carteira.getDataVencimento(), carteira.getTipo()
+                    (multa.getPessoa() == null)? multa.getCarteira().getTitular(): multa.getPessoa(),
+                    multa.getAutomovel(),
+                    multa.getAutuacao(),
+                    multa.getDataEmissao(),
+                    (multa.estaPago())? "Pago: " + multa.getDataPagamento() : "Pendente",
+                    multa.getTaxaAcrescimo()
             } );
         }
     }
 
     @Override
     protected void jTBBuscaRapidaMouseClicked(java.awt.event.MouseEvent evt) {
-        /* super.jTBBuscaRapidaMouseClicked(evt);
+        super.jTBBuscaRapidaMouseClicked(evt);
+        jBTExcluir.setEnabled(false);
         //System.out.println("carregar coisinhas"); // oi
         // Não executar sem dados
-        if (carteiraList.isEmpty())
+        if (multaList.isEmpty())
             return;
         
         int selectedRow = super.jTBBuscaRapida.getSelectedRow();
-        carteiraSelected = carteiraList.get(selectedRow);
+        multaSelected = multaList.get(selectedRow);
         
         //System.out.println(pessoaSelected.showPessoa());
-        preencheComponentes(carteiraSelected);
+        preencheComponentes();
         
-        bloquearComponentes();*.
+        bloquearComponentes();
     }
     
-    public void preencheComponentes(Carteira carteira) {
+    public void preencheComponentes() {
         
         
-       /*
-         jTFNRegistro.setText(carteira.getnRegistro());
-        jDCDataEmissao.setDate(carteira.getDataEmissao());
-        // Por definição
-        if (carteira.isPermissao())
-            jRBSimPermissao.setSelected(true);
+        jDCDataPagamento.setDate(multaSelected.getDataPagamento());
+        jDCDataEmissao.setDate(multaSelected.getDataEmissao());
+        jFTFTaxa.setText(String.valueOf( multaSelected.getTaxaAcrescimo() ));
+        
+        // busca automovel
+        int idAutomovel = AutomovelController.buscaIDAutomovel(automovelList, multaSelected.getAutomovel());
+        jCBAutomovel.setSelectedIndex(idAutomovel);
+        jTFProprietario.setText( String.valueOf(multaSelected.getAutomovel().getProprietario()) );
+        //System.out.println("idAutomovel" + idAutomovel);
+        
+        //busca autuacao
+        int idAutuacao= AutuacaoController.buscaIDAutuacao(autuacaoList, multaSelected.getAutuacao());
+        jCBAutuacao.setSelectedIndex(idAutuacao);
+        //System.out.println("idAutuacao"+idAutuacao);
+        
+        //busca pessoa
+        jCBPessoa.setSelectedIndex(0);
+        if(multaSelected.getPessoa() != null) {
+            int idPessoa = PessoaController.buscaIDPessoa(pessoaList, multaSelected.getPessoa());
+            jCBPessoa.setSelectedIndex(idPessoa + 1);
+            //System.out.println("idPessoa" + idPessoa);
+        }
+        
+        //busca carteira
+        jCBCarteira.setSelectedIndex(0);
+        if(multaSelected.getCarteira() != null) {
+            int idCarteira = CarteiraController.buscaIDCarteira(carteiraList, multaSelected.getCarteira());
+            jCBCarteira.setSelectedIndex(idCarteira + 1);
+            //System.out.println("idCarteira pos: " + idCarteira + " - " + multaSelected.getCarteira().getIdCarteira());
+        }
+        
+        if(multaSelected.getPessoa() == null)
+            jRBCarteira.setSelected(true);
         else
-            jRBNaoPermissao.setSelected(true);
-        jDCDataPagamento.setDate(carteira.getDataVencimento());
-        // Por definição
-        if (carteira.isStatus())
-            jRBSimStatus.setSelected(true);
-        else
-            jRBNaoStatus.setSelected(true);
-        
-        jCBPessoa.setSelectedItem( carteira.getTipo());
-        
-        int idCarteira = CarteiraController.buscaIDCarteira(titularList, carteira);
-
-        jCBPessoa.setSelectedIndex(idCarteira);
-        */
-       
+            jRBPessoa.setSelected(true);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -713,14 +733,14 @@ public final class FormManterMulta extends FormTemplate {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jCBPessoa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPDadosLayout.createSequentialGroup()
-                                .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPDadosLayout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTFProprietario))
-                                    .addComponent(jCBCarteira, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                            .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPDadosLayout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jTFProprietario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(jPDadosLayout.createSequentialGroup()
+                                    .addComponent(jCBCarteira, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(0, 0, Short.MAX_VALUE))))))
                 .addContainerGap())
         );
         jPDadosLayout.setVerticalGroup(
@@ -749,9 +769,9 @@ public final class FormManterMulta extends FormTemplate {
                             .addComponent(jLabel10)
                             .addComponent(jCBAutuacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTFProprietario))
+                .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTFProprietario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addGroup(jPDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCBCarteira, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

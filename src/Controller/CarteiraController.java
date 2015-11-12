@@ -130,7 +130,7 @@ public class CarteiraController {
             return newList;
     }
 
-    public static int buscaIDCarteira(ArrayList<Pessoa> pessoaList, Carteira carteira) {
+    public static int buscaIDTitutar(ArrayList<Pessoa> pessoaList, Carteira carteira) {
         int id = 0;
         for (int i = 0; i < pessoaList.size(); i ++)
         {
@@ -141,7 +141,7 @@ public class CarteiraController {
             }
             
         }
-        System.out.println("id " + id);
+        //System.out.println("id " + id);
         return id;
     }
 
@@ -160,6 +160,22 @@ public class CarteiraController {
     public static void excluirCarteira(Carteira carteira) {
         CarteiraModel.excluirCarteira(carteira);
     }
+
+    public static int buscaIDCarteira(ArrayList<Carteira> carteiraList, Carteira carteira) {
+        int id = 0;
+        for (int i = 0; i < carteiraList.size(); i ++)
+        {
+            Carteira carteiraVO = (Carteira) carteiraList.get(i);
+            if( carteiraVO.getIdCarteira() == carteira.getIdCarteira() ){
+                id = i;
+                break;
+            }
+            
+        }
+        //System.out.println("id " + id);
+        return id;
+    }
+
 
     
 }

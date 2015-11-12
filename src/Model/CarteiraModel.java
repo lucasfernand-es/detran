@@ -103,6 +103,14 @@ public class CarteiraModel {
                     stm  = con.prepareStatement("SELECT * FROM carteira WHERE idPessoa = ?");
                     stm.setInt(1, carteira.getTitular().getIdPessoa());
                     break;
+                case "REGISTRO_CPF":
+                    stm  = con.prepareStatement("SELECT * FROM Carteira c "
+                            + "INNER JOIN Pessoa p ON c.idPessoa = p.idPessoa "
+                            + "WHERE c.status = true "
+                            + "AND (UPPER(c.nRegistro) LIKE UPPER(?) OR p.cpf LIKE ?)");
+                    stm.setString(1, carteira.getnRegistro());
+                    stm.setString(2, carteira.getTitular().getCpf());
+                    break;
                 case "REGISTRO":
                     stm  = con.prepareStatement("SELECT * FROM carteira WHERE nRegistro LIKE ?");
                     stm.setString(1, '%' + carteira.getnRegistro() + '%');

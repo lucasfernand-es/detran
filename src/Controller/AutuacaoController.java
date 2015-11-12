@@ -107,5 +107,20 @@ public class AutuacaoController {
             return newAutuacao;
         }
     }
+
+    public static int buscaIDAutuacao(ArrayList<Autuacao> autuacaoList, Autuacao autuacao) {
+       int id = 0;
+        for (int i = 0; i < autuacaoList.size(); i ++)
+        {
+            Autuacao autuacaoVO = (Autuacao) autuacaoList.get(i);
+            if(autuacaoVO.getIdAutuacao() == autuacao.getIdAutuacao()){
+                id = i;
+                break;
+            }
+            
+        }
+        //System.out.println("id " + id);
+        return id; 
+    }
     
 }

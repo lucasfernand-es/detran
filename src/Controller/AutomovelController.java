@@ -121,5 +121,22 @@ public class AutomovelController {
     private static boolean checaFormatoRenavam(String renavam) {
         return renavam.matches("[0-9]+");
     }
+
+    public static int buscaIDAutomovel(ArrayList<Automovel> automovelList, Automovel automovel) {
+        int id = 0;
+        for (int i = 0; i < automovelList.size(); i ++)
+        {
+            Automovel autoVO = (Automovel) automovelList.get(i);
+            if(autoVO.getIdAutomovel() == automovel.getIdAutomovel()){
+                //System.out.println("autoVO.getIdAutomovel() == automovel.getIdAutomovel()" +
+                        //autoVO.getIdAutomovel() + "==" + automovel.getIdAutomovel());
+                id = i;
+                break;
+            }
+            
+        }
+        //System.out.println("id " + id);
+        return id;
+    }
     
 }

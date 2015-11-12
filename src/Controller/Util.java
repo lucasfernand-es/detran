@@ -84,7 +84,6 @@ public class Util {
             carteira = new Carteira();
             carteira.setError(true);
             carteira.setMessage(e.getMessage());
-            System.out.println(e.getMessage());
             return null;
         }
     }
@@ -153,21 +152,21 @@ public class Util {
                 dataPagamento = null;
             }
             int idAutomovel = rs.getInt("idAutomovel");
-            System.out.println(idAutomovel + "idAutomovel");
+            //System.out.println(idAutomovel + "idAutomovel");
             Automovel automovel = Util.getAutomovel(idAutomovel);
             
             int idPessoa = rs.getInt("idPessoa");
-            System.out.println(idPessoa + "idPessoa");
+            //System.out.println(idPessoa + "idPessoa");
             Pessoa pessoa = Util.getPessoa(idPessoa); // Pessoa pessoa = null;
             
             int idCarteira = rs.getInt("idCarteira");
-            System.out.println(idCarteira + "idCarteira");
+            //System.out.println(idCarteira + "idCarteira");
             Carteira carteira = Util.getCarteira(idCarteira); // Carteira carteira = null; 
             
-            System.out.println(idCarteira + " depois");
+            //System.out.println(idCarteira + " depois");
             
             int idAutuacao = rs.getInt("idAutuacao");
-            System.out.println(idAutuacao + "idAutuacao");
+            //System.out.println(idAutuacao + "idAutuacao");
             Autuacao autuacao = Util.getAutuacao(idAutuacao); // Autuacao autuacao = null; 
             
             int idMulta = rs.getInt("idMulta");
@@ -311,12 +310,8 @@ public class Util {
         Carteira carteira = new Carteira();
         carteira.setIdCarteira(idCarteira);
         
-        System.out.println("getCarteira antes");
-        
         ArrayList<Carteira> newList = CarteiraController.buscarCarteira(carteira, "UNIQUE_ID");
         
-        System.out.println("getCarteira depois");
-        System.out.println(newList + "what are this");
         carteira = (newList == null || newList.isEmpty())? null: newList.get(0);
 
         return carteira;
@@ -327,7 +322,7 @@ public class Util {
         autuacao.setIdAutuacao(idAutuacao);
         
         autuacao = AutuacaoController.buscaAutuacaoID(autuacao);
-        System.out.println("Autuacao");
+
         
         return autuacao;
     }

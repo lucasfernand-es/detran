@@ -54,8 +54,8 @@ public class MultaController {
         if(multa.getDataEmissao()== null)
             mensagem = mensagem.concat("Data de Emissão não pode estar vazio\n");
         
-        if(multa.getTaxaAcrescimo() < 1 || multa.getTaxaAcrescimo() > 100)
-            mensagem = mensagem.concat("Taxa de Acréscimo deve ser <= a 1 e >= a 100.\n");
+        if(multa.getTaxaAcrescimo() < 0 || multa.getTaxaAcrescimo() > 100)
+            mensagem = mensagem.concat("Taxa de Acréscimo deve ser <= a 0 e >= a 100.\n");
         
         if(multa.getAutomovel() == null)
             mensagem = mensagem.concat("Automóvel não pode estar vazio\n");
@@ -85,6 +85,19 @@ public class MultaController {
         // Caso alguma regra não tenha sido cumprida, há erro e a mensagem não é vazia
         return mensagem.equals("");
               
+    }
+
+    public static void alterarMulta(Multa multa) {
+        
+        boolean verifica = MultaController.verificarCampos(multa);
+        
+        if(!verifica) {
+            multa.setError(true);
+            // Algum dado informado é inválido
+            return;
+        }
+       
+        MultaModel.alterarMulta(multa);
     }
     
     

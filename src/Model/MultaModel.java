@@ -82,7 +82,7 @@ public class MultaModel {
             
             while (rs.next()) {
                 Multa multaVO = Util.criarMulta(rs);
-                System.out.println( multaVO.toString() );
+                //System.out.println( multaVO.toString() );
                 multaList.add(multaVO);
             }
             
@@ -174,6 +174,91 @@ public class MultaModel {
             multa.setError(true);
             multa.setMessage("\tFalha Técnica\n\t" + e.getMessage());
         }
+    }
+
+    public static void alterarMulta(Multa multa) {
+        
+        try {
+            // Connect with database
+            MySQLConnector mCon = new MySQLConnector();
+            Connection con = mCon.connect();
+            
+            // SQL que vai ser executada
+            // Depende se é carteira ou pessoa
+            String query;
+            if (multa.getPessoa() == null) 
+            {
+                query = (
+                    "UPDATE multa SET "
+                        + "dataEmissao = ?, "
+                        + "taxaAcrescimo = ?, "
+                        + "dataPagamento = ?, "
+                        + "idCarteira = ?, "
+                        + "idPessoa = null, "
+                        + "idAutuacao = ?, "
+                        + "idAutomovel = ? "
+                        + "WHERE idMulta = ?");  
+            }
+            else
+                query = (
+                    "UPDATE multa SET "
+                        + "dataEmissao = ?, "
+                        + "taxaAcrescimo = ?, "
+                        + "dataPagamento = ?, "
+                        + "idPessoa = ?, "
+                        + "idCarteira = null, "
+                        + "idAutuacao = ?, "
+                        + "idAutomovel = ? "
+                        + "WHERE idMulta = ?");  
+            
+            PreparedStatement stm;
+            stm = con.prepareStatement(query);
+            
+         
+            Timestamp dataEmissao = new Timestamp(multa.getDataEmissao().getTime());
+            stm.setTimestamp(1, dataEmissao);
+            
+            stm.setFloat(2, multa.getTaxaAcrescimo());
+            
+            if(multa.getDataPagamento() != null) {
+                Timestamp dataPagamento = new Timestamp(multa.getDataPagamento().getTime());
+                stm.setTimestamp(3, dataPagamento);
+            }
+            else
+                stm.setTimestamp(3, null);
+            
+            if(multa.getPessoa() != null)
+                stm.setInt(4, multa.getPessoa().getIdPessoa());
+            
+            
+            if(multa.getCarteira() != null)
+                stm.setInt(4, multa.getCarteira().getIdCarteira());
+            
+            stm.setInt(5, multa.getAutuacao().getIdAutuacao());
+            
+            stm.setInt(6, multa.getAutomovel().getIdAutomovel());
+            
+            stm.setInt(7, multa.getIdMulta());
+           
+            // Confere se alguma linha do BD foi modificada
+            int status = stm.executeUpdate();
+            
+            if(status == 1) {
+                multa.setError(false);
+                multa.setMessage("Alterado com Sucesso!");
+            }
+            else {
+                multa.setError(true);
+                multa.setMessage("Falha ao Cadastrar!");
+            }
+            
+            mCon.disconnect();
+        }
+        catch(Exception e) {
+            multa.setError(true);
+            multa.setMessage("\tFalha Técnica\n\t" + e.getMessage());
+        }
+        
     }
     
 }

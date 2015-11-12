@@ -10,6 +10,7 @@ import Model.PessoaModel;
 import java.text.ParseException;
 import java.util.ArrayList;
 import javax.swing.text.MaskFormatter;
+import valueObject.Carteira;
 import valueObject.Pessoa;
 
 /**
@@ -197,4 +198,20 @@ public class PessoaController {
     }
     
     // Tes
+
+    public static int buscaIDPessoa(ArrayList<Pessoa> pessoaList, Pessoa pessoa) {
+        
+        int id = 0;
+        for (int i = 0; i < pessoaList.size(); i ++)
+        {
+            Pessoa pessoaVO = (Pessoa) pessoaList.get(i);
+            if( pessoaVO.getIdPessoa() == pessoa.getIdPessoa() ){
+                id = i;
+                break;
+            }
+            
+        }
+        //System.out.println("id " + id);
+        return id;
+    }
 }

@@ -456,7 +456,7 @@ public final class FormManterCarteira extends FormTemplate {
         
         jCBTitular.setSelectedItem( carteira.getTipo());
         
-        int idCarteira = CarteiraController.buscaIDCarteira(titularList, carteira);
+        int idCarteira = CarteiraController.buscaIDTitutar(titularList, carteira);
 
         jCBTitular.setSelectedIndex(idCarteira);
        
