@@ -237,15 +237,24 @@ public class Util {
     }
 
     public static int multasPendentesCount(Pessoa pessoa) {
+        
+        Automovel automovel = new Automovel();
+        Carteira carteira = new Carteira();
+        
+        automovel.setProprietario(pessoa);
+        carteira.setTitular(pessoa);
+        
         Multa multa = new Multa();
         multa.setPessoa(pessoa);
+        multa.setCarteira(carteira);
+        multa.setAutomovel(automovel);
         
-        ArrayList<Multa> list = MultaController.buscarMulta(multa, "IDPESSOA");
-        
+        ArrayList<Multa> list = MultaController.buscarMulta(multa, "MULTAPENDENTE");
+
         if (list == null)
-            return 0;
+            return -1;
         int count = 0;
-        for(int i=0; i<list.size(); i++) {
+        for(int i = 0; i < list.size(); i++) {
             if(list.get(i).getDataPagamento() == null) {
                 count++;
             }

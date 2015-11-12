@@ -69,6 +69,17 @@ public class MultaModel {
                     stm.setInt(1, multa.getAutomovel().getProprietario().getIdPessoa());
                     stm.setInt(2, multa.getPessoa().getIdPessoa());
                     break;
+                case "MULTAPENDENTE":
+                    System.out.println("ola");
+                    stm = con.prepareStatement("SELECT m.* FROM Multa m " +
+                    "	INNER JOIN Automovel a ON m.idAutomovel = a.idAutomovel " +
+                    "    LEFT JOIN Pessoa p ON p.idPessoa = m.idPessoa " +
+                    "    LEFT JOIN Carteira C ON m.idCarteira = c.idCarteira " +
+                    "    WHERE c.idPessoa = ? OR p.idPessoa = ? OR a.idPessoa = ?");
+                    stm.setInt(1, multa.getCarteira().getTitular().getIdPessoa());
+                    stm.setInt(2, multa.getPessoa().getIdPessoa());
+                    stm.setInt(3, multa.getAutomovel().getProprietario().getIdPessoa());
+                    break;
                 case "CARTEIRA_1YEAR":
                     stm = con.prepareStatement("SELECT * FROM multa "
                             + "WHERE idCarteira = ? "

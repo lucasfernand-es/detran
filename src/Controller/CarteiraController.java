@@ -77,10 +77,7 @@ public class CarteiraController {
         
         long idade = 60 * 24 * 365 * 18;
         
-        if(minutes - idade >= 0)
-            return true;
-        else
-            return false;
+        return minutes - idade >= 0;
         
     }
     
@@ -167,6 +164,21 @@ public class CarteiraController {
         {
             Carteira carteiraVO = (Carteira) carteiraList.get(i);
             if( carteiraVO.getIdCarteira() == carteira.getIdCarteira() ){
+                id = i;
+                break;
+            }
+            
+        }
+        //System.out.println("id " + id);
+        return id;
+    }
+
+    public static int buscaIDCarteira(ArrayList<Carteira> carteiraList, Pessoa pessoa) {
+        int id = -1;
+        for (int i = 0; i < carteiraList.size(); i ++)
+        {
+            Pessoa pessoaVO = (Pessoa) carteiraList.get(i).getTitular();
+            if( pessoaVO.getIdPessoa() == pessoa.getIdPessoa() ){
                 id = i;
                 break;
             }

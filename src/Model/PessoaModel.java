@@ -161,6 +161,19 @@ public class PessoaModel {
             
             // SQL que vai ser executada
             // UPDATE automovel SET modelo = focuss WHERE idAutomovel = ?;
+            
+            if(!pessoa.isStatus())
+            {
+                
+            int multas_pendentes = Util.multasPendentesCount(pessoa);
+            
+            if(multas_pendentes > 0) {
+                pessoa.setError(true);
+                pessoa.setMessage("Há multas pendentes neste veículo\n");
+                return;
+            }
+            }
+            
             String query = 
                     "UPDATE pessoa SET "
                             + "nome = ?, "
@@ -237,10 +250,10 @@ public class PessoaModel {
             int multas_pendentes = Util.multasPendentesCount(pessoa);
             if(multas_pendentes > 0) {
                 pessoa.setError(true);
-                pessoa.setMessage("Há multas pendentes neste veículo\n");
+                pessoa.setMessage("Há multas pendentes nesta pessoa: " + pessoa + "\n");
                 return;
             }
-            
+                 
             // SQL que vai ser executada
             // UPDATE automovel SET status = false WHERE idAutomovel = ?
             String query = 

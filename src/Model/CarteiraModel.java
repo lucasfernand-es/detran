@@ -168,6 +168,15 @@ public class CarteiraModel {
             MySQLConnector mCon = new MySQLConnector();
             Connection con = mCon.connect();
             
+            if(!carteira.isStatus()) {
+                int multas_pendentes = Util.multasPendentesCount(carteira);
+                if(multas_pendentes > 0) {
+                    carteira.setError(true);
+                    carteira.setMessage("Há multas pendentes nesta carteira " + carteira.getnRegistro() + "\n");
+                    return;
+                }
+            }
+            
             // SQL que vai ser executada
             String query = (
                     "UPDATE carteira SET "

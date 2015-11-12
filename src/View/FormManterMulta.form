@@ -250,6 +250,9 @@
                   </StringArray>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jCBAutomovelItemStateChanged"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="jCBAutuacao">
               <Properties>

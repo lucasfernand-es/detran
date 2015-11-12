@@ -657,6 +657,11 @@ public final class FormManterMulta extends FormTemplate {
         jLabel10.setText("Autuação");
 
         jCBAutomovel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jCBAutomovel.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCBAutomovelItemStateChanged(evt);
+            }
+        });
 
         jCBAutuacao.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -830,6 +835,41 @@ public final class FormManterMulta extends FormTemplate {
             jCBCarteira.setEnabled(true);
         }
     }//GEN-LAST:event_jRBCarteiraActionPerformed
+
+    private void jCBAutomovelItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCBAutomovelItemStateChanged
+  
+        Automovel automovel = (Automovel) jCBAutomovel.getSelectedItem();
+        
+        if(automovel == null)
+        {
+            jTFProprietario.setText("");
+            return;
+        }
+        
+        jTFProprietario.setText( String.valueOf( automovel.getProprietario()) );
+        
+        Pessoa pessoa = automovel.getProprietario();
+        
+        //busca pessoa
+        int idPessoa = PessoaController.buscaIDPessoa(pessoaList, pessoa);
+        int idCarteira = CarteiraController.buscaIDCarteira(carteiraList, pessoa);
+        
+        
+        if(idPessoa == -1) {
+            jCBCarteira.setSelectedIndex(idCarteira + 1);
+            jCBPessoa.setSelectedIndex(0); jCBPessoa.setEnabled(false);
+            jRBCarteira.setSelected(true);
+        }
+        else if(idCarteira == -1){
+            jCBCarteira.setSelectedIndex(0); jCBCarteira.setEnabled(false);
+            jCBPessoa.setSelectedIndex(idPessoa + 1);
+            jRBPessoa.setSelected(true);
+        }
+        else {
+            jCBCarteira.setSelectedIndex(0);
+            jCBPessoa.setSelectedIndex(0);
+        }
+    }//GEN-LAST:event_jCBAutomovelItemStateChanged
 
     /**
      * @param args the command line arguments

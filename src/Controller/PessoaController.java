@@ -57,10 +57,11 @@ public class PessoaController {
         if(pessoa.getCep().equals("") || pessoa.getCep().equals("12.345-678"))
             mensagem = mensagem.concat("CEP não pode estar vazio\n");
         
-        
-        
+
+        String cpf = pessoa.getCpf().replaceAll("(\\.|-)", "");
+
         //System.out.println("newCpf " + newCpf);
-        boolean validaCPF = ValidaCPF.isCPF(pessoa.getCpf());
+        boolean validaCPF = ValidaCPF.isCPF(cpf);
         if(!validaCPF)
             mensagem = mensagem.concat("CPF informado é inválido\n");
         // A nova mensagem dentro do objeto será a mensagem atual 
@@ -103,7 +104,6 @@ public class PessoaController {
     
     // Trata o texto digitado e aplica a máscara para ser usada na pesquisa no banco
     public static boolean mascaraCPF(Pessoa pessoa) {
-
         
         String pattern = "###.###.###-##";
         
@@ -201,7 +201,7 @@ public class PessoaController {
 
     public static int buscaIDPessoa(ArrayList<Pessoa> pessoaList, Pessoa pessoa) {
         
-        int id = 0;
+        int id = -1;
         for (int i = 0; i < pessoaList.size(); i ++)
         {
             Pessoa pessoaVO = (Pessoa) pessoaList.get(i);
