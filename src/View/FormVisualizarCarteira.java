@@ -147,8 +147,8 @@ public final class FormVisualizarCarteira extends FormTemplate {
         jTFDataVencimento.setText("");
         
         jTFPermissao.setText("");
-        jTFAtivo.setText("");
-        
+        jTFAtivo.setText(""); 
+       
         jTFCategoria.setText("");
         jTFTitular.setText("");
         
