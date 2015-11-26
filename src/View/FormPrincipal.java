@@ -55,7 +55,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         jButtonBuscarAutomovel = new javax.swing.JButton();
         jButtonBuscarCarteira = new javax.swing.JButton();
         jButtonBuscarMulta = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        jPanelAdm = new javax.swing.JPanel();
         jButtonLogarSistema = new javax.swing.JButton();
         jButtonManterAutomovel = new javax.swing.JButton();
         jButtonManterPessoa = new javax.swing.JButton();
@@ -101,7 +101,7 @@ public class FormPrincipal extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Administrador"));
+        jPanelAdm.setBorder(javax.swing.BorderFactory.createTitledBorder("Administrador"));
 
         jButtonLogarSistema.setText("Logar no sistema");
         jButtonLogarSistema.addActionListener(new java.awt.event.ActionListener() {
@@ -118,13 +118,13 @@ public class FormPrincipal extends javax.swing.JFrame {
 
         jButtonManterMulta.setText("Manter multas");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelAdmLayout = new javax.swing.GroupLayout(jPanelAdm);
+        jPanelAdm.setLayout(jPanelAdmLayout);
+        jPanelAdmLayout.setHorizontalGroup(
+            jPanelAdmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelAdmLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelAdmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonLogarSistema, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonManterAutomovel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonManterPessoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -132,9 +132,9 @@ public class FormPrincipal extends javax.swing.JFrame {
                     .addComponent(jButtonManterMulta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        jPanelAdmLayout.setVerticalGroup(
+            jPanelAdmLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelAdmLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonLogarSistema)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -156,7 +156,7 @@ public class FormPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanelAdm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -165,7 +165,7 @@ public class FormPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanelUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanelAdm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -234,7 +234,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButtonManterMulta;
     private javax.swing.JButton jButtonManterPessoa;
     private javax.swing.JButton jButtonManterTipoAutuacao;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanelAdm;
     private javax.swing.JPanel jPanelUsuario;
     // End of variables declaration//GEN-END:variables
 }
