@@ -6,7 +6,6 @@
 package Controller;
 
 
-import static Controller.CarteiraController.buscarCarteira;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
