@@ -9,10 +9,13 @@ import Addons.Aviso;
 import Controller.CarteiraController;
 import Controller.MultaController;
 import Controller.PessoaController;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import valueObject.Carteira;
 import valueObject.Multa;
@@ -43,13 +46,22 @@ public final class FormVisualizarCarteira extends FormTemplate {
         this.setTitle("Buscar Carteira");
         initComponents();
         iniciarComponentes();
+        
         this.setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                FormPrincipal.isShowingModal = false;
+            }
+        });
 
         // Resetar todos os componentes
         this.setAllEnabled(false);
         limparComponentes();
     }
-
     
     public void iniciarComponentes() {
 
@@ -106,6 +118,16 @@ public final class FormVisualizarCarteira extends FormTemplate {
         tableModel.setRowCount(0);
         
         setAllEditable(false);
+    }
+    
+    public void abre() {
+        limpa();
+        this.setVisible(true);
+    }
+    
+    private void limpa() {
+        jTFBusca.setText("");
+        jTFBuscaKeyReleased(null);
     }
     
     private void setAllEditable(boolean opt) {

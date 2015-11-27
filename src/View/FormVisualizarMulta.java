@@ -24,23 +24,20 @@ public final class FormVisualizarMulta extends FormTemplate {
     private final ArrayList<Multa> selectedMultas;
 
     private static FormVisualizarMulta formVisualizarMulta = null;
-    public static FormVisualizarMulta getForm(FormPrincipal formPrincipal) {
+    public static FormVisualizarMulta getForm() {
         if (formVisualizarMulta == null) {
-            formVisualizarMulta = new FormVisualizarMulta(formPrincipal);
+            formVisualizarMulta = new FormVisualizarMulta();
         }
         return formVisualizarMulta;
     }
-    
-    private final FormPrincipal formPrincipal;
 
     /**
      * Creates new form FormManterEvento
      */
-    private FormVisualizarMulta(FormPrincipal formPrincipal) {
+    private FormVisualizarMulta() {
         this.setTitle("Buscar Multa");
         initComponents();
         iniciarComponentes();
-        this.formPrincipal = formPrincipal;
 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -310,7 +307,7 @@ public final class FormVisualizarMulta extends FormTemplate {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new FormVisualizarMulta(null).setVisible(true);
+            new FormVisualizarMulta().setVisible(true);
         });
     }
 

@@ -67,8 +67,18 @@ public class FormPrincipal extends javax.swing.JFrame {
         jPanelUsuario.setBorder(javax.swing.BorderFactory.createTitledBorder("Usuário"));
 
         jButtonBuscarAutomovel.setText("Buscar automóvel");
+        jButtonBuscarAutomovel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBuscarAutomovelActionPerformed(evt);
+            }
+        });
 
         jButtonBuscarCarteira.setText("Buscar carteira");
+        jButtonBuscarCarteira.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBuscarCarteiraActionPerformed(evt);
+            }
+        });
 
         jButtonBuscarMulta.setText("Buscar multa");
         jButtonBuscarMulta.addActionListener(new java.awt.event.ActionListener() {
@@ -187,8 +197,26 @@ public class FormPrincipal extends javax.swing.JFrame {
         }
         isShowingModal = true;
 
-        FormVisualizarMulta.getForm(this).abre();
+        FormVisualizarMulta.getForm().abre();
     }//GEN-LAST:event_jButtonBuscarMultaActionPerformed
+
+    private void jButtonBuscarAutomovelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarAutomovelActionPerformed
+        if (isShowingModal) {
+            return;
+        }
+        isShowingModal = true;
+
+        FormVisualizarAutomovel.getForm().abre();
+    }//GEN-LAST:event_jButtonBuscarAutomovelActionPerformed
+
+    private void jButtonBuscarCarteiraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarCarteiraActionPerformed
+        if (isShowingModal) {
+            return;
+        }
+        isShowingModal = true;
+
+        FormVisualizarCarteira.getForm().abre();
+    }//GEN-LAST:event_jButtonBuscarCarteiraActionPerformed
 
     /**
      * @param args the command line arguments

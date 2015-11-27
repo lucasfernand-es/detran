@@ -88,11 +88,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Buscar autom&#xf3;vel"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonBuscarAutomovelActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonBuscarCarteira">
           <Properties>
             <Property name="text" type="java.lang.String" value="Buscar carteira"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonBuscarCarteiraActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonBuscarMulta">
           <Properties>

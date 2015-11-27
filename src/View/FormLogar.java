@@ -49,6 +49,11 @@ public class FormLogar extends javax.swing.JFrame {
     public void abre() {
         limpa();
         this.setVisible(true);
+        
+        if(true) {
+            jTextFieldLogin.setText("cristhian");
+            jTextFieldSenha.setText("detran");
+        }
     }
     
     private void limpa() {

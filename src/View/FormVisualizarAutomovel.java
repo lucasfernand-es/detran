@@ -4,6 +4,8 @@ import Addons.Aviso;
 import Controller.AutomovelController;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -35,7 +37,17 @@ public final class FormVisualizarAutomovel extends JFrame {
         this.setTitle("Buscar Automóvel");
         initComponents();
         iniciarComponentes();
+        
         this.setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                FormPrincipal.isShowingModal = false;
+            }
+        });
 
         // Resetar todos os componentes
         bloquearComponentes();
@@ -64,6 +76,16 @@ public final class FormVisualizarAutomovel extends JFrame {
                 jTFBuscaKeyReleased(evt);
             }
         });
+    }
+    
+    public void abre() {
+        limpa();
+        this.setVisible(true);
+    }
+    
+    private void limpa() {
+        jTFBusca.setText("");
+        jTFBuscaKeyReleased(null);
     }
 
     private void setAllEditable(boolean opt) {
