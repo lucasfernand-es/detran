@@ -10,7 +10,10 @@ import Controller.AutomovelController;
 import Controller.PessoaController;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import valueObject.Automovel;
@@ -44,7 +47,17 @@ public final class FormManterAutomovel extends FormTemplate {
         this.setTitle("Gerenciar Automóvel");
         initComponents();
         iniciarComponentes();
-        this.setLocationRelativeTo(null);
+
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                FormPrincipal.isShowingModal = false;
+            }
+        });
 
         // Resetar todos os componentes
         bloquearComponentes();
@@ -146,6 +159,18 @@ public final class FormManterAutomovel extends FormTemplate {
         jBTCancelar.setText("Cancelar");
         jBTCancelar.setEnabled(false);
         jBTCancelar.addActionListener(this::jBTCancelarActionPerformed);
+    }
+    
+    public void abre() {
+        limpa();
+        this.setVisible(true);
+    }
+    
+    private void limpa() {
+        jTFBusca.setText("");
+        jTFBuscaKeyReleased(null);
+        limparComponentes();
+        bloquearComponentes();
     }
     
     //  Carregar Pessoas do BD

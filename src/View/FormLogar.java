@@ -50,7 +50,7 @@ public class FormLogar extends javax.swing.JFrame {
         limpa();
         this.setVisible(true);
         
-        if(true) {
+        if(false) {
             jTextFieldLogin.setText("cristhian");
             jTextFieldSenha.setText("detran");
         }
@@ -99,8 +99,6 @@ public class FormLogar extends javax.swing.JFrame {
                 jButtonCancelarActionPerformed(evt);
             }
         });
-
-        jTextFieldSenha.setText("jPasswordField1");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -163,7 +161,8 @@ public class FormLogar extends javax.swing.JFrame {
 
     private void jButtonEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEntrarActionPerformed
         if ((jTextFieldLogin.getText().equals("cristhian")
-                || jTextFieldLogin.getText().equals("lucas"))
+                || jTextFieldLogin.getText().equals("lucas")
+                || jTextFieldLogin.getText().equals("vinicius"))
                 && String.valueOf(jTextFieldSenha.getPassword()).equals("detran")) {
             JOptionPane.showMessageDialog(this, "Logado com sucesso.");
             formPrincipal.ativaAdm();

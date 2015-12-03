@@ -166,21 +166,33 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Manter autom&#xf3;veis"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonManterAutomovelActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonManterPessoa">
           <Properties>
             <Property name="text" type="java.lang.String" value="Manter pessoas"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonManterPessoaActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonManterTipoAutuacao">
           <Properties>
             <Property name="text" type="java.lang.String" value="Manter tipos de autua&#xe7;&#xe3;o"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonManterTipoAutuacaoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonManterMulta">
           <Properties>
             <Property name="text" type="java.lang.String" value="Manter multas"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonManterMultaActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

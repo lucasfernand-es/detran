@@ -121,12 +121,32 @@ public class FormPrincipal extends javax.swing.JFrame {
         });
 
         jButtonManterAutomovel.setText("Manter automóveis");
+        jButtonManterAutomovel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonManterAutomovelActionPerformed(evt);
+            }
+        });
 
         jButtonManterPessoa.setText("Manter pessoas");
+        jButtonManterPessoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonManterPessoaActionPerformed(evt);
+            }
+        });
 
         jButtonManterTipoAutuacao.setText("Manter tipos de autuação");
+        jButtonManterTipoAutuacao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonManterTipoAutuacaoActionPerformed(evt);
+            }
+        });
 
         jButtonManterMulta.setText("Manter multas");
+        jButtonManterMulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonManterMultaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelAdmLayout = new javax.swing.GroupLayout(jPanelAdm);
         jPanelAdm.setLayout(jPanelAdmLayout);
@@ -217,6 +237,42 @@ public class FormPrincipal extends javax.swing.JFrame {
 
         FormVisualizarCarteira.getForm().abre();
     }//GEN-LAST:event_jButtonBuscarCarteiraActionPerformed
+
+    private void jButtonManterAutomovelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonManterAutomovelActionPerformed
+        if (isShowingModal) {
+            return;
+        }
+        isShowingModal = true;
+
+        FormManterAutomovel.getForm().abre();
+    }//GEN-LAST:event_jButtonManterAutomovelActionPerformed
+
+    private void jButtonManterPessoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonManterPessoaActionPerformed
+        if (isShowingModal) {
+            return;
+        }
+        isShowingModal = true;
+
+        FormManterPessoa.getForm().abre();
+    }//GEN-LAST:event_jButtonManterPessoaActionPerformed
+
+    private void jButtonManterTipoAutuacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonManterTipoAutuacaoActionPerformed
+        if (isShowingModal) {
+            return;
+        }
+        isShowingModal = true;
+
+        FormManterAutuacao.getForm().abre();
+    }//GEN-LAST:event_jButtonManterTipoAutuacaoActionPerformed
+
+    private void jButtonManterMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonManterMultaActionPerformed
+        if (isShowingModal) {
+            return;
+        }
+        isShowingModal = true;
+
+        FormManterMulta.getForm().abre();
+    }//GEN-LAST:event_jButtonManterMultaActionPerformed
 
     /**
      * @param args the command line arguments

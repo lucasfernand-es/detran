@@ -12,8 +12,11 @@ import Controller.AutuacaoController;
 import Controller.CarteiraController;
 import Controller.MultaController;
 import Controller.PessoaController;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import valueObject.Automovel;
 import valueObject.Autuacao;
@@ -39,16 +42,10 @@ public final class FormManterMulta extends FormTemplate {
     
     private Multa multaSelected;
     
-    
-
     public static FormManterMulta getForm() {
         if (manterForm == null) {
             manterForm = new FormManterMulta();
         }
-        else {
-            
-        }
-
         return manterForm;
     }
     
@@ -59,7 +56,17 @@ public final class FormManterMulta extends FormTemplate {
         this.setTitle("Gerenciar Multa");
         initComponents();
         iniciarComponentes();
-        this.setLocationRelativeTo(null);
+
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                FormPrincipal.isShowingModal = false;
+            }
+        });
 
         // Resetar todos os componentes
         bloquearComponentes();
@@ -156,6 +163,18 @@ public final class FormManterMulta extends FormTemplate {
         
         DefaultTableModel tableModel = (DefaultTableModel) super.jTBBuscaRapida.getModel();
         tableModel.setRowCount(0);
+    }
+    
+    public void abre() {
+        limpa();
+        this.setVisible(true);
+    }
+    
+    private void limpa() {
+        jTFBusca.setText("");
+        jTFBuscaKeyReleased(null);
+        limparComponentes();
+        bloquearComponentes();
     }
     
     //  Carregar Pessoas do BD

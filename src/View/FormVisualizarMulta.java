@@ -140,6 +140,7 @@ public final class FormVisualizarMulta extends FormTemplate {
         // Se o que foi digitado na pesquisa não for válido, não é necessário fazer a busca
         if (!cpfValido) {
             pessoa.setCpf("");
+            return;
         }
         //System.out.println("MASK: " + pessoa.getCpf());
 
@@ -152,8 +153,7 @@ public final class FormVisualizarMulta extends FormTemplate {
         multa.setCarteira(carteira);
 
         multaList.clear();
-
-        multaList = MultaController.buscarMulta(multa, "ALLMULTA");
+        multaList = MultaController.buscarMulta(multa, "EQUAL_ALMULTA");
 
         if (multa.isError()) {
             Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n"
@@ -171,7 +171,7 @@ public final class FormVisualizarMulta extends FormTemplate {
         DefaultTableModel tableModel = (DefaultTableModel) super.jTBBuscaRapida.getModel();
 
         tableModel.setRowCount(0);
-
+        
         for (Multa multa : multaList) {
             tableModel.addRow(new Object[]{
                 false,
