@@ -321,6 +321,9 @@ public class FormExtratoMultas extends javax.swing.JFrame {
         }
         
         Aviso.showInformation("Multa(s) com sucesso!");
+        this.limpa();
+        multaList.clear();
+        
         this.dispose();
         /*if ((jTextFieldLogin.getText().equals("cristhian")
                 || jTextFieldLogin.getText().equals("lucas"))

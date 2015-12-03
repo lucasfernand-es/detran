@@ -52,6 +52,25 @@ public class MultaModel {
                     stm.setString(2, '%' + multa.getCarteira().getnRegistro() + '%');
                     stm.setString(3, '%' + multa.getAutomovel().getRenavam() + '%');
                     break;
+                
+                case "ALLMULTAEXATA":
+                    stm = con.prepareStatement(
+                              "SELECT M.* FROM Multa M "
+                                      + "INNER JOIN Pessoa P ON M.idPessoa = P.idPessoa "
+                                      + "WHERE P.cpf LIKE ? "
+                            + "UNION SELECT M.* FROM Multa M "
+                                      + "INNER JOIN Carteira C ON M.idCarteira = C.idCarteira "
+                                      + "WHERE C.nRegistro LIKE ? "
+                            + "UNION "
+                            + "SELECT M.* FROM Multa M "
+                                      + "INNER JOIN Automovel A ON M.idAutomovel = A.idAutomovel "
+                                      + "WHERE A.renavam LIKE ?");
+                    stm.setInt(1, multa.getIdMulta());
+                    
+                    stm.setString(1, multa.getPessoa().getCpf() );
+                    stm.setString(2, multa.getCarteira().getnRegistro());
+                    stm.setString(3, multa.getAutomovel().getRenavam());
+                    break;
                 case "ID":
                     stm = con.prepareStatement("SELECT * FROM multa WHERE idMulta = ?");
                     stm.setInt(1, multa.getIdMulta());

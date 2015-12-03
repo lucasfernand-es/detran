@@ -153,7 +153,7 @@ public final class FormVisualizarMulta extends FormTemplate {
         multa.setCarteira(carteira);
 
         multaList.clear();
-        multaList = MultaController.buscarMulta(multa, "EQUAL_ALMULTA");
+        multaList = MultaController.buscarMulta(multa, "ALLMULTAEXATA");
 
         if (multa.isError()) {
             Aviso.showError("O(s) seguinte(s) erro(s) foi(ram) encontrado(s):\n"
@@ -269,6 +269,18 @@ public final class FormVisualizarMulta extends FormTemplate {
 
     private void jButtonGerarExtratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerarExtratoActionPerformed
         // chamar tela do lucas
+        
+        FormExtratoMultas form = FormExtratoMultas.getForm(this);
+        
+        form.setMultaList(selectedMultas);
+        
+        form.abre();
+        
+        this.jTFBusca.setText("");
+        
+        DefaultTableModel tableModel = (DefaultTableModel) super.jTBBuscaRapida.getModel();
+        tableModel.setRowCount(0);
+        this.jButtonGerarExtrato.setEnabled(false);
     }//GEN-LAST:event_jButtonGerarExtratoActionPerformed
 
     /**
