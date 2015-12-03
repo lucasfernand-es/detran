@@ -1,0 +1,44 @@
+Instruções para instalação e utilização do sistema Detran dos alunos Cristhian e Lucas.
+
+-- Banco de Dados --
+Será necessário a instalação de algum gerenciador de banco de dados, tal como o MySQL.
+
+Após ter instalado o gerenciador, será necessário ir no projeto em java, na 
+classe MySQLConnector que se encontra no pacote Connector, e editar a linha 37,
+alterando o número que está após o trecho "localhost:" pela porta utilizada
+pelo gerenciador. Em seguida será necessário editar as duas próximas Strings 
+(da mesma linha) com o login e senha utilizado pelo gerenciador.
+O resultado vai ficar neste modelo:
+connection = DriverManager.getConnection(
+   "jdbc:mysql://localhost:SUA_PORTA/Detran",
+   "SEU_LOGIN",
+   "SUA_SENHA"
+);
+
+Após isso, basta executar o script responsável por criar o banco e as tabelas 
+utilizadas em nosso sistema. O nome do script é "".
+
+-- Java --
+Caso ainda não esteja configurado, será necessário inserir as bibliotecas externas
+utilizadas pelo nosso sistema nas configurações do projeto.
+
+(Netbeans) Clique com o botão direito no nome do projeto (Detran - Sistema de Multas e 
+Autuações), e em seguida clique em Properties (ou Propriedades, dependendo do idioma
+utilizado). Na tela que irá abrir, clique no item Libraries (ou Bibliotecas) no 
+canto esquerdo. Isso irá mostrar as bibliotecas atualmente inseridas no projeto.
+Para o correto funcionamento do sistema, deverão estar inseridas as seguintes bibliotecas:
+dom4j-1.6.jar
+jcalendar-1.4.jar
+localedata.jar
+mysql-connectar-java-5.0.8-bin.jar
+joda-time-2.4.jar
+
+Se alguma destas não estiverem incluidas, clique em Add JAR/Folder (ou Adicionar JAR/Pasta),
+e busque pelo diretório jar, dentro da pasta em que o projeto está salvo no seu computador.
+Adicione então as bibliotecas faltantes.
+
+
+Por fim, para executar o projeto basta rodar (Shift F6) a classe FormPrincipal, o qual está 
+no pacote View.
+
+Para fazer login como administrador, basta usar o login vinicius, e senha detran.
