@@ -90,6 +90,9 @@ public class MultaModel {
                     stm = con.prepareStatement("SELECT * FROM multa WHERE idCarteira = ?");
                     stm.setInt(1, multa.getCarteira().getIdCarteira());
                     break;
+                case "NENHUMA":
+                    stm = con.prepareStatement("SELECT * FROM multa WHERE NOT dataPagamento");
+                    break;
                 default: 
                     stm = con.prepareStatement("SELECT * FROM multa");
                     break;

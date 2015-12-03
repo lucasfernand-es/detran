@@ -5,9 +5,10 @@
  */
 package valueObject;
 
+import java.util.Comparator;
 import java.util.Date;
 
-public class Multa {
+public class Multa implements Comparator<Multa>, Comparable<Multa>{
 
     private Date dataEmissao;
     private float taxaAcrescimo;
@@ -201,6 +202,53 @@ public class Multa {
      */
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    @Override
+    public int compare(Multa m1, Multa m2) {
+        
+        Pessoa p1, p2;
+        
+        if ( m1.getPessoa() == null )
+            p1 = m1.getCarteira().getTitular();
+        else
+            p1 = m1.getPessoa();
+    
+        if ( m2.getPessoa() == null )
+            p2 = m2.getCarteira().getTitular();
+        else
+            p2 = m2.getPessoa();
+        
+        if( p1.getIdPessoa() < p2.getIdPessoa() )
+            return -1;
+        else if ( p1.getIdPessoa() > p2.getIdPessoa() )
+            return 1;
+        else
+            return 0;
+        
+        
+    }
+
+    @Override
+    public int compareTo(Multa m) {
+        Pessoa p1, p2;
+        
+        if ( this.getPessoa() == null )
+            p1 = this.getCarteira().getTitular();
+        else
+            p1 = this.getPessoa();
+    
+        if ( m.getPessoa() == null )
+            p2 = m.getCarteira().getTitular();
+        else
+            p2 = m.getPessoa();
+        
+        if( p1.getIdPessoa() < p2.getIdPessoa() )
+            return -1;
+        else if ( p1.getIdPessoa() > p2.getIdPessoa() )
+            return 1;
+        else
+            return 0;
     }
 
 }

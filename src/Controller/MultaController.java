@@ -1,15 +1,10 @@
 package Controller;
 
-import Model.AutomovelModel;
-import Model.CarteiraModel;
 import Model.MultaModel;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-import valueObject.Automovel;
-import valueObject.Carteira;
+import valueObject.Autuacao;
 import valueObject.Multa;
 
 /**
@@ -99,7 +94,42 @@ public class MultaController {
        
         MultaModel.alterarMulta(multa);
     }
+
+    public static Double calcularMulta(Multa multaVO, boolean temAtraso) {
+        
+        Autuacao autuacao = multaVO.getAutuacao();
+        double custo =  multaVO.getAutuacao().getCusto();
+        
+        
+        if(!temAtraso)
+        {
+            return custo;
+        }
+        
+        float acrescimo = multaVO.getTaxaAcrescimo();
+        
+        custo = custo * ( 1 + ( acrescimo/100 ) );
+        
+        return round(custo , 2) ;
+        
+    }
+    public static double round(double value, int places) {
+        if (places < 0) return 0;
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
     
+    public static double round2(double value, int places) {
+        if (places < 0) return 0;
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+    
+        return (double) tmp / factor;
+    }
     
     
 }
